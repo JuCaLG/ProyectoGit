@@ -1,9 +1,0 @@
-1 npm install @react-navigation/native
-2 npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
-3 npm install react-native-elements --save
-4 npm install --save react-native-vector-icons
-5 npm install @react-navigation/stack
-6 npm install @react-navigation/drawer
-
-
-55 npx react-native link 
