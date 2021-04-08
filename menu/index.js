@@ -21,19 +21,6 @@ function HomeScreen(props) {
             justifyContent: 'center'
         }}>
             <Text style={{ fontSize: 20 }}>Home Screen</Text>
-            <TouchableOpacity
-                style={{
-                    marginTop: 20,
-                    width: 200,
-                    height: 50,
-                    backgroundColor: '#ff5204',
-                    padding: 10,
-                    alignItems: 'center',
-                    borderRadius: 5
-                }}
-                onPress={() => props.navigation.navigate('Categorias')}>
-                <Text style={{ color: '#fff', fontSize: 20 }}>Ir a Perfil</Text>
-            </TouchableOpacity>
         </View>
     );
 }
@@ -61,9 +48,6 @@ function Menu(props) {
                 <TouchableOpacity>
                     <View style={s.userContainer}>
                         <Image style={s.userImagen} source={require('./img/logo.jpg')} />
-                        <View style={s.camaraContainer}>
-                            <Image style={s.camaraIcon} source={require('./img/photo-camera.png')} />
-                        </View>
                     </View>
                     <View style={s.userNombre}>
                         <Text style={s.userTitulo}>we</Text>
@@ -74,8 +58,8 @@ function Menu(props) {
             <DrawerMenu iconName='podium' titleName='Home' navigation={() => props.navigation.navigate('Home')} />
             <DrawerMenu iconName='sitemap' titleName='Categorias' navigation={() => props.navigation.navigate('Categorias')} />
             <DrawerMenu iconName='hail' titleName='Provedores' navigation={() => props.navigation.navigate('Provedores')} />
-            <DrawerMenu iconName='book-plus-multiple' titleName='Nuevo Producto' navigation={() => props.navigation.navigate('NewProduc')} />
-            <DrawerMenu iconName='storefront' titleName='Sucurcal' navigation={() => props.navigation.navigate('Sucursal')} />
+            <DrawerMenu iconName='book-plus-multiple' titleName='Productos' navigation={() => props.navigation.navigate('NewProduc')} />
+            <DrawerMenu iconName='storefront' titleName='Sucurcales' navigation={() => props.navigation.navigate('Sucursal')} />
         </View>
     )
 }

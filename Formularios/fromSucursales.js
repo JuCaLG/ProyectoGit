@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, TextInput, ScrollView, Image } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const Formulario = () => {
   return (
@@ -11,6 +12,9 @@ const Formulario = () => {
 
       <View>
         <Text style={styles.label}>Foto</Text>
+        <View>
+          <Image style={styles.img} source={require('../menu/img/camara.png')} />
+        </View>
       </View>
       <View>
         <Text style={styles.label}>Nombre de sucursal</Text>
@@ -41,6 +45,11 @@ const Formulario = () => {
           onChangeText={(texto) => console.log(texto)}
           keyboardType='email-address'
         />
+      </View>
+      <View>
+        <TouchableHighlight style={styles.boton}>
+          <Text style={styles.textBoton}>Agregar</Text>
+        </TouchableHighlight>
       </View>
     </ScrollView>
 
@@ -75,7 +84,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     marginHorizontal: '1.5%'
-  }
+  },
+  boton: {
+    padding: 15,
+    backgroundColor: '#FFD700',
+    marginVertical: 10,
+    borderRadius: 80
+  },
+  textBoton: {
+    color: '#0E0D0C',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 18
+  },img: {
+    justifyContent:'center',
+     alignItems:'center',
+     flex: 1,
+     
+   }
 
 
 });
