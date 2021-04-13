@@ -15,11 +15,11 @@ const typeDefs = gql`
     }
 
     input UsuarioInput {
-        first_name : String!
-        last_name : String!
-        email_user: String!
-        type_user: String!
-        status_user: String!
+        first_name : String
+        last_name : String
+        email_user: String
+        type_user: String
+        status_user: String
     }
 
     type Query {
@@ -28,7 +28,7 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        nuevoUsuario(input: UsuarioInput): Usuario
+        nuevoUsuario(input: UsuarioInput): String
 
     }
 

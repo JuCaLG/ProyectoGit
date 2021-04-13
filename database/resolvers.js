@@ -1,3 +1,5 @@
+
+
 //Resolvers
 
  const resolvers ={
@@ -7,7 +9,10 @@
          },
 
      Mutation: {
-         nuevoUsuario: () => "Nuevo usuario"
+         nuevoUsuario: (_, { input } ) => {
+            console.log(input);
+            return "creando..."
+        } 
          
      }
  }
