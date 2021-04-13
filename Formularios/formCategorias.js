@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, ScrollView} from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const Formulario = () => {
   return (
@@ -17,6 +18,11 @@ const Formulario = () => {
           style={styles.input}
           onChangeText={(texto) => console.log(texto)}
         />
+      </View>
+      <View>
+        <TouchableHighlight style={styles.boton}>
+          <Text style={styles.textBoton}>Agregar</Text>
+        </TouchableHighlight>
       </View>
 
     </ScrollView>
@@ -52,6 +58,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     marginHorizontal: '1.5%'
+  },
+  boton:{
+    padding: 15,
+    backgroundColor: '#FFD700',
+    marginVertical: 10,
+    borderRadius: 80    
+  },
+  textBoton: {
+    color: '#0E0D0C',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 18
   }
 
 

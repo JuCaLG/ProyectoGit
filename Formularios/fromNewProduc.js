@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, ScrollView, Image } from 'react-native';
 import { Picker } from '@react-native-community/picker';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const Formulario = () => {
   return (
@@ -15,8 +16,10 @@ const Formulario = () => {
         <Text style={styles.label}>Categoria</Text>
         <Picker>
           <Picker.Item label="---Seleccione una categoria---" value = ""/>
-          <Picker.Item label="hola" value = ""/>
-          <Picker.Item label="perra" value = ""/>
+          <Picker.Item label="Cable" value = ""/>
+          <Picker.Item label="Conector" value = ""/>
+          <Picker.Item label="Enchufe" value = ""/>
+          <Picker.Item label="Apagador" value = ""/>
 
         </Picker>
       </View>
@@ -24,13 +27,16 @@ const Formulario = () => {
         <Text style={styles.label}>Provedor</Text>
         <Picker>
           <Picker.Item label="---Seleccione una Provedor---" value = ""/>
-          <Picker.Item label="hola" value = ""/>
-          <Picker.Item label="perra" value = ""/>
+          <Picker.Item label="Telmex" value = ""/>
+          <Picker.Item label="Megacable" value = ""/>
+          <Picker.Item label="React-Native" value = ""/>
+          <Picker.Item label="Carredana" value = ""/>
 
         </Picker>
       </View>
       <View>
-        <Text style={styles.label}>QR-Codigo de Barras</Text>
+        <Text style={styles.label}>QR-Codigo de Barras</Text>       
+        <Image style={styles.img} source={require('../menu/img/qr.png')} /> 
       </View>
 
       <View>
@@ -71,6 +77,11 @@ const Formulario = () => {
           keyboardType='email-address'
         />
       </View>
+      <View>
+        <TouchableHighlight style={styles.boton}>
+          <Text style={styles.textBoton}>Agregar</Text>
+        </TouchableHighlight>
+      </View>
     </ScrollView>
 
   );
@@ -104,7 +115,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     marginHorizontal: '1.5%'
-  }
+  },
+  boton: {
+    padding: 15,
+    backgroundColor: '#FFD700',
+    marginVertical: 10,
+    borderRadius: 80
+  },
+  textBoton: {
+    color: '#0E0D0C',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 18
+  },img: {
+    width: 255,
+    height: 255,
+    justifyContent:'center',
+     alignItems:'center',
+     flex: 1,
+     
+   }
 
 
 });
