@@ -12,33 +12,8 @@ import Provedores from'../Formularios/formProvedores';
 import NewProducto from'../Formularios/fromNewProduc';
 import Sucursales from'../Formularios/fromSucursales';
 
-//
 
 
-const {ApolloServer} = require('apollo-server');
-
-const typeDefs = require ('./database/schema');
-const resolvers= require('./database/resolvers');
-//const { connect } = require('mongoose');
-const connectDB =conectarDB= require('./config/db');
-
-connectDB();
-
-//servidor
-
-const server =new ApolloServer({
-    typeDefs,
-    resolvers
-});
-
-
-//arrancar el servidor
-server.listen().then ( ( {url}  )=>{
-    console.log ('Servidor listo en la URL'),
-    console.log ({url})
-})
-
-//botón
 function HomeScreen(props) {
     return (
         <View style={{
@@ -61,7 +36,6 @@ function DrawerMenu(props) {
                 <View style={s.tituloContainer}>
                     <Text style={s.tituloTxt}>{props.titleName}</Text>
                 </View>
-                
             </View>
         </TouchableOpacity>
     )
