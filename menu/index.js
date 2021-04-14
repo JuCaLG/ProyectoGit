@@ -13,7 +13,6 @@ import NewProducto from'../Formularios/fromNewProduc';
 import Sucursales from'../Formularios/fromSucursales';
 
 
-
 function HomeScreen(props) {
     return (
         <View style={{
