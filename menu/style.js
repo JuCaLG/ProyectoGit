@@ -41,14 +41,16 @@ export default {
 
     userTitulo: {
         textAlign: 'center',
+        fontFamily: 'Poppins-Black',
         fontWeight:'bold',
         fontSize: 16
     },
 
     userSubTitulo: {
         textAlign: 'center',
+        fontFamily: 'Poppins-BoldItalic',
         fontSize: 11,
-        color: '#a537fd',
+        color: '#377bff',
         paddingVertical: 5,
     },
     menuContainer: {
@@ -69,7 +71,8 @@ export default {
     },
 
     tituloTxt: {
-        fontSize: 13
+        fontSize: 13,
+        fontFamily: 'Poppins-SemiBold',
     },
     difuminado:{
         flex:1,
