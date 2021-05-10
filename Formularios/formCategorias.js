@@ -3,14 +3,49 @@ import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-nativ
 import { mainStyles} from '@styles/styles'
 import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
+import {gql, useMutation} from '@apollo/client';
+
+
 
 function goToScreen(props, routeName) {
     props.navigation.navigate(routeName)
 }
 
-export default function formCategorias(props) {
+
+
+
+export default function formCategorias(props,navigation) {
 
     const [hidePassword, setHidePassword] = useState(false)
+
+    const [categoria, setCategoria] = useState('')
+    const[inputCategoria,guardarCategoria]= useState('')
+    
+    
+
+   
+
+    const crearCategoria = ()=>{
+
+        
+
+        //Validar
+        if(inputCategoria ==''){
+            alert("Llenado incompleto")
+        }else{
+            alert("Categoría registrada")
+            guardarCategoria('')
+        }
+        //UseMutation
+        //const[] = useMutation();
+        //this.props.navigation.navigate('Principal');
+
+    }
+
+    const cerrarCategoria =() => {
+        this.props.navigation.navigate('Principal');
+
+    }
 
     return (
         <ScrollView
@@ -21,17 +56,20 @@ export default function formCategorias(props) {
     
             <View style={[mainStyles.container, { padding: 50 }]}>
                 <Text style={mainStyles.titleText}> Categorias</Text>
-                <MyTextInput placeholder='Nombre' image='sitemap' />
+                <MyTextInput placeholder='Nombre' image='sitemap'
+                value={inputCategoria} onChangeText={categoria => guardarCategoria (categoria)} />
+
+
+                
                 <View style={mainStyles.btnMain}>
-                    <TouchableOpacity onPress={() =>
-                        goToScreen(props, 'Login')}>
-                        <Text style={mainStyles.btntxt}>Agregar</Text>
+                    <TouchableOpacity onPress={() => crearCategoria()}>
+                        <Text style={mainStyles.btntxt}>Guardar</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={mainStyles.btnMain}>
-                    <TouchableOpacity onPress={() =>
-                        goToScreen(props, 'Login')}>
+
+                    <TouchableOpacity>
                         <Text style={mainStyles.btntxt}>Cancelar</Text>
                     </TouchableOpacity>
                 </View>
@@ -40,4 +78,9 @@ export default function formCategorias(props) {
             </View>
         </ScrollView>
     )
+
+    function goTosecreen(routeName){
+        props.navigation.navigate(routeName)
+    
+    }
 }
