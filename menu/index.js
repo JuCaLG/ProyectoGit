@@ -7,11 +7,10 @@ import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer'
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import s from './style';
 
-import Categorias from'../Formularios/formCategorias';
-import Provedores from'../Formularios/formProvedores';
-import NewProducto from'../Formularios/fromNewProduc';
-import Sucursales from'../Formularios/fromSucursales';
-
+import Categorias from'@Formularios/formCategorias';
+import Provedores from'@Formularios/formProvedores';
+import NewProducto from'@Formularios/fromNewProduc';
+import Sucursales from'@Formularios/fromSucursales';
 
 
 function HomeScreen(props) {
@@ -47,11 +46,11 @@ function Menu(props) {
             <View style={s.bgContainer}>
                 <TouchableOpacity>
                     <View style={s.userContainer}>
-                        <Image style={s.userImagen} source={require('./img/logo.jpg')} />
+                        <Image style={s.userImagen} source={require('@recursos/images/logo.jpg')} />
                     </View>
                     <View style={s.userNombre}>
-                        <Text style={s.userTitulo}>we</Text>
-                        <Text style={s.userSubTitulo}>vos</Text>
+                        <Text style={s.userTitulo}>Proyecto</Text>
+                        <Text style={s.userSubTitulo}>Administrador</Text>
                     </View>
                 </TouchableOpacity>
             </View>
