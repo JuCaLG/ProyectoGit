@@ -1,18 +1,70 @@
-import React, {Component, useState,useContext} from 'react'
+import React, {Component, useState,useContext, useEffect} from 'react'
 import {Text, View, TouchableOpacity, StatusBar, Image} from 'react-native'
 import {mainStyles,loginStyles} from '@styles/styles'
 import MyTextInput from '@components/MyTextInput'
 import MyButton from '@components/MyButton'
 import color from '@styles/colors'
 import { UsuarioContext } from '@context/UsuarioContext'
+import AsyncStorage from '@react-native-community/async-storage'
+
+
+// CommonJS
+
 
 export default function LoginScreen(props){
+    
 
     const [login, loginAction] = useContext(UsuarioContext)
 
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
     const [hidePassword, setHidePassword] = useState(false)
+
+    //Campos formulario
+    const [inputUsuario , guardarUsuario] = useState ('')
+    const [inputPassword , guardarPassword] = useState ('')
+    
+    //recuperacion de los datos
+    const [ nombreStorage, guardarNombreStorage] = useState('')
+    const [ passwordStorage, guardarPasswordStorage] = useState('')
+
+    useEffect (() => {
+        obtenerDatosStorage ();
+        obtenerDatosStorage1();
+        
+
+    }, []);
+
+    
+    const obtenerDatosStorage = async () => {
+
+        try {
+            
+            const usuario =await AsyncStorage.getItem('usuario')
+            guardarNombreStorage(usuario);
+            console.log(nombreStorage);
+            
+
+        }catch(error){
+            console.log(error);
+        }
+
+    }
+
+    const obtenerDatosStorage1 = async () => {
+
+        try {
+            
+            const password =await AsyncStorage.getItem('password')
+            guardarPasswordStorage(password);
+            console.log(passwordStorage);
+            
+
+        }catch(error){
+            console.log(error);
+        }
+    }
+
 
     return(
         <View style={[mainStyles.container, {padding:30}]}>
@@ -21,11 +73,14 @@ export default function LoginScreen(props){
                 <Image source={require('@recursos/images/logo.jpg')} style={{height:250, width:250}}/>
             </View>
             <MyTextInput keyboardType='email-address' placeholder='Correo' image='user'
-            value={email} onChangeText={(email)=>setEmail(email)}/>
+            value={inputUsuario} onChangeText={email => guardarUsuario (email)}/>
+
+
+
             <MyTextInput keyboardType={null} placeholder='Contraseña' image='lock' bolGone={true}
-            secureTextEntry={hidePassword}
+            secureTextEntry={!hidePassword}
             onPress={() => setHidePassword(!hidePassword)}
-            value={password} onChangeText={(password)=>setPassword(password)}/>
+            value={inputPassword} onChangeText={texto => guardarPassword (texto)}/>
             <MyButton
             titulo='Iniciar Sesión'
             onPress={()=>iniciarSesion()}/>
@@ -33,13 +88,51 @@ export default function LoginScreen(props){
 
         </View>
     )
-    function iniciarSesion(){
-        loginAction({
+    async function iniciarSesion  () {
+       /* loginAction({
             tyoe:'sign', data:{
                 email, password
             }
-        })
-        goTosecreen('Principal')
+        })*/
+
+        console.log("Ya entro");
+        try{
+            await AsyncStorage.setItem('usuario', inputUsuario);
+            guardarNombreStorage(inputUsuario);
+            console.log({inputUsuario});
+            await AsyncStorage.setItem('password', inputPassword);
+            guardarPasswordStorage(inputPassword);
+            console.log({inputPassword});
+            console.log("Ya entro");
+
+            if (inputUsuario ==''&& inputPassword==''){
+                alert("Todos los campos son obligatorios");
+                
+            }else if (inputUsuario =='') {
+                alert("Falta llenar correo");
+            }else if (inputPassword==''){
+                alert("Falta llenar contraseña");
+            }else if( inputUsuario=='Administrador' && inputPassword=='123'){
+                goTosecreen('Principal')
+                guardarUsuario('')
+                guardarPassword('')
+                
+
+            }else {
+                alert("Usuario o contraseña incorrectos");
+
+            }
+
+
+
+            
+            //
+            
+        }catch(error){
+            
+            console.log (error);
+        }
+        
     }
 
     function goTosecreen(routeName){

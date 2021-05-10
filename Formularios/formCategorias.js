@@ -28,6 +28,13 @@ export default function formCategorias(props) {
                         <Text style={mainStyles.btntxt}>Agregar</Text>
                     </TouchableOpacity>
                 </View>
+
+                <View style={mainStyles.btnMain}>
+                    <TouchableOpacity onPress={() =>
+                        goToScreen(props, 'Login')}>
+                        <Text style={mainStyles.btntxt}>Cancelar</Text>
+                    </TouchableOpacity>
+                </View>
                 
                 
             </View>

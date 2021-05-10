@@ -38,6 +38,13 @@ export default function formProvedores(props) {
           </TouchableOpacity>
         </View>
 
+        <View style={mainStyles.btnMain}>
+          <TouchableOpacity onPress={() =>
+            goToScreen(props, 'Login')}>
+            <Text style={mainStyles.btntxt}>Cancelar</Text>
+          </TouchableOpacity>
+        </View>
+
 
       </View>
     </ScrollView>
