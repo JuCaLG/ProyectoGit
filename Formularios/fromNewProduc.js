@@ -5,12 +5,39 @@ import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
 import { Picker } from '@react-native-community/picker';
 
+
+const crearNewProductto = ()=>{
+
+    
+
+  //Validar
+  if(inputNombre =='' || inputRFC =='' || inputDireccion=='' || inputTelefono=='' || inputEmail =='' ){
+      alert("Todos los campos son necesarios")
+  }else{
+      alert("Proveedor registrado")
+      guardarCategoria('')
+  }
+  //UseMutation
+  //const[] = useMutation();
+  //this.props.navigation.navigate('Principal');
+
+}
+
+const cerrarProducto =() => {
+  
+
+}
+
 function goToScreen(props, routeName) {
   props.navigation.navigate(routeName)
 }
 
 export default function formProvedores(props) {
 
+  const [categoria, setCategoria] = useState('')
+  const[inputCategoria,guardarCategoria]= useState('')
+
+  
   return (
     <ScrollView
       keyboardDismissMode='on-drag'

@@ -43,7 +43,7 @@ export default function formCategorias(props,navigation) {
     }
 
     const cerrarCategoria =() => {
-        this.props.navigation.navigate('Principal');
+        
 
     }
 

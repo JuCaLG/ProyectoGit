@@ -10,6 +10,50 @@ function goToScreen(props, routeName) {
 
 export default function formProvedores(props) {
 
+
+  const [nombre, setNombre] = useState('')
+    const[inputNombre,guardarNombre]= useState('')
+    
+    const [rfc, setRFC] = useState('')
+    const[inputRFC,guardarRFC]= useState('')
+
+    const [direccion, setDireccion] = useState('')
+    const[inputDireccion,guardarDireccion]= useState('')
+
+    const [telefono, setTelefono] = useState('')
+    const[inputTelefono,guardarTelefono]= useState('')
+
+    const [email, setEmail] = useState('')
+    const[inputEmail,guardarEmail]= useState('')
+
+
+  const crearProveedor = ()=>{
+
+        
+
+    //Validar
+    if(inputNombre ==''|| inputRFC==''|| inputDireccion==''||inputTelefono ==''|| inputEmail==''){
+        alert("Todos los campos son requeridos")
+    }else{
+        alert("Proveedor registrado")
+        guardarNombre('')
+        guardarDireccion('')
+        guardarEmail('')
+        guardarRFC('')
+        guardarTelefono('')
+    }
+    //UseMutation
+    //const[] = useMutation();
+    //this.props.navigation.navigate('Principal');
+
+}
+
+const cerrarProveedor =() => {
+    
+
+}
+
+
   return (
     <ScrollView
       keyboardDismissMode='on-drag'
@@ -19,11 +63,21 @@ export default function formProvedores(props) {
 
       <View style={[mainStyles.container, { padding: 50 }]}>
         <Text style={mainStyles.titleText}>Sucurcales</Text>
-        <MyTextInput placeholder='Nombre' image='user' />
-        <MyTextInput placeholder='RFC' image='slack' />
-        <MyTextInput placeholder='Dirección' image='home' />
-        <MyTextInput placeholder='Telefono' image='phone' />
-        <MyTextInput placeholder='Email' image='envelope' />
+        <Text style={mainStyles.titleText}> Provedores</Text>
+        <MyTextInput placeholder='Nombre' image='user'
+        value={inputNombre} onChangeText={nombre => guardarNombre (nombre)} />
+
+        <MyTextInput placeholder='RFC' image='slack'
+        value={inputRFC} onChangeText={rfc => guardarRFC (rfc)} />
+
+        <MyTextInput placeholder='Dirección' image='home' 
+        value={inputDireccion} onChangeText={direccion => guardarDireccion (direccion)}/>
+
+        <MyTextInput placeholder='Telefono' image='phone' 
+        value={inputTelefono} onChangeText={telefono => guardarTelefono (telefono)}/>
+
+        <MyTextInput placeholder='Email' image='envelope' 
+        value={inputEmail} onChangeText={email => guardarEmail (email)}/>
         <Text style={{fontWeight: 'bold',fontSize: 18,marginTop: 20}}>INE</Text>
         <View style={[loginStyles.logo]}>
                 <Image source={require('@recursos/images/camara.png')} style={{height:250, width:250}}/>
