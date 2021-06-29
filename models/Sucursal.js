@@ -1,20 +1,32 @@
 const mongoose = require ('mongoose');
 const SucursalSchema = mongoose.Schema ({
 
-    name_sucursal:{
+    nombre:{
         type: String,
         required: true,
         trim: true
 
 
     },
-    loc_sucursal:{
+    rfc:{
         type: String,
         required: true,
         trim: true
 
     },
-    img_sucursal:{
+    telefono:{
+        type: String,
+        required: true,
+        trim: true
+
+    },
+    direccion:{
+        type: String,
+        required: true,
+        trim: true
+
+    },
+    email:{
         type: String,
         required: true,
         trim: true

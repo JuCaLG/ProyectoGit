@@ -50,7 +50,7 @@ export default function formProvedores(props) {
 }
 
 const cerrarProveedor =() => {
-    
+  props.navigation.navigate('Home')
 
 }
 
@@ -93,7 +93,7 @@ const cerrarProveedor =() => {
         </View>
 
         <View style={mainStyles.btnMain}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() =>cerrarProveedor ()}>
             <Text style={mainStyles.btntxt}>Cancelar</Text>
           </TouchableOpacity>
         </View>

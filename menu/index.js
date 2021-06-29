@@ -11,21 +11,51 @@ import Categorias from'@Formularios/formCategorias';
 import Provedores from'@Formularios/formProvedores';
 import NewProducto from'@Formularios/fromNewProduc';
 import Sucursales from'@Formularios/fromSucursales';
+import Usuarios from'@Formularios/formUsuarios';
+import ListCategorias from'@Formularios/formListCategoria';
+import ListSucursal from'@Formularios/formListaSucursal';
+import DetalleSucursal from'@Formularios/formDetalleSucursal';
+import ListProducstos from '@Formularios/formListProductos';
+import ListUsuarios from '@Formularios/formUsuariosR';
+import DetalleCategoria from '@Formularios/formDetalleCategoria';
+import NewRegion from '@Formularios/formRegion';
+import ListRegion from '@Formularios/formListaRegion';
+import DetalleRegion from '@Formularios/formDetalleRegion';
+import AccesoCamara from '@Formularios/AccesoCam';
+import DetalleUsuarios from '@Formularios/DetalleUsuarios';
+import ContenidoProductos from '@Formularios/ContenidoProductos';
+import  Almacen from '@Formularios/Almacen';
+import  AlmacenSucursales from '@Formularios/AlmacenSucursales';
+import  AlmacenIndividual from '@Formularios/AlmacenIndividual';
 
 
-function HomeScreen(props) {
+const id_usuario ={
+    clienteId:'20',
+    totalpagar:'500'
+}
+
+
+
+
+function HomeScreen(props) { 
+    console.log(props)
+
+    console.log ("Index")
+         
     return (
+        
         <View style={{
             flex: 1, alignItems: 'center',
             justifyContent: 'center'
         }}>
-            <Text style={{ fontSize: 20 }}>Home Screen</Text>
+            <Text style={{ fontSize: 20 }}>HomeScreen</Text>
         </View>
     );
 }
 
 //accion boton
 function DrawerMenu(props) {
+    
     return (
         <TouchableOpacity onPress={props.navigation}>
             <View style={s.menuContainer}>
@@ -41,12 +71,15 @@ function DrawerMenu(props) {
 }
 
 function Menu(props) {
+    
+    
+    
     return (
         <View style={s.container}>
             <View style={s.bgContainer}>
                 <TouchableOpacity>
                     <View style={s.userContainer}>
-                        <Image style={s.userImagen} source={require('@recursos/images/logo.jpg')} />
+                        <Image style={s.userImagen} source={require('@recursos/images/logosolecc.jpg')} />
                     </View>
                     <View style={s.userNombre}>
                         <Text style={s.userTitulo}>Proyecto</Text>
@@ -55,10 +88,17 @@ function Menu(props) {
                 </TouchableOpacity>
             </View>
             <DrawerMenu iconName='podium' titleName='Home' navigation={() => props.navigation.navigate('Home')} />
-            <DrawerMenu iconName='sitemap' titleName='Categorias' navigation={() => props.navigation.navigate('Categorias')} />
+            
             <DrawerMenu iconName='hail' titleName='Provedores' navigation={() => props.navigation.navigate('Provedores')} />
-            <DrawerMenu iconName='book-plus-multiple' titleName='Productos' navigation={() => props.navigation.navigate('NewProduc')} />
-            <DrawerMenu iconName='storefront' titleName='Sucurcales' navigation={() => props.navigation.navigate('Sucursal')} />
+            <DrawerMenu iconName='book-plus-multiple' titleName='Productos' navigation={() => props.navigation.navigate('ListProducstos')} />
+            <DrawerMenu iconName='storefront' titleName='Sucursales' navigation={() => props.navigation.navigate('ListSucursal')} />
+            <DrawerMenu iconName='storefront' titleName='Usuarios' navigation={() => props.navigation.navigate('ListUsuarios')} />
+            <DrawerMenu iconName='storefront' titleName='Categorias' navigation={() => props.navigation.navigate('ListCategorias')} />
+            <DrawerMenu iconName='storefront' titleName='Regiones' navigation={() => props.navigation.navigate('ListRegion')} />
+            <DrawerMenu iconName='storefront' titleName='Camara' navigation={() => props.navigation.navigate('AccesoCamara')} />
+            <DrawerMenu iconName='storefront' titleName='Almacen' navigation={() => props.navigation.navigate('Almacen')} />
+            <DrawerMenu iconName='storefront' titleName='Almacen por Sucursal' navigation={() => props.navigation.navigate('AlmacenSucursales')} />
+            
         </View>
     )
 }
@@ -68,8 +108,12 @@ const Drawer = createDrawerNavigator();
 
 
 //boton
-function MyDrawer() {
+export default function MyDrawer(props) {
+    
+    
     return (
+
+        
         <NavigationContainer>
             <Drawer.Navigator drawerContent={(props) => <Menu{...props} />}>
                 <Drawer.Screen name="Home" component={HomeScreen} />
@@ -77,10 +121,32 @@ function MyDrawer() {
                 <Drawer.Screen name="Provedores" component={Provedores} />
                 <Drawer.Screen name="NewProduc" component={NewProducto} />
                 <Drawer.Screen name="Sucursal" component={Sucursales} />
+                <Drawer.Screen name="Usuarios" component={Usuarios} />
+                <Drawer.Screen name="ListCategorias" component={ListCategorias} />
+                <Drawer.Screen name="ListSucursal" component={ListSucursal} />
+                <Drawer.Screen name="DetalleSucursal" component={DetalleSucursal} />
+                <Drawer.Screen name="ListProducstos" component={ListProducstos} />
+                <Drawer.Screen name="ListUsuarios" component={ListUsuarios} />
+                <Drawer.Screen name="DetalleCategoria" component={DetalleCategoria} />
+                <Drawer.Screen name="NewRegion" component={NewRegion} />
+                <Drawer.Screen name="ListRegion" component={ListRegion} />
+                <Drawer.Screen name="DetalleRegion" component={DetalleRegion} />
+                <Drawer.Screen name="AccesoCamara" component={AccesoCamara} />
+                <Drawer.Screen name="DetalleUsuarios" component={DetalleUsuarios} />
+
+                <Drawer.Screen name="ContenidoProductos" component={ContenidoProductos} />
+                <Drawer.Screen name="Almacen" component={Almacen} />
+                <Drawer.Screen name="AlmacenSucursales" component={AlmacenSucursales} />
+                <Drawer.Screen name="AlmacenIndividual" component={AlmacenIndividual} />
+
+
+                
+                
             </Drawer.Navigator>
         </NavigationContainer>
 
     );
 }
 
-export default MyDrawer;
+//export default MyDrawer;
+

@@ -5,6 +5,10 @@ import { imageBackgroundStyle } from '@styles/General'
 import { getUsuario } from '@storage/UsuarioAsyncStorage'
 import { UsuarioContext } from '@context/UsuarioContext'
 
+const id_usuario ={
+    clienteId:'20',
+    totalpagar:'500'
+}
 
 export default function SplashScreen(props) {
 
@@ -26,7 +30,7 @@ export default function SplashScreen(props) {
                     height: 200,
                     margin: 100,
                 }}
-                source={require('@recursos/images/logo.jpg')}
+                source={require('@recursos/images/logosolecc.jpg')}
             />
         </View>
     )
@@ -49,7 +53,7 @@ export default function SplashScreen(props) {
     }
 
     function goToScreen(routeName) {
-        props.navigation.replace(routeName)
+        props.navigation.replace(routeName, {id_usuario})
     }
 
 }

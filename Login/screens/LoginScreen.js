@@ -7,11 +7,18 @@ import color from '@styles/colors'
 import { UsuarioContext } from '@context/UsuarioContext'
 import AsyncStorage from '@react-native-community/async-storage'
 
-
 // CommonJS
-
+const id_usuario ={
+    clienteId:'20',
+    totalpagar:'500'
+}
 
 export default function LoginScreen(props){
+    const id_usuario ={
+        clienteId:'20',
+        totalpagar:'500'
+    }
+    
     
 
     const [login, loginAction] = useContext(UsuarioContext)
@@ -70,7 +77,7 @@ export default function LoginScreen(props){
         <View style={[mainStyles.container, {padding:30}]}>
             <StatusBar backgroundColor={color.BLUE} translucent={true}/>
             <View style={[loginStyles.logo]}>
-                <Image source={require('@recursos/images/logo.jpg')} style={{height:250, width:250}}/>
+                <Image source={require('@recursos/images/logosolecc.jpg')} style={{height:250, width:250}}/>
             </View>
             <MyTextInput keyboardType='email-address' placeholder='Correo' image='user'
             value={inputUsuario} onChangeText={email => guardarUsuario (email)}/>
@@ -95,7 +102,7 @@ export default function LoginScreen(props){
             }
         })*/
 
-        console.log("Ya entro");
+        //console.log("Ya entro");
         try{
             await AsyncStorage.setItem('usuario', inputUsuario);
             guardarNombreStorage(inputUsuario);
@@ -112,10 +119,11 @@ export default function LoginScreen(props){
                 alert("Falta llenar correo");
             }else if (inputPassword==''){
                 alert("Falta llenar contraseña");
-            }else if( inputUsuario=='Administrador' && inputPassword=='123'){
+            }else if( inputUsuario=='administrador@gmail.com' && inputPassword=='123asd'){
                 goTosecreen('Principal')
                 guardarUsuario('')
                 guardarPassword('')
+                goTosecreen('Principal')
                 
 
             }else {
@@ -127,6 +135,8 @@ export default function LoginScreen(props){
 
             
             //
+
+            //goTosecreen('Principal')
             
         }catch(error){
             
@@ -136,7 +146,11 @@ export default function LoginScreen(props){
     }
 
     function goTosecreen(routeName){
-        props.navigation.navigate(routeName)
+        console.log("LOGIN SCREEN")
+        props.navigation.navigate(routeName,{id_usuario})
+        
+        //console.log(id_usuario)
+        
     
     }
 }

@@ -8,7 +8,6 @@ const typeDefs = gql`
     type Usuario {
         id: ID
         first_name : String
-        last_name : String
         email_user: String
         type_user: String
         start_date: String
@@ -18,9 +17,11 @@ const typeDefs = gql`
 
     type Sucursal {
         id: ID
-        name_sucursal : String
-        loc_sucursal : String
-        img_sucursal: String
+        nombre : String
+        rfc: String
+        telefono: String     
+        direccion: String          
+        email: String
     }
 
     type TipoUsuarios{
@@ -34,7 +35,6 @@ const typeDefs = gql`
 
     input UsuarioInput {
         first_name : String
-        last_name : String
         email_user: String
         password_user: String
         type_user: String
@@ -43,9 +43,11 @@ const typeDefs = gql`
     }
 
     input SucursalInput {
-        name_sucursal : String
-        loc_sucursal : String
-        img_sucursal: String
+        nombre : String
+        rfc: String
+        telefono: String   
+        direccion: String             
+        email: String
     }
 
     input TipoInput{
@@ -64,9 +66,15 @@ const typeDefs = gql`
     }
 
     type Mutation {
+        #Usuarios
         nuevoUsuario(input: UsuarioInput): Usuario
+
+        #Sucursales
         nuevaSucursal(input: SucursalInput): Sucursal
+
+        #TipoUsuarios
         nuevoTipo(input: TipoInput): TipoUsuarios      
+        
        
         autentUsuario(input: AutenticarInput): Token
 

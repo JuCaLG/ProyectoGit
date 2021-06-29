@@ -14,27 +14,27 @@ function goToScreen(props, routeName) {
 
 
 
-export default function formCategorias(props,navigation) {
+export default function formRegiones(props,navigation) {
 
     const [hidePassword, setHidePassword] = useState(false)
 
-    const [categoria, setCategoria] = useState('')
-    const[inputCategoria,guardarCategoria]= useState('')
+    const [region, setRegion] = useState('')
+    const[inputRegion,guardarRegion]= useState('')
     
     
 
    
 
-    const crearCategoria = ()=>{
+    const crearRegion = ()=>{
 
         
 
         //Validar
-        if(inputCategoria ==''){
+        if(inputRegion ==''){
             alert("Llenado incompleto")
         }else{
-            alert("Categoría registrada")
-            guardarCategoria('')
+            alert("Región registrada")
+            guardarRegion('')
         }
         //UseMutation
         //const[] = useMutation();
@@ -42,7 +42,7 @@ export default function formCategorias(props,navigation) {
 
     }
 
-    const cerrarCategoria =() => {
+    const cerrarRegion =() => {
         props.navigation.navigate('ListCategorias')
 
     }
@@ -55,21 +55,21 @@ export default function formCategorias(props,navigation) {
             <StatusBar backgroundColor={color.BLUE} translucent={true} />
     
             <View style={[mainStyles.container, { padding: 50 }]}>
-                <Text style={mainStyles.titleText}> Categorias</Text>
+                <Text style={mainStyles.titleText}> Region</Text>
                 <MyTextInput placeholder='Nombre' image='sitemap'
-                value={inputCategoria} onChangeText={categoria => guardarCategoria (categoria)} />
+                value={inputRegion} onChangeText={region => guardarRegion(region)} />
 
 
                 
                 <View style={mainStyles.btnMain}>
-                    <TouchableOpacity onPress={() => crearCategoria()}>
+                    <TouchableOpacity onPress={() => crearRegion()}>
                         <Text style={mainStyles.btntxt}>Guardar</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={mainStyles.btnMain}>
 
-                    <TouchableOpacity onPress={() => cerrarCategoria()}>
+                    <TouchableOpacity onPress={() => cerrarRegion()}>
                         <Text style={mainStyles.btntxt}>Cancelar</Text>
                     </TouchableOpacity>
                 </View>

@@ -8,6 +8,8 @@ import { Picker } from '@react-native-community/picker';
 
 const crearNewProductto = ()=>{
 
+  
+
     
 
   //Validar
@@ -24,7 +26,7 @@ const crearNewProductto = ()=>{
 }
 
 const cerrarProducto =() => {
-  
+  props.navigation.navigate('Home')
 
 }
 
@@ -36,6 +38,7 @@ export default function formProvedores(props) {
 
   const [categoria, setCategoria] = useState('')
   const[inputCategoria,guardarCategoria]= useState('')
+  const{cat}=props.route.params;
 
   
   return (
@@ -49,18 +52,11 @@ export default function formProvedores(props) {
         <Text style={mainStyles.titleText}> Producto</Text>
 
         <View>
-          <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>Categoria</Text>
-          <Picker>
-            <Picker.Item label="---Seleccione una categoria---" value="" />
-            <Picker.Item label="Cable" value="" />
-            <Picker.Item label="Conector" value="" />
-            <Picker.Item label="Enchufe" value="" />
-            <Picker.Item label="Apagador" value="" />
-
-          </Picker>
+          <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>{cat}</Text>
+          
         </View>
         <View>
-          <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>Provedor</Text>
+          <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 20 }}>            Provedor              </Text>
           <Picker>
             <Picker.Item label="---Seleccione una Provedor---" value="" />
             <Picker.Item label="Telmex" value="" />
@@ -90,7 +86,7 @@ export default function formProvedores(props) {
         </View>
 
         <View style={mainStyles.btnMain}>
-          <TouchableOpacity >
+          <TouchableOpacity  onPress={() => cerrarProducto()}>
             <Text style={mainStyles.btntxt}>Cancelar</Text>
           </TouchableOpacity>
         </View>

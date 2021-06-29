@@ -8,12 +8,6 @@ const UsuarioSchema = mongoose.Schema ({
         trim: true
 
     },
-    last_name: {
-        type: String,
-        required: true,
-        trim: true
-
-    },
     email_user: {
         type: String,
         required: true,
