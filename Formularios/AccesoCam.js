@@ -6,7 +6,18 @@ import color from '@styles/colors'
 import { gql, useMutation } from '@apollo/client';
 import { Picker } from '@react-native-community/picker';
 
+/*
+----------------------------------------------------------------------------------
+    Importar codigo para peticion con el servidor
+----------------------------------------------------------------------------------
+*/
+const peticion = require('../__PeticionServidor/peticiones.servidor');
 
+function goToScreen(props, routeName) {
+    props.navigation.navigate(routeName);
+}
+
+//-----------------------------------------------------------------------------------
 
 function goToScreen(props, routeName) {
     props.navigation.navigate(routeName)
@@ -39,11 +50,25 @@ export default function formPrueba(props, navigation) {
 
     const [selectedValue, setSelectedValue] = useState("--- Asignar rol ---")
 
+/*
+----------------------------------------------------------------------------------
+    Funcion Limpiar inputs
+----------------------------------------------------------------------------------
+*/
+    function limpiarInputs() {
 
+        guardarNombre('');
+        guardarEmail('');
+        guardarTelefono('');
+        guardarPassword('');
+        guardarPasswordC('');
 
+    }
+    
+//-----------------------------------------------------------------------------------
 
-
-    const crearUsuario = () => {
+    //Se requiere que el metodo sea asincrono para asegurarse que se espere al resultado
+    const crearUsuario = async () => {
 
 
 
@@ -53,12 +78,37 @@ export default function formPrueba(props, navigation) {
         } else if (inputPassword != inputPasswordC) {
             alert("No coincide la contraseña")
         } else {
-            alert("Usuario registrado")
-            guardarNombre('')
-            guardarEmail('')
-            guardarTelefono('')
-            guardarPassword('')
-            guardarPasswordC('')
+            
+          /*
+          ----------------------------------------------------------------------------------
+              Guardar usuario en base de datos
+          ----------------------------------------------------------------------------------
+          */
+            
+            //Objeto json
+            var body =  { 
+                "nombre": inputNombre,
+                "email": inputEmail,
+                "telefono": inputTelefono,
+                "password": inputPassword,
+                "id_rol": "Administrador",
+            };
+
+            /*
+               peticion.insertar
+               * tabla:  es el nombre de la tabla de la base de datos, procurar usar los nombres en singular y no plural
+               * Objeto json
+            */
+            const resultado = await peticion.insertar("usuario",body);
+            
+            // await significa que esoera a que se termine de ejecutar el metodo
+            
+            //Imprime el resultado
+            alert(resultado.status);
+            limpiarInputs();
+            
+          //----------------------------------------------------------------------------------
+            
         }
         //UseMutation
         //const[] = useMutation();
