@@ -7,6 +7,8 @@ import color from '@styles/colors'
 import { UsuarioContext } from '@context/UsuarioContext'
 import AsyncStorage from '@react-native-community/async-storage'
 
+const peticion = require('../../__PeticionServidor/peticiones.servidor');
+
 // CommonJS
 const id_usuario ={
     clienteId:'20',
@@ -96,13 +98,6 @@ export default function LoginScreen(props){
         </View>
     )
     async function iniciarSesion  () {
-       /* loginAction({
-            tyoe:'sign', data:{
-                email, password
-            }
-        })*/
-
-        //console.log("Ya entro");
         try{
             await AsyncStorage.setItem('usuario', inputUsuario);
             guardarNombreStorage(inputUsuario);
@@ -119,25 +114,27 @@ export default function LoginScreen(props){
                 alert("Falta llenar correo");
             }else if (inputPassword==''){
                 alert("Falta llenar contraseña");
-            }else if( inputUsuario=='administrador@gmail.com' && inputPassword=='123asd'){
-                goTosecreen('Principal')
-                guardarUsuario('')
-                guardarPassword('')
-                goTosecreen('Principal')
-                
-
             }else {
-                alert("Usuario o contraseña incorrectos");
-
-            }
-
-
-
-            
-            //
-
-            //goTosecreen('Principal')
-            
+                const resultado = await peticion.buscarEmail("usuario",inputUsuario);
+                if  ( 
+                        (
+                            resultado!=null  && 
+                            resultado.email.length!==0 && 
+                            resultado.password.length!==0
+                        ) &&
+                        (
+                            inputUsuario==resultado.email && 
+                            inputPassword==resultado.password
+                        )
+                    ){
+                    goTosecreen('Principal')
+                    guardarUsuario('')
+                    guardarPassword('')
+                    goTosecreen('Principal');
+                }else{
+                    alert("Usuario o contraseña incorrectos");
+                }
+            } 
         }catch(error){
             
             console.log (error);

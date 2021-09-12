@@ -1,5 +1,7 @@
 const mongoose = require ('mongoose');
-const PagoSchema = mongoose.Schema ({
+const { Schema } = mongoose;
+
+const PagoSchema = new Schema ({
 
     name_pay:{
         type: String,
@@ -9,4 +11,6 @@ const PagoSchema = mongoose.Schema ({
     }
 });
 
-module.exports = mongoose.model('TipoPago', PagoSchema);
+const modeloPago = mongoose.model('Pago', PagoSchema);
+
+module.exports = modeloPago;

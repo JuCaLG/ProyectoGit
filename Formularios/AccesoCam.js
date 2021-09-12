@@ -1,15 +1,13 @@
-import React, { useState } from 'react'
-import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
-import { mainStyles } from '@styles/styles'
-import MyTextInput from '@components/MyTextInput'
-import color from '@styles/colors'
+import React, { useState } from 'react';
+import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
+import { mainStyles } from '@styles/styles';
+import MyTextInput from '@components/MyTextInput';
+import color from '@styles/colors';
 import { gql, useMutation } from '@apollo/client';
 import { Picker } from '@react-native-community/picker';
 
 /*
-----------------------------------------------------------------------------------
     Importar codigo para peticion con el servidor
-----------------------------------------------------------------------------------
 */
 const peticion = require('../__PeticionServidor/peticiones.servidor');
 
@@ -17,44 +15,32 @@ function goToScreen(props, routeName) {
     props.navigation.navigate(routeName);
 }
 
-//-----------------------------------------------------------------------------------
-
-function goToScreen(props, routeName) {
-    props.navigation.navigate(routeName)
-}
-
 
 
 
 export default function formPrueba(props, navigation) {
 
-    const [hidePassword, setHidePassword] = useState(false)
+    const [hidePassword, setHidePassword] = useState(false);
+
+    const [nombre, setNombre] = useState('');
+    const [inputNombre, guardarNombre] = useState('');
+
+    const [email, setEmail] = useState('');
+    const [inputEmail, guardarEmail] = useState('');
+
+    const [telefono, setTelefono] = useState('');
+    const [inputTelefono, guardarTelefono] = useState('');
 
 
+    const [password, setPassword] = useState('');
+    const [inputPassword, guardarPassword] = useState('');
 
-    const [nombre, setNombre] = useState('')
-    const [inputNombre, guardarNombre] = useState('')
-
-    const [email, setEmail] = useState('')
-    const [inputEmail, guardarEmail] = useState('')
-
-    const [telefono, setTelefono] = useState('')
-    const [inputTelefono, guardarTelefono] = useState('')
-
-
-    const [password, setPassword] = useState('')
-    const [inputPassword, guardarPassword] = useState('')
-
-    const [passwordc, setPasswordC] = useState('')
-    const [inputPasswordC, guardarPasswordC] = useState('')
+    const [passwordc, setPasswordC] = useState('');
+    const [inputPasswordC, guardarPasswordC] = useState('');
 
     const [selectedValue, setSelectedValue] = useState("--- Asignar rol ---")
 
-/*
-----------------------------------------------------------------------------------
-    Funcion Limpiar inputs
-----------------------------------------------------------------------------------
-*/
+
     function limpiarInputs() {
 
         guardarNombre('');
@@ -64,51 +50,30 @@ export default function formPrueba(props, navigation) {
         guardarPasswordC('');
 
     }
-    
-//-----------------------------------------------------------------------------------
 
-    //Se requiere que el metodo sea asincrono para asegurarse que se espere al resultado
+
     const crearUsuario = async () => {
-
-
 
         //Validar
         if (inputNombre == '' || inputEmail == '' || inputTelefono == '' || inputPassword == '' || inputPasswordC == '') {
-            alert("Todos los campos son requeridos")
+            alert("Todos los campos son requeridos");
         } else if (inputPassword != inputPasswordC) {
-            alert("No coincide la contraseña")
+            alert("No coincide la contraseña");
         } else {
-            
-          /*
-          ----------------------------------------------------------------------------------
-              Guardar usuario en base de datos
-          ----------------------------------------------------------------------------------
-          */
-            
-            //Objeto json
+
             var body =  { 
                 "nombre": inputNombre,
                 "email": inputEmail,
                 "telefono": inputTelefono,
                 "password": inputPassword,
-                "id_rol": "Administrador",
+                "id_rol": selectedValue,
             };
 
-            /*
-               peticion.insertar
-               * tabla:  es el nombre de la tabla de la base de datos, procurar usar los nombres en singular y no plural
-               * Objeto json
-            */
             const resultado = await peticion.insertar("usuario",body);
             
-            // await significa que esoera a que se termine de ejecutar el metodo
-            
-            //Imprime el resultado
             alert(resultado.status);
             limpiarInputs();
-            
-          //----------------------------------------------------------------------------------
-            
+
         }
         //UseMutation
         //const[] = useMutation();
@@ -133,7 +98,6 @@ export default function formPrueba(props, navigation) {
 
             <View style={[mainStyles.container, { padding: 50 }]}>
                 <Text style={mainStyles.titleText}> Usuarios</Text>
-
 
                 <MyTextInput placeholder='Nombre' image='user'
                     value={inputNombre} onChangeText={nombre => guardarNombre(nombre)} />
@@ -162,9 +126,6 @@ export default function formPrueba(props, navigation) {
                     </Picker>
                 </View>
 
-
-
-
                 <View style={mainStyles.btnMain}>
                     <TouchableOpacity onPress={() => crearUsuario()}>
                         <Text style={mainStyles.btntxt}>Guardar</Text>
@@ -177,7 +138,6 @@ export default function formPrueba(props, navigation) {
                         <Text style={mainStyles.btntxt}>Cancelar</Text>
                     </TouchableOpacity>
                 </View>
-
 
             </View>
         </ScrollView>

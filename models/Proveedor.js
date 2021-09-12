@@ -1,5 +1,7 @@
 const mongoose = require ('mongoose');
-const ProveedorSchema = mongoose.Schema ({
+const { Schema } = mongoose;
+
+const ProveedorSchema = new Schema ({
 
     name_prov:{
         type: String,
@@ -39,7 +41,7 @@ const ProveedorSchema = mongoose.Schema ({
         required: true,
         trim: true
     },
-    id_usuario:{
+    prod_id_usuario:{
         type: String,
         required: true,
         trim: true
@@ -49,4 +51,6 @@ const ProveedorSchema = mongoose.Schema ({
 
 });
 
-module.exports = mongoose.model('Proveedor', ProveedorSchema);
+const modeloProveedor = mongoose.model('Proveedor', ProveedorSchema);
+
+module.exports = modeloProveedor;

@@ -1,5 +1,7 @@
 const mongoose = require ('mongoose');
-const SucursalSchema = mongoose.Schema ({
+const { Schema } = mongoose;
+
+const SucursalSchema = new Schema ({
 
     nombre:{
         type: String,
@@ -36,4 +38,6 @@ const SucursalSchema = mongoose.Schema ({
 
 });
 
-module.exports = mongoose.model('Sucursal', SucursalSchema);
+const modeloSucursal = mongoose.model('Sucursal', SucursalSchema);
+
+module.exports = modeloSucursal;

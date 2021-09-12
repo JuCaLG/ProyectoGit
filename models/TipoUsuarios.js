@@ -1,5 +1,7 @@
 const mongoose = require ('mongoose');
-const TipoSchema = mongoose.Schema ({
+const { Schema } = mongoose;
+
+const TipoSchema = new Schema ({
 
     name_tipo:{
         type: String,
@@ -9,4 +11,6 @@ const TipoSchema = mongoose.Schema ({
     }
 });
 
-module.exports = mongoose.model('TipoUsuarios', TipoSchema);
+const modeloTipo = mongoose.model('Tipo', TipoSchema);
+
+module.exports = modeloTipo;

@@ -1,5 +1,7 @@
 const mongoose = require ('mongoose');
-const PagoSchema = mongoose.Schema ({
+const { Schema } = mongoose;
+
+const PedidoSchema = new Schema ({
 
     id_prod:{
         type: String,
@@ -21,4 +23,6 @@ const PagoSchema = mongoose.Schema ({
 
 });
 
-module.exports = mongoose.model('TipoPago', PagoSchema);
+const modeloPedido = mongoose.model('Pedido', PedidoSchema);
+
+module.exports = modeloPedido;

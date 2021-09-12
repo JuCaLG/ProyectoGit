@@ -4,7 +4,10 @@ import { mainStyles,loginStyles} from '@styles/styles'
 import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
 
-
+/*
+    Importar codigo para peticion con el servidor
+*/
+const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 function goToScreen(props, routeName) {
   props.navigation.navigate(routeName)
@@ -27,21 +30,41 @@ export default function formProvedores(props) {
     const [email, setEmail] = useState('')
     const[inputEmail,guardarEmail]= useState('')
 
+    function limpiarInputs() {
 
-  const crearProveedor = ()=>{
+      guardarNombre('');
+      guardarDireccion('');
+      guardarEmail('');
+      guardarRFC('');
+      guardarTelefono('');
 
-        
+  }
 
+  const crearProveedor = async () => {
     //Validar
-    if(inputNombre ==''|| inputRFC==''|| inputDireccion==''||inputTelefono ==''|| inputEmail==''){
-        alert("Todos los campos son requeridos")
+    if(inputNombre ==''|| 
+        inputRFC==''|| 
+        inputDireccion==''|| 
+        inputTelefono ==''|| 
+        inputEmail==''
+      ){
+        alert("Todos los campos son requeridos");
     }else{
-        alert("Proveedor registrado")
-        guardarNombre('')
-        guardarDireccion('')
-        guardarEmail('')
-        guardarRFC('')
-        guardarTelefono('')
+
+      var body = {
+        "name_prov": inputNombre,
+        "rfc_prov": inputRFC,
+        "dir_prov": inputDireccion,
+        "tel_prov": inputTelefono,
+        "email_prov": inputEmail,
+        "img_prov": "",
+      };
+
+      const resultado = await peticion.insertar("proveedor",body);
+      
+      alert(resultado.status);
+      limpiarInputs();
+      
     }
     //UseMutation
     //const[] = useMutation();
@@ -87,7 +110,7 @@ const cerrarProveedor =() => {
           
         
         <View style={mainStyles.btnMain}>
-          <TouchableOpacity onPress={() =>crearProveedor ()}>
+          <TouchableOpacity onPress={() =>crearProveedor()}>
             <Text style={mainStyles.btntxt}>Agregar</Text>
           </TouchableOpacity>
         </View>

@@ -1,5 +1,7 @@
 const mongoose = require ('mongoose');
-const RegionSchema = mongoose.Schema ({
+const { Schema } = mongoose;
+
+const RegionSchema = new Schema ({
 
     name_region:{
         type: String,
@@ -7,11 +9,13 @@ const RegionSchema = mongoose.Schema ({
         trim: true
 
     },
-    id_usuario:{
+    reg_id_usuario:{
         type:String,
         required:true,
         trim:true
     }
 });
 
-module.exports = mongoose.model('Region', RegionSchema);
+const modeloRegion = mongoose.model('Region', RegionSchema);
+
+module.exports = modeloRegion;
