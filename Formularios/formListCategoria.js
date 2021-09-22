@@ -7,14 +7,16 @@ import color from '@styles/colors'
 import { gql, useMutation } from '@apollo/client';
 
 
-
-
-
+/*
+    Importar codigo para peticion con el servidor
+*/
+const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 
 export default function formListCategorias(props, navigation) {
 
     const [hidePassword, setHidePassword] = useState(false)
+    const [categorias, setCategorias] = useState(null);
 
     const [categoria, setCategoria] = useState('')
     const [inputCategoria, guardarCategoria] = useState('')
@@ -31,10 +33,28 @@ export default function formListCategorias(props, navigation) {
         props.navigation.navigate('DetalleCategoria',{suc:suc})
     }
     
-
-
-
-
+    componentDidMount = () => {
+    
+        setCategorias(await peticion.loadTask("categoria"));
+        
+    }
+    
+    parseData(){
+    
+        if(categorias){
+        
+            return categorias.map((data) => {
+                return (
+                    <View key={data._id}>
+                        <Text>{data.name_category}</Text>
+                        <Text>{data.cat_id_usuario}</Text>
+                    </View>
+                );
+            });
+            
+        }
+        
+    }
 
     return (
         <ScrollView
@@ -46,30 +66,7 @@ export default function formListCategorias(props, navigation) {
             <View style={[mainStyles.container, { padding: 50 }]}>
                 <Text style={mainStyles.titleText}> Categorias</Text>
 
-                <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Electronica")}>
-                        <Text style={mainStyles.titleLista}>Electrónica</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Ferretería")}>
-                        <Text style={mainStyles.titleLista}>Ferretería</Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Agricultura")}>
-                        <Text style={mainStyles.titleLista}>Agricultura</Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-                    <TouchableOpacity onPress={() => DetalleLista("Textiles")}>
-                        <Text style={mainStyles.titleLista}>Textiles</Text>
-                    </TouchableOpacity>
-                </View>
+                <View>{parseData()}</View>
 
                 <View style={mainStyles.btnMain}>
 
