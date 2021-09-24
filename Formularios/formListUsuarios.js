@@ -12,7 +12,7 @@ import { gql, useMutation } from '@apollo/client';
 
 
 
-export default function formUsusariosR(props, navigation) {
+export default function formListUsuarios(props, navigation) {
 
     const [hidePassword, setHidePassword] = useState(false)
 
@@ -42,22 +42,22 @@ export default function formUsusariosR(props, navigation) {
             style={{ backgroundColor: color.WHITE }}>
             <StatusBar backgroundColor={color.BLUE} translucent={true} />
 
-            <View style={[mainStyles.container, { padding: 70 }]}>
-                <Text style={mainStyles.titleText}> Usuarios Registrados</Text>
+            <View style={[mainStyles.container, { padding: 40 }]}>
+                <Text style={mainStyles.titleDetalleLista1}> Usuarios Registrados</Text>
 
                 <Text style={mainStyles.titleDetalleLista}> Administradores</Text>
                 <View >
 
-                    <TouchableOpacity onPress={() => DetalleLista("America Regina Vargas")}>
-                        <Text style={mainStyles.titleLista}>America Regina Vargas </Text>
+                    <TouchableOpacity onPress={() => DetalleLista("Admin1")}>
+                        <Text style={mainStyles.titleLista}>Admin1</Text>
                     </TouchableOpacity>
                 </View>
 
                 <Text style={mainStyles.titleDetalleLista}> Colaboradores</Text>
                 <View >
 
-                    <TouchableOpacity onPress={() => DetalleLista("America Regina Vargas")}>
-                        <Text style={mainStyles.titleLista}>Emiliano </Text>
+                    <TouchableOpacity onPress={() => DetalleLista("Colab1")}>
+                        <Text style={mainStyles.titleLista}>Colab1</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -72,7 +72,7 @@ export default function formUsusariosR(props, navigation) {
                 <View style={mainStyles.btnMas} >
 
                     <TouchableOpacity onPress={() => crearCategoria()}>
-                        <Text style={mainStyles.btntxt}>+</Text>
+                        <Text style={mainStyles.btntxt}>Nuevo</Text>
                     </TouchableOpacity>
                 </View>
 

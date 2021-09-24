@@ -32,13 +32,13 @@ export default function formListCategorias(props, navigation) {
     const DetalleLista = (suc)=>{
         props.navigation.navigate('DetalleCategoria',{suc:suc})
     }
-    
+        /*1
     componentDidMount = () => {
     
         setCategorias(await peticion.loadTask("categoria"));
         
     }
-    
+
     parseData(){
     
         if(categorias){
@@ -54,7 +54,7 @@ export default function formListCategorias(props, navigation) {
             
         }
         
-    }
+    }*/
 
     return (
         <ScrollView
