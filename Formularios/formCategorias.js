@@ -1,50 +1,38 @@
 import React, { useState } from 'react'
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
-import { mainStyles} from '@styles/styles'
+import { mainStyles,loginStyles} from '@styles/styles'
 import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
-import {gql, useMutation} from '@apollo/client';
 
+/*
+    Importar codigo para peticion con el servidor
+*/
+const peticion = require('../__PeticionServidor/peticiones.servidor');
 
+export default function formCategorias(props) {
 
-function goToScreen(props, routeName) {
-    props.navigation.navigate(routeName)
-}
-
-
-
-
-export default function formCategorias(props,navigation) {
-
-    const [hidePassword, setHidePassword] = useState(false)
-
-    const [categoria, setCategoria] = useState('')
     const[inputCategoria,guardarCategoria]= useState('')
-    
-    
 
-   
+    function limpiarInputs() {
+        guardarCategoria('');
+    }
 
-    const crearCategoria = ()=>{
-
-        
-
+    const crearCategoria = async ()=>{
         //Validar
         if(inputCategoria ==''){
-            alert("Llenado incompleto")
+            alert("Llenado incompleto");
         }else{
-            alert("Categoría registrada")
-            guardarCategoria('')
+            var body = { 
+                "name_category": inputCategoria,
+            };
+            const resultado = await peticion.insertar("categoria",body);
+            alert(resultado.status);
+            limpiarInputs();
         }
-        //UseMutation
-        //const[] = useMutation();
-        //this.props.navigation.navigate('Principal');
-
     }
 
     const cerrarCategoria =() => {
         props.navigation.navigate('ListCategorias')
-
     }
 
     return (
@@ -53,14 +41,12 @@ export default function formCategorias(props,navigation) {
             keyboardShouldPersistTaps='always'
             style={{ backgroundColor: color.WHITE }}>
             <StatusBar backgroundColor={color.BLUE} translucent={true} />
-    
+
             <View style={[mainStyles.container, { padding: 50 }]}>
                 <Text style={mainStyles.titleText}> Categorias</Text>
                 <MyTextInput placeholder='Nombre' image='sitemap'
                 value={inputCategoria} onChangeText={categoria => guardarCategoria (categoria)} />
 
-
-                
                 <View style={mainStyles.btnMain}>
                     <TouchableOpacity onPress={() => crearCategoria()}>
                         <Text style={mainStyles.btntxt}>Guardar</Text>
@@ -73,14 +59,9 @@ export default function formCategorias(props,navigation) {
                         <Text style={mainStyles.btntxt}>Cancelar</Text>
                     </TouchableOpacity>
                 </View>
-                
-                
+
             </View>
         </ScrollView>
     )
 
-    function goTosecreen(routeName){
-        props.navigation.navigate(routeName)
-    
-    }
 }

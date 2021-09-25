@@ -6,69 +6,47 @@ import color from '@styles/colors'
 import { gql, useMutation } from '@apollo/client';
 import { Picker } from '@react-native-community/picker';
 
-
-
-function goToScreen(props, routeName) {
-    props.navigation.navigate(routeName)
-}
-
-
-
+/*
+    Importar codigo para peticion con el servidor
+*/
+const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 export default function formPrueba(props, navigation) {
 
-    const [hidePassword, setHidePassword] = useState(false)
-
-
-
-    const [nombre, setNombre] = useState('')
     const [inputNombre, guardarNombre] = useState('')
-
-    const [email, setEmail] = useState('')
     const [inputEmail, guardarEmail] = useState('')
-
-    const [telefono, setTelefono] = useState('')
     const [inputTelefono, guardarTelefono] = useState('')
-
-
-    const [password, setPassword] = useState('')
     const [inputPassword, guardarPassword] = useState('')
-
-    const [passwordc, setPasswordC] = useState('')
     const [inputPasswordC, guardarPasswordC] = useState('')
-
     const [selectedValue, setSelectedValue] = useState("--- Asignar rol ---")
 
-    const [selectedValue1, setSelectedValue1] = useState("--- Asignar region ---")
-
-    const imprime = () => {
-        return ("Sola")
-        console.log ("Hola");
-        console.log (itemValue);
-        console.log (selectedValue);
+    function limpiarInputs() {
+        guardarNombre('');
+        guardarEmail('');
+        guardarTelefono('');
+        guardarPassword('');
+        guardarPasswordC('');
     }
-    
 
-
-
-
-
-    const crearUsuario = () => {
-
-
-
+    const crearUsuario = async () => {
         //Validar
         if (inputNombre == '' || inputEmail == '' || inputTelefono == '' || inputPassword == '' || inputPasswordC == '') {
             alert("Todos los campos son requeridos")
         } else if (inputPassword != inputPasswordC) {
             alert("No coincide la contraseña")
         } else {
-            alert("Usuario registrado")
-            guardarNombre('')
-            guardarEmail('')
-            guardarTelefono('')
-            guardarPassword('')
-            guardarPasswordC('')
+            var body =  { 
+                "nombre": inputNombre,
+                "email": inputEmail,
+                "telefono": inputTelefono,
+                "password": inputPassword,
+                "id_rol": selectedValue,
+            };
+
+            const resultado = await peticion.insertar("usuario",body);
+            
+            alert(resultado.status);
+            limpiarInputs();
         }
         //UseMutation
         //const[] = useMutation();
@@ -76,12 +54,8 @@ export default function formPrueba(props, navigation) {
 
     }
 
-
-
     const cerrarUsuario = () => {
         props.navigation.navigate('Home')
-
-
     }
 
     return (
@@ -142,14 +116,7 @@ export default function formPrueba(props, navigation) {
                         <Picker.Item label="Region 5" value="Region 5" onValueChange={()=>imprime()} />
                         
                     </Picker>
-
                 </View>
-
-
-
-
-
-
 
                 <View style={mainStyles.btnMain}>
                     <TouchableOpacity onPress={() => crearUsuario()}>
@@ -158,19 +125,13 @@ export default function formPrueba(props, navigation) {
                 </View>
 
                 <View style={mainStyles.btnMain}>
-
                     <TouchableOpacity onPress={() => cerrarUsuario()}>
                         <Text style={mainStyles.btntxt}>Cancelar</Text>
                     </TouchableOpacity>
                 </View>
 
-
             </View>
         </ScrollView>
     )
 
-    function goTosecreen(routeName) {
-        props.navigation.navigate(routeName)
-
-    }
 }

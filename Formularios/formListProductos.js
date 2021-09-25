@@ -6,20 +6,35 @@ import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
 import { gql, useMutation } from '@apollo/client';
 
-
-
-
-
-
+/*
+    Importar codigo para peticion con el servidor
+*/
+const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 export default function formListProducstos(props, navigation) {
 
-    const [hidePassword, setHidePassword] = useState(false)
+    const [listaProducto, setListaProducto] = useState([
+        {
+            "_id" : 1,
+            "id_category": "cat",
+            "id_proveedor": "prov",
+            "name_prod": "name",
+            "desc_prod": "desc",
+            "qr_prod": "qr",
+            "prod_id_usuario": "usu"
+        },
+        {
+            "_id" : 2,
+            "id_category": "cat2",
+            "id_proveedor": "prov2",
+            "name_prod": "name2",
+            "desc_prod": "desc2",
+            "qr_prod": "qr2",
+            "prod_id_usuario": "usu2"
+        },
+    ]);
 
-    const [categoria, setCategoria] = useState('')
-    const [inputCategoria, guardarCategoria] = useState('')
-
-    const crearCategoria = () => {
+    const crearProducto = () => {
         props.navigation.navigate('NewProduc')
     }
 
@@ -31,9 +46,21 @@ export default function formListProducstos(props, navigation) {
         props.navigation.navigate('ContenidoProductos', { cat: cat })
     }
 
+    const actualizarLista = async () => {
+        setListaProducto(await peticion.loadTask("producto"));
+    }
 
-
-
+    const Listar = () => {
+        if(listaProducto){
+            return listaProducto.map((data) => {
+                return (
+                    <TouchableOpacity key={data._id} onPress={() => DetalleLista(data._id)}>
+                        <Text style={mainStyles.titleLista}>{data.name_prod}</Text>
+                    </TouchableOpacity>
+                );
+            });
+        }
+    }
 
     return (
         <ScrollView
@@ -46,49 +73,29 @@ export default function formListProducstos(props, navigation) {
                 <Text style={mainStyles.titleText}> Productos</Text>
 
                 <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Electronica")}>
-                        <Text style={mainStyles.titleLista}>Electrónica</Text>
-                    </TouchableOpacity>
+                    {Listar()}
                 </View>
-                <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Ferretería")}>
-                        <Text style={mainStyles.titleLista}>Ferretería</Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Agricultura")}>
-                        <Text style={mainStyles.titleLista}>Agricultura</Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-                    <TouchableOpacity onPress={() => DetalleLista("Textiles")}>
-                        <Text style={mainStyles.titleLista}>Textiles</Text>
-                    </TouchableOpacity>
-                </View>
-
-
 
                 <View style={mainStyles.btnMain}>
-
                     <TouchableOpacity onPress={() => cerrarLista()}>
                         <Text style={mainStyles.btntxt}>Aceptar</Text>
                     </TouchableOpacity>
                 </View>
 
-            
+                <View style={mainStyles.btnMain}>
+                    <TouchableOpacity onPress={() => actualizarLista()}>
+                        <Text style={mainStyles.btntxt}>Actualizar</Text>
+                    </TouchableOpacity>
+                </View>
 
-
-
+                <View style={mainStyles.btnMain}>
+                    <TouchableOpacity onPress={() => cerrarLista()}>
+                        <Text style={mainStyles.btntxt}>+</Text>
+                    </TouchableOpacity>
+                </View>
 
             </View>
         </ScrollView>
     )
 
-    function goTosecreen(routeName) {
-        props.navigation.navigate(routeName)
-
-    }
 }

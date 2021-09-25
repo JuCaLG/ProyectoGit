@@ -9,35 +9,20 @@ import color from '@styles/colors'
 */
 const peticion = require('../__PeticionServidor/peticiones.servidor');
 
-function goToScreen(props, routeName) {
-  props.navigation.navigate(routeName)
-}
-
 export default function formProvedores(props) {
 
-    const [nombre, setNombre] = useState('')
     const[inputNombre,guardarNombre]= useState('')
-    
-    const [rfc, setRFC] = useState('')
     const[inputRFC,guardarRFC]= useState('')
-
-    const [direccion, setDireccion] = useState('')
     const[inputDireccion,guardarDireccion]= useState('')
-
-    const [telefono, setTelefono] = useState('')
     const[inputTelefono,guardarTelefono]= useState('')
-
-    const [email, setEmail] = useState('')
     const[inputEmail,guardarEmail]= useState('')
 
     function limpiarInputs() {
-
       guardarNombre('');
       guardarDireccion('');
       guardarEmail('');
       guardarRFC('');
       guardarTelefono('');
-
   }
 
   const crearProveedor = async () => {
@@ -50,7 +35,6 @@ export default function formProvedores(props) {
       ){
         alert("Todos los campos son requeridos");
     }else{
-
       var body = {
         "name_prov": inputNombre,
         "rfc_prov": inputRFC,
@@ -59,23 +43,17 @@ export default function formProvedores(props) {
         "email_prov": inputEmail,
         "img_prov": "",
       };
-
       const resultado = await peticion.insertar("proveedor",body);
-      
       alert(resultado.status);
       limpiarInputs();
-      
     }
-    //UseMutation
-    //const[] = useMutation();
-    //this.props.navigation.navigate('Principal');
 
-}
+  }
 
-const cerrarProveedor =() => {
-  props.navigation.navigate('Home')
+  const cerrarProveedor =() => {
+    props.navigation.navigate('Home')
 
-}
+  }
 
   return (
     <ScrollView
@@ -101,14 +79,11 @@ const cerrarProveedor =() => {
         <MyTextInput placeholder='Email' image='envelope' 
         value={inputEmail} onChangeText={email => guardarEmail (email)}/>
 
-        
         <Text style={{fontWeight: 'bold',fontSize: 18,marginTop: 20}}>Foto</Text>
         <View style={[loginStyles.logo]}>
-                <Image source={require('@recursos/images/camara.png')} style={{height:250, width:250}}/>
-            </View>
-         
-          
-        
+          <Image source={require('@recursos/images/camara.png')} style={{height:250, width:250}}/>
+        </View>
+
         <View style={mainStyles.btnMain}>
           <TouchableOpacity onPress={() =>crearProveedor()}>
             <Text style={mainStyles.btntxt}>Agregar</Text>

@@ -6,20 +6,25 @@ import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
 import { gql, useMutation } from '@apollo/client';
 
-
-
-
-
-
+/*
+    Importar codigo para peticion con el servidor
+*/
+const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 export default function formListaRegion(props, navigation) {
 
-    const [hidePassword, setHidePassword] = useState(false)
+    const [listaRegion, setListaRegion] = useState([
+        {
+            "_id" : 1,
+            "name_region" : "region1",
+        },
+        {
+            "_id" : 2,
+            "name_region" : "region2",
+        },
+    ]);
 
-    const [categoria, setCategoria] = useState('')
-    const [inputCategoria, guardarCategoria] = useState('')
-
-    const crearCategoria = ()=>{
+    const crearRegiones = ()=>{
         props.navigation.navigate('Regiones')
     }
 
@@ -31,9 +36,21 @@ export default function formListaRegion(props, navigation) {
         props.navigation.navigate('DetalleRegion',{suc:suc})
     }
 
+    const actualizarLista = async () => {
+        setListaRegion(await peticion.loadTask("region"));
+    }
 
-
-
+    const Listar = () => {
+        if(listaRegion){
+            return listaRegion.map((data) => {
+                return (
+                    <TouchableOpacity key={data._id} onPress={() => DetalleLista(data._id)}>
+                        <Text style={mainStyles.titleLista}>{data.name_region}</Text>
+                    </TouchableOpacity>
+                );
+            });
+        }
+    }
 
     return (
         <ScrollView
@@ -46,56 +63,29 @@ export default function formListaRegion(props, navigation) {
                 <Text style={mainStyles.titleText}> Regiones</Text>
 
                 <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Region 1")}>
-                        <Text style={mainStyles.titleLista}>Region 1</Text>
-                    </TouchableOpacity>
+                    {Listar()}
                 </View>
 
-                <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Region 2")}>
-                        <Text style={mainStyles.titleLista}>Region 2</Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Region 3")}>
-                        <Text style={mainStyles.titleLista}>Region 3 </Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-                    <TouchableOpacity onPress={() => DetalleLista("Region 4")}>
-                        <Text style={mainStyles.titleLista}>Region 4</Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-                    <TouchableOpacity onPress={() => DetalleLista("Region 5")}>
-                        <Text style={mainStyles.titleLista}>Region 5 </Text>
-                    </TouchableOpacity>
-                </View>
-               
                 <View style={mainStyles.btnMain}>
-
                     <TouchableOpacity onPress={() => cerrarLista()}>
                         <Text style={mainStyles.btntxt}>Aceptar</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={mainStyles.btnMas} >
-
-                    <TouchableOpacity onPress={() => crearCategoria()}>
-                        <Text style={mainStyles.btntxt}>+</Text>
+                <View style={mainStyles.btnMain}>
+                    <TouchableOpacity onPress={() => actualizarLista()}>
+                        <Text style={mainStyles.btntxt}>Actualizar</Text>
                     </TouchableOpacity>
                 </View>
 
+                <View style={mainStyles.btnMain}>
+                    <TouchableOpacity onPress={() => crearRegiones()}>
+                        <Text style={mainStyles.btntxt}>+</Text>
+                    </TouchableOpacity>
+                </View>
 
             </View>
         </ScrollView>
     )
 
-    function goTosecreen(routeName) {
-        props.navigation.navigate(routeName)
-
-    }
 }

@@ -5,7 +5,10 @@ import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
 import {gql, useMutation} from '@apollo/client';
 
-
+/*
+    Importar codigo para peticion con el servidor
+*/
+const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 function goToScreen(props, routeName) {
     props.navigation.navigate(routeName)
@@ -16,29 +19,26 @@ function goToScreen(props, routeName) {
 
 export default function formRegiones(props,navigation) {
 
-    const [hidePassword, setHidePassword] = useState(false)
-
-    const [region, setRegion] = useState('')
     const[inputRegion,guardarRegion]= useState('')
     
-    
+    function limpiarInputs() {
 
-   
+        guardarRegion('');
 
-    const crearRegion = ()=>{
+    }
 
-        
-
+    const crearRegion = async ()=>{
         //Validar
         if(inputRegion ==''){
             alert("Llenado incompleto")
         }else{
-            alert("Región registrada")
-            guardarRegion('')
+            var body =  { 
+                "name_region": inputRegion,
+            };
+            const resultado = await peticion.insertar("region",body);
+            alert(resultado.status);
+            limpiarInputs();
         }
-        //UseMutation
-        //const[] = useMutation();
-        //this.props.navigation.navigate('Principal');
 
     }
 

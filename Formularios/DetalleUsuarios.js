@@ -6,12 +6,6 @@ import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
 import { gql, useMutation } from '@apollo/client';
 
-
-
-
-
-
-
 export default function DetalleUsuarios(props, navigation) {
 
     const [hidePassword, setHidePassword] = useState(false)
@@ -49,11 +43,6 @@ export default function DetalleUsuarios(props, navigation) {
             <View style={[mainStyles.container, { padding: 50 }]}>
                 <Text style={mainStyles.titleDetalleLista}> Detalle de Usuario</Text>
                 <Text style={mainStyles.titleDetalleSuc}> {suc}</Text>
-
-               
-
-                
-                
 
                 <View style={mainStyles.btnMain}>
 

@@ -6,12 +6,6 @@ import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
 import { gql, useMutation } from '@apollo/client';
 
-
-
-
-
-
-
 export default function formDetalleProveedor(props, navigation) {
 
     
@@ -26,14 +20,6 @@ export default function formDetalleProveedor(props, navigation) {
         props.navigation.navigate('ListProvedores')
     }
 
-   
-
-    
-
-
-
-
-
     return (
         <ScrollView
             keyboardDismissMode='on-drag'
@@ -44,11 +30,6 @@ export default function formDetalleProveedor(props, navigation) {
             <View style={[mainStyles.container, { padding: 20 }]}>
                 <Text style={mainStyles.titleDetalleLista}> Información de Proveedor </Text>
                 <Text style={mainStyles.titleDetalleSuc}> {suc}</Text>
-
-               
-
-                
-                
 
                 <View style={mainStyles.btnMain}>
 

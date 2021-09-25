@@ -48,11 +48,6 @@ export default function formListaSucursal(props, navigation) {
                 <Text style={mainStyles.titleDetalleLista}> Productos de</Text>
                 <Text style={mainStyles.titleDetalleSuc}> {suc}</Text>
 
-               
-
-                
-                
-
                 <View style={mainStyles.btnMain}>
 
                     <TouchableOpacity onPress={() => atrasLista()}>

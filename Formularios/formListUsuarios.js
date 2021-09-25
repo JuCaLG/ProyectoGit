@@ -1,23 +1,33 @@
 import React, { useState } from 'react'
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
-import { ListItem, List } from 'react-native-elements'
 import { mainStyles } from '@styles/styles'
-import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
-import { gql, useMutation } from '@apollo/client';
 
-
-
-
-
-
+/*
+    Importar codigo para peticion con el servidor
+*/
+const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 export default function formListUsuarios(props, navigation) {
 
-    const [hidePassword, setHidePassword] = useState(false)
-
-    const [categoria, setCategoria] = useState('')
-    const [inputCategoria, guardarCategoria] = useState('')
+    const [listaUsuario, setListaUsuario] = useState([
+        {
+            "_id" : 1,
+            "nombre": "inputNombre",
+            "email": "inputEmail",
+            "telefono": "inputTelefono",
+            "password": "inputPassword",
+            "id_rol": "selectedValue",
+        },
+        {
+            "_id" : 2,
+            "nombre": "inputNombre2",
+            "email": "inputEmail2",
+            "telefono": "inputTelefono2",
+            "password": "inputPassword2",
+            "id_rol": "selectedValue2",
+        },
+    ]);
 
     const crearCategoria = () => {
         props.navigation.navigate('Usuarios')
@@ -31,9 +41,21 @@ export default function formListUsuarios(props, navigation) {
         props.navigation.navigate('DetalleUsuarios', { suc: suc })
     }
 
+    const actualizarLista = async () => {
+        setListaUsuario(await peticion.loadTask("usuario"));
+    }
 
-
-
+    const Listar = () => {
+        if(listaUsuario){
+            return listaUsuario.map((data) => {
+                return (
+                    <TouchableOpacity key={data._id} onPress={() => DetalleLista(data._id)}>
+                        <Text style={mainStyles.titleLista}>{data.nombre} - {data.email}</Text>
+                    </TouchableOpacity>
+                );
+            });
+        }
+    }
 
     return (
         <ScrollView
@@ -45,44 +67,31 @@ export default function formListUsuarios(props, navigation) {
             <View style={[mainStyles.container, { padding: 40 }]}>
                 <Text style={mainStyles.titleDetalleLista1}> Usuarios Registrados</Text>
 
-                <Text style={mainStyles.titleDetalleLista}> Administradores</Text>
                 <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Admin1")}>
-                        <Text style={mainStyles.titleLista}>Admin1</Text>
-                    </TouchableOpacity>
+                    {Listar()}
                 </View>
-
-                <Text style={mainStyles.titleDetalleLista}> Colaboradores</Text>
-                <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Colab1")}>
-                        <Text style={mainStyles.titleLista}>Colab1</Text>
-                    </TouchableOpacity>
-                </View>
-
 
                 <View style={mainStyles.btnMain}>
-
                     <TouchableOpacity onPress={() => cerrarLista()}>
                         <Text style={mainStyles.btntxt}>Aceptar</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={mainStyles.btnMas} >
-
-                    <TouchableOpacity onPress={() => crearCategoria()}>
-                        <Text style={mainStyles.btntxt}>Nuevo</Text>
+                <View style={mainStyles.btnMain}>
+                    <TouchableOpacity onPress={() => actualizarLista()}>
+                        <Text style={mainStyles.btntxt}>Actualizar</Text>
                     </TouchableOpacity>
                 </View>
 
+                <View style={mainStyles.btnMain}>
+
+                    <TouchableOpacity onPress={() => crearCategoria()}>
+                        <Text style={mainStyles.btntxt}>+</Text>
+                    </TouchableOpacity>
+                </View>
 
             </View>
         </ScrollView>
     )
 
-    function goTosecreen(routeName) {
-        props.navigation.navigate(routeName)
-
-    }
 }

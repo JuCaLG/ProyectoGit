@@ -77,8 +77,6 @@ export default function formProvedores(props) {
         <MyTextInput placeholder='Precio de compra' image='phone' />
         <MyTextInput placeholder='Precio de venta' image='envelope' />
 
-
-
         <View style={mainStyles.btnMain}>
           <TouchableOpacity >
             <Text style={mainStyles.btntxt}>Agregar</Text>

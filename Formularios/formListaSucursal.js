@@ -1,23 +1,34 @@
 import React, { useState } from 'react'
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
-import { ListItem, List } from 'react-native-elements'
 import { mainStyles } from '@styles/styles'
-import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
-import { gql, useMutation } from '@apollo/client';
 
-
-
-
-
+/*
+    Importar codigo para peticion con el servidor
+*/
+const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 
 export default function formListaSucursal(props, navigation) {
 
-    const [hidePassword, setHidePassword] = useState(false)
-
-    const [categoria, setCategoria] = useState('')
-    const [inputCategoria, guardarCategoria] = useState('')
+    const [listaSucursal, setListaSucursal] = useState([
+        {
+            "_id" : 1,
+            "nombre": "nombre1",
+            "rfc": "rfc1",
+            "telefono": "tel1",
+            "direccion": "dir1",
+            "email": "email1",
+        },
+        {
+            "_id" : 2,
+            "nombre": "nombre2",
+            "rfc": "rfc2",
+            "telefono": "tel2",
+            "direccion": "dir2",
+            "email": "email2",
+        },
+    ]);
 
     const crearCategoria = ()=>{
         props.navigation.navigate('Sucursal')
@@ -31,9 +42,21 @@ export default function formListaSucursal(props, navigation) {
         props.navigation.navigate('DetalleSucursal',{suc:suc})
     }
 
+    const actualizarLista = async () => {
+        setListaSucursal(await peticion.loadTask("sucursal"));
+    }
 
-
-
+    const Listar = () => {
+        if(listaSucursal){
+            return listaSucursal.map((data) => {
+                return (
+                    <TouchableOpacity key={data._id} onPress={() => DetalleLista(data._id)}>
+                        <Text style={mainStyles.titleLista}>{data.nombre} - {data.rfc}</Text>
+                    </TouchableOpacity>
+                );
+            });
+        }
+    }
 
     return (
         <ScrollView
@@ -46,55 +69,8 @@ export default function formListaSucursal(props, navigation) {
                 <Text style={mainStyles.titleText}> Sucursales</Text>
 
                 <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Veracruz")}>
-                        <Text style={mainStyles.titleLista}>Veracruz</Text>
-                    </TouchableOpacity>
+                    {Listar()}
                 </View>
-
-                <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Torreon")}>
-                        <Text style={mainStyles.titleLista}>Torreon</Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-
-                    <TouchableOpacity onPress={() => DetalleLista("Merida")}>
-                        <Text style={mainStyles.titleLista}>Merida </Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-                    <TouchableOpacity onPress={() => DetalleLista("Cancun")}>
-                        <Text style={mainStyles.titleLista}>Cancun</Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-                    <TouchableOpacity onPress={() => DetalleLista("Queretaro")}>
-                        <Text style={mainStyles.titleLista}>Queretaro </Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-                    <TouchableOpacity onPress={() => DetalleLista("Tijuana")}>
-                        <Text style={mainStyles.titleLista}>Tijuana</Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-                    <TouchableOpacity onPress={() => DetalleLista("Irapuato")}>
-                        <Text style={mainStyles.titleLista}>Irapuato </Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-                    <TouchableOpacity onPress={() => DetalleLista("Ags")}>
-                        <Text style={mainStyles.titleLista}>Ags </Text>
-                    </TouchableOpacity>
-                </View>
-                <View >
-                    <TouchableOpacity onPress={() => DetalleLista("Leon")}>
-                        <Text style={mainStyles.titleLista}>Leon </Text>
-                    </TouchableOpacity>
-                </View>
-                
 
                 <View style={mainStyles.btnMain}>
 
@@ -103,20 +79,22 @@ export default function formListaSucursal(props, navigation) {
                     </TouchableOpacity>
                 </View>
 
-                <View style={mainStyles.btnMas} >
+                <View style={mainStyles.btnMain}>
+
+                    <TouchableOpacity onPress={() => actualizarLista()}>
+                        <Text style={mainStyles.btntxt}>Actualizar</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={mainStyles.btnMain}>
 
                     <TouchableOpacity onPress={() => crearCategoria()}>
                         <Text style={mainStyles.btntxt}>+</Text>
                     </TouchableOpacity>
                 </View>
 
-
             </View>
         </ScrollView>
     )
 
-    function goTosecreen(routeName) {
-        props.navigation.navigate(routeName)
-
-    }
 }

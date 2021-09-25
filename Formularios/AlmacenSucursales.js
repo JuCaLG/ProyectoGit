@@ -1,23 +1,10 @@
 import React, { useState } from 'react'
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
-import { ListItem, List } from 'react-native-elements'
 import { mainStyles } from '@styles/styles'
-import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
-import { gql, useMutation } from '@apollo/client';
-
-
-
-
-
 
 
 export default function AlmacenSucursales(props, navigation) {
-
-    const [hidePassword, setHidePassword] = useState(false)
-
-    const [categoria, setCategoria] = useState('')
-    const [inputCategoria, guardarCategoria] = useState('')
 
     const crearCategoria = ()=>{
         props.navigation.navigate('Sucursal')
@@ -109,7 +96,6 @@ export default function AlmacenSucursales(props, navigation) {
                         <Text style={mainStyles.btntxt}>+</Text>
                     </TouchableOpacity>
                 </View>
-
 
             </View>
         </ScrollView>

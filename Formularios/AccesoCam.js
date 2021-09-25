@@ -15,9 +15,6 @@ function goToScreen(props, routeName) {
     props.navigation.navigate(routeName);
 }
 
-
-
-
 export default function formPrueba(props, navigation) {
 
     const [hidePassword, setHidePassword] = useState(false);

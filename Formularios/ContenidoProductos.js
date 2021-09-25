@@ -54,11 +54,6 @@ export default function ContenidoProductos(props, navigation) {
                 <Text style={mainStyles.titleDetalleLista}> Productos de</Text>
                 <Text style={mainStyles.titleDetalleSuc}> {cat}</Text>
 
-               
-
-                
-                
-
                 <View style={mainStyles.btnMain}>
 
                     <TouchableOpacity onPress={() => atrasLista()}>
