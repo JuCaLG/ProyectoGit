@@ -1,23 +1,57 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
-import { ListItem, List } from 'react-native-elements'
 import { mainStyles } from '@styles/styles'
-import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
-import { gql, useMutation } from '@apollo/client';
 
-export default function formDetalleProveedor(props, navigation) {
+/*
+    Importar codigo para peticion con el servidor
+*/
+const peticion = require('../__PeticionServidor/peticiones.servidor');
 
-    
-    const{suc}=props.route.params;
-    console.log(props.route.params.suc)
+export default function formDetalleProveedor(props) {
+
+    useEffect(() => {
+        const actualizaEffect = async () => {
+            const obj = await peticion.buscar("proveedor",id);
+            setObj(obj);
+            setTitulo(obj.name_prov);
+        }
+        actualizaEffect();
+    },[]);
+
+    var { id } = props.route.params;
+    const [obj, setObj] = useState({});
+    const [titulo, setTitulo] = useState("Cargando...");
 
     const cerrarLista = ()=>{
-        props.navigation.navigate('Home')
+        props.navigation.goBack();
+        props.navigation.goBack();
     }
-   
+
     const atrasLista = ()=>{
-        props.navigation.navigate('ListProvedores')
+        props.navigation.goBack();
+    }
+
+    const Datos = () => {
+        if(JSON.stringify(obj)!== '{}'){
+            return (
+                    <TouchableOpacity>
+                        <Text style={mainStyles.titleLista}>Nombre: {obj.name_prov}</Text>
+                        <Text style={mainStyles.titleLista}>RFC: {obj.rfc_prov}</Text>
+                        <Text style={mainStyles.titleLista}>Dirección: {obj.dir_prov}</Text>
+                        <Text style={mainStyles.titleLista}>Telefono: {obj.tel_prov}</Text>
+                        <Text style={mainStyles.titleLista}>Email: {obj.email_prov}</Text>
+                    </TouchableOpacity>
+                );
+        }
+        else{
+            return (
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No se cargo la información</Text>
+                    <Text style={mainStyles.titleLista}>Intentelo más tarde</Text>
+                </TouchableOpacity>
+            );
+        }
     }
 
     return (
@@ -28,8 +62,10 @@ export default function formDetalleProveedor(props, navigation) {
             <StatusBar backgroundColor={color.BLUE} translucent={true} />
 
             <View style={[mainStyles.container, { padding: 20 }]}>
-                <Text style={mainStyles.titleDetalleLista}> Información de Proveedor </Text>
-                <Text style={mainStyles.titleDetalleSuc}> {suc}</Text>
+                <Text style={mainStyles.titleText}>Proveedor: {titulo}</Text>
+                <View>
+                    {Datos()}
+                </View>
 
                 <View style={mainStyles.btnMain}>
 
@@ -45,15 +81,8 @@ export default function formDetalleProveedor(props, navigation) {
                     </TouchableOpacity>
                 </View>
 
-                
-
-
             </View>
         </ScrollView>
     )
 
-    function goTosecreen(routeName) {
-        props.navigation.navigate(routeName)
-
-    }
 }

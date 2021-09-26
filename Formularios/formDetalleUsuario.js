@@ -1,37 +1,57 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
-import { ListItem, List } from 'react-native-elements'
 import { mainStyles } from '@styles/styles'
-import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
-import { gql, useMutation } from '@apollo/client';
 
+/*
+    Importar codigo para peticion con el servidor
+*/
+const peticion = require('../__PeticionServidor/peticiones.servidor');
 
+export default function formListaSucursal(props) {
 
+    useEffect(() => {
+        const actualizaEffect = async () => {
+            const obj = await peticion.buscar("usuario",id);
+            setUsuario(obj);
+            setTitulo(obj.nombre);
+        }
+        actualizaEffect();
+    },[]);
 
-
-
-
-export default function formListaSucursal(props, navigation) {
-
-    const [hidePassword, setHidePassword] = useState(false)
-
-    const [categoria, setCategoria] = useState('')
-    const [inputCategoria, guardarCategoria] = useState('')
-    const{suc}=props.route.params;
-    console.log(props.route.params.suc)
+    var { id } = props.route.params;
+    const [usuario, setUsuario] = useState({});
+    const [titulo, setTitulo] = useState("Cargando...");
 
     const cerrarLista = ()=>{
-        props.navigation.navigate('Home')
+        props.navigation.goBack();
+        props.navigation.goBack();
     }
-   
+
     const atrasLista = ()=>{
-        props.navigation.navigate('ListUsuarios')
-    } 
+        props.navigation.goBack();
+    }
 
-
-
-
+    const Datos = () => {
+        if(JSON.stringify(usuario)!== '{}'){
+            return (
+                    <TouchableOpacity>
+                        <Text style={mainStyles.titleLista}>Nombre: {usuario.nombre}</Text>
+                        <Text style={mainStyles.titleLista}>Email: {usuario.email}</Text>
+                        <Text style={mainStyles.titleLista}>Telefono: {usuario.telefono}</Text>
+                        <Text style={mainStyles.titleLista}>Rol: {usuario.id_rol}</Text>
+                    </TouchableOpacity>
+                );
+        }
+        else{
+            return (
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No se cargo la información</Text>
+                    <Text style={mainStyles.titleLista}>Intentelo más tarde</Text>
+                </TouchableOpacity>
+            );
+        }
+    }
 
     return (
         <ScrollView
@@ -41,37 +61,25 @@ export default function formListaSucursal(props, navigation) {
             <StatusBar backgroundColor={color.BLUE} translucent={true} />
 
             <View style={[mainStyles.container, { padding: 50 }]}>
-                <Text style={mainStyles.titleDetalleLista}> Información de </Text>
-                <Text style={mainStyles.titleDetalleSuc}> {suc}</Text>
-
-               
-
-                
-                
+                <Text style={mainStyles.titleText}>Usuario: {titulo}</Text>
+                <View>
+                    {Datos()}
+                </View>
 
                 <View style={mainStyles.btnMain}>
-
                     <TouchableOpacity onPress={() => atrasLista()}>
                         <Text style={mainStyles.btntxt}>Volver</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={mainStyles.btnMain}>
-
                     <TouchableOpacity onPress={() => cerrarLista()}>
                         <Text style={mainStyles.btntxt}>Cerrar</Text>
                     </TouchableOpacity>
                 </View>
 
-                
-
-
             </View>
         </ScrollView>
     )
 
-    function goTosecreen(routeName) {
-        props.navigation.navigate(routeName)
-
-    }
 }

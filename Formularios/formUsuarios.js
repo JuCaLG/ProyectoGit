@@ -47,15 +47,13 @@ export default function formPrueba(props, navigation) {
             
             alert(resultado.status);
             limpiarInputs();
+
         }
-        //UseMutation
-        //const[] = useMutation();
-        //this.props.navigation.navigate('Principal');
 
     }
 
     const cerrarUsuario = () => {
-        props.navigation.navigate('Home')
+        props.navigation.goBack();
     }
 
     return (

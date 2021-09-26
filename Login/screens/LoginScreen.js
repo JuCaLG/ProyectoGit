@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Text, View, TouchableOpacity, StatusBar, Image, ScrollView} from 'react-native'
 import {mainStyles,loginStyles} from '@styles/styles'
 import MyTextInput from '@components/MyTextInput'
@@ -15,11 +15,14 @@ const localStorage = require('../../__LocalStorage/usuario.localstorage');
 
 export default function LoginScreen(props){
 
+    /*Se ejecuta despues de actualizar el DOM*/
+    useEffect(() => {
+        alert("Tu usuario es: "+sesion);
+    });
+
     const [sesion, setSesion] = useState('');
-
-    const [hidePassword, setHidePassword] = useState(false)
-
     //Campos formulario
+    const [hidePassword, setHidePassword] = useState(false)
     const [inputUsuario , guardarUsuario] = useState ('')
     const [inputPassword , guardarPassword] = useState ('')
 
@@ -28,11 +31,14 @@ export default function LoginScreen(props){
         guardarPassword('');
     }
 
+    const removerSesion = async () => {
+        await localStorage.removerUsuario();
+    }
+
     const iniciarSesion = async () => {
         try{
             if (inputUsuario ==''&& inputPassword==''){
-                alert(await localStorage.removerUsuario());
-                //alert("Todos los campos son obligatorios");
+                alert("Todos los campos son obligatorios");
             }else if (inputUsuario =='') {
                 alert("Falta llenar correo");
             }else if (inputPassword==''){
@@ -54,7 +60,7 @@ export default function LoginScreen(props){
                         goTosecreen('Principal');
                     }
                     else{
-                        await localStorage.removerUsuario();
+                        await removerSesion();
                         alert("Ocurrio un error inesperado");
                     }
                     limpiarInput();
@@ -74,9 +80,7 @@ export default function LoginScreen(props){
     }
 
     function goTosecreen(routeName){
-        console.log("LOGIN SCREEN")
         props.navigation.navigate(routeName);
-        //console.log(id_usuario)
     }
 
     return(
@@ -97,11 +101,23 @@ export default function LoginScreen(props){
             onPress={() => setHidePassword(!hidePassword)}
             value={inputPassword} onChangeText={texto => guardarPassword (texto)}/>
 
+            <View style={mainStyles.btnMain}>
+                <TouchableOpacity onPress={() => iniciarSesion()}>
+                    <Text style={mainStyles.btntxt}>Iniciar Sesión</Text>
+                </TouchableOpacity>
+            </View>
+
             <Text>{(sesion)}</Text>
 
             <View style={mainStyles.btnMain}>
                 <TouchableOpacity onPress={() => Sesion()}>
-                    <Text style={mainStyles.btntxt}>Sesion</Text>
+                    <Text style={mainStyles.btntxt}>Ver Variable Sesion</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={mainStyles.btnMain}>
+                <TouchableOpacity onPress={() => removerSesion()}>
+                    <Text style={mainStyles.btntxt}>Limpiar Variable Sesion</Text>
                 </TouchableOpacity>
             </View>
 
@@ -110,13 +126,6 @@ export default function LoginScreen(props){
                     <Text style={mainStyles.btntxt}>nueva pantalla</Text>
                 </TouchableOpacity>
             </View>
-
-            <View style={mainStyles.btnMain}>
-                <TouchableOpacity onPress={() => iniciarSesion()}>
-                    <Text style={mainStyles.btntxt}>Iniciar Sesión</Text>
-                </TouchableOpacity>
-            </View>
-            
 
         </ScrollView>
     )

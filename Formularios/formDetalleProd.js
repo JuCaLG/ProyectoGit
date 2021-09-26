@@ -6,13 +6,7 @@ import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
 import { gql, useMutation } from '@apollo/client';
 
-
-
-
-
-
-
-export default function formDetalleSucursal(props, navigation) {
+export default function formDetalleProducto(props, navigation) {
 
     const [hidePassword, setHidePassword] = useState(false)
 
@@ -22,26 +16,13 @@ export default function formDetalleSucursal(props, navigation) {
     console.log(props.route.params.suc)
 
     const cerrarLista = ()=>{
-        props.navigation.navigate('Home')
+        props.navigation.goBack();
+        props.navigation.goBack();
     }
-   
+
     const atrasLista = ()=>{
-        props.navigation.navigate('ListProducstos')
+        props.navigation.goBack();
     }
-
-    const DetalleLista = (suc)=>{
-        props.navigation.navigate('DetalleRegion',{suc:suc})
-    }
-    
-    const crearCoordinador = ()=>{
-        props.navigation.navigate('formUsuarios')
-    }
-
-    
-
-
-
-
 
     return (
         <ScrollView
@@ -53,14 +34,6 @@ export default function formDetalleSucursal(props, navigation) {
             <View style={[mainStyles.container, { padding: 20 }]}>
                 <Text style={mainStyles.titleDetalleLista}> Detalle de Producto...</Text>
                 <Text style={mainStyles.titleDetalleSuc}> {"ssssssssssss"}</Text>
-
-
-                
-
-               
-
-                
-                
 
                 <View style={mainStyles.btnMain}>
 

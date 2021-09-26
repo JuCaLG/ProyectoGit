@@ -43,8 +43,7 @@ export default function formRegiones(props,navigation) {
     }
 
     const cerrarRegion =() => {
-        props.navigation.navigate('ListCategorias')
-
+        props.navigation.goBack();
     }
 
     return (
@@ -79,8 +78,4 @@ export default function formRegiones(props,navigation) {
         </ScrollView>
     )
 
-    function goTosecreen(routeName){
-        props.navigation.navigate(routeName)
-    
-    }
 }

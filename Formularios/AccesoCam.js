@@ -17,24 +17,12 @@ function goToScreen(props, routeName) {
 
 export default function formPrueba(props, navigation) {
 
-    const [hidePassword, setHidePassword] = useState(false);
-
-    const [nombre, setNombre] = useState('');
     const [inputNombre, guardarNombre] = useState('');
-
-    const [email, setEmail] = useState('');
     const [inputEmail, guardarEmail] = useState('');
-
     const [telefono, setTelefono] = useState('');
     const [inputTelefono, guardarTelefono] = useState('');
-
-
-    const [password, setPassword] = useState('');
     const [inputPassword, guardarPassword] = useState('');
-
-    const [passwordc, setPasswordC] = useState('');
     const [inputPasswordC, guardarPasswordC] = useState('');
-
     const [selectedValue, setSelectedValue] = useState("--- Asignar rol ---")
 
 
@@ -72,18 +60,11 @@ export default function formPrueba(props, navigation) {
             limpiarInputs();
 
         }
-        //UseMutation
-        //const[] = useMutation();
-        //this.props.navigation.navigate('Principal');
 
     }
 
-
-
     const cerrarUsuario = () => {
-        props.navigation.navigate('Home')
-
-
+        props.navigation.goBack();
     }
 
     return (

@@ -49,7 +49,7 @@ function limpiarInputs() {
   }
 
   const cerrarSucusal =() => {
-    props.navigation.navigate('Home')
+    props.navigation.goBack();
   }
 
   return (

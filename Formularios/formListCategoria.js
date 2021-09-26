@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
 import { mainStyles } from '@styles/styles'
 import color from '@styles/colors'
-
 
 /*
     Importar codigo para peticion con el servidor
@@ -12,27 +11,26 @@ const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 export default function formListCategorias(props, navigation) {
 
-    const [listaCategoria, setListaCategoria] = useState([
-        {
-            "_id" : 1,
-            "name_category" : "cat1",
-        },
-        {
-            "_id" : 2,
-            "name_category" : "cat2",
-        },
-    ]);
+    useEffect(() => {
+        const actualizarListaEffect = async () => {
+            setListaCategoria(await peticion.loadTask("categoria"));
+        }
+        actualizarListaEffect();
+    },[]);
+
+    const [listaCategoria, setListaCategoria] = useState([]);
 
     const crearCategoria = ()=>{
         props.navigation.navigate('Categorias')
     }
 
     const cerrarLista = ()=>{
+        props.navigation.goBack();
         props.navigation.navigate('Home')
     }
 
-    const DetalleLista = (suc)=>{
-        props.navigation.navigate('DetalleCategoria',{suc:suc})
+    const DetalleLista = (id)=>{
+        props.navigation.navigate('DetalleCategoria',{"id":id})
     }
 
     const actualizarLista = async () => {
@@ -40,7 +38,7 @@ export default function formListCategorias(props, navigation) {
     }
 
     const Listar = () => {
-        if(listaCategoria){
+        if(JSON.stringify(listaCategoria)!== '[]'){
             return listaCategoria.map((data) => {
                 return (
                     <TouchableOpacity key={data._id} onPress={() => DetalleLista(data._id)}>
@@ -48,6 +46,13 @@ export default function formListCategorias(props, navigation) {
                     </TouchableOpacity>
                 );
             });
+        }
+        else{
+            return (
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                </TouchableOpacity>
+            );
         }
     }
 

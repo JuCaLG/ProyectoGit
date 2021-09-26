@@ -1,10 +1,7 @@
-import React, { useState } from 'react'
-import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
-import { ListItem, List } from 'react-native-elements'
-import { mainStyles } from '@styles/styles'
-import MyTextInput from '@components/MyTextInput'
-import color from '@styles/colors'
-import { gql, useMutation } from '@apollo/client';
+import React, { useState, useEffect } from 'react';
+import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
+import { mainStyles } from '@styles/styles';
+import color from '@styles/colors';
 
 /*
     Importar codigo para peticion con el servidor
@@ -13,37 +10,26 @@ const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 export default function formListProducstos(props, navigation) {
 
-    const [listaProducto, setListaProducto] = useState([
-        {
-            "_id" : 1,
-            "id_category": "cat",
-            "id_proveedor": "prov",
-            "name_prod": "name",
-            "desc_prod": "desc",
-            "qr_prod": "qr",
-            "prod_id_usuario": "usu"
-        },
-        {
-            "_id" : 2,
-            "id_category": "cat2",
-            "id_proveedor": "prov2",
-            "name_prod": "name2",
-            "desc_prod": "desc2",
-            "qr_prod": "qr2",
-            "prod_id_usuario": "usu2"
-        },
-    ]);
+    useEffect(() => {
+        const actualizarListaEffect = async () => {
+            setListaProducto(await peticion.loadTask("producto"));
+        }
+        actualizarListaEffect();
+    },[]);
+
+    const [listaProducto, setListaProducto] = useState([]);
 
     const crearProducto = () => {
-        props.navigation.navigate('NewProduc')
+        //props.navigation.navigate('NewProduc')
     }
 
     const cerrarLista = () => {
+        props.navigation.goBack();
         props.navigation.navigate('Home')
     }
 
-    const DetalleLista = (cat) => {
-        props.navigation.navigate('ContenidoProductos', { cat: cat })
+    const DetalleLista = (id) => {
+        props.navigation.navigate('ContenidoProductos', { "id": id })
     }
 
     const actualizarLista = async () => {
@@ -51,7 +37,7 @@ export default function formListProducstos(props, navigation) {
     }
 
     const Listar = () => {
-        if(listaProducto){
+        if(JSON.stringify(listaProducto)!== '[]'){
             return listaProducto.map((data) => {
                 return (
                     <TouchableOpacity key={data._id} onPress={() => DetalleLista(data._id)}>
@@ -59,6 +45,13 @@ export default function formListProducstos(props, navigation) {
                     </TouchableOpacity>
                 );
             });
+        }
+        else{
+            return (
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                </TouchableOpacity>
+            );
         }
     }
 
@@ -89,7 +82,7 @@ export default function formListProducstos(props, navigation) {
                 </View>
 
                 <View style={mainStyles.btnMain}>
-                    <TouchableOpacity onPress={() => cerrarLista()}>
+                    <TouchableOpacity onPress={() => crearProducto()}>
                         <Text style={mainStyles.btntxt}>+</Text>
                     </TouchableOpacity>
                 </View>

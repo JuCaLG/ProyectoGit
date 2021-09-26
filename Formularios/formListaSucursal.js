@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
 import { mainStyles } from '@styles/styles'
 import color from '@styles/colors'
@@ -11,35 +11,26 @@ const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 export default function formListaSucursal(props, navigation) {
 
-    const [listaSucursal, setListaSucursal] = useState([
-        {
-            "_id" : 1,
-            "nombre": "nombre1",
-            "rfc": "rfc1",
-            "telefono": "tel1",
-            "direccion": "dir1",
-            "email": "email1",
-        },
-        {
-            "_id" : 2,
-            "nombre": "nombre2",
-            "rfc": "rfc2",
-            "telefono": "tel2",
-            "direccion": "dir2",
-            "email": "email2",
-        },
-    ]);
+    useEffect(() => {
+        const actualizarListaEffect = async () => {
+            setListaSucursal(await peticion.loadTask("sucursal"));
+        }
+        actualizarListaEffect();
+    },[]);
+
+    const [listaSucursal, setListaSucursal] = useState([]);
 
     const crearCategoria = ()=>{
         props.navigation.navigate('Sucursal')
     }
 
     const cerrarLista = ()=>{
+        props.navigation.goBack();
         props.navigation.navigate('Home')
     }
 
-    const DetalleLista = (suc)=>{
-        props.navigation.navigate('DetalleSucursal',{suc:suc})
+    const DetalleLista = (id)=>{
+        props.navigation.navigate('DetalleSucursal',{"id":id})
     }
 
     const actualizarLista = async () => {
@@ -47,7 +38,7 @@ export default function formListaSucursal(props, navigation) {
     }
 
     const Listar = () => {
-        if(listaSucursal){
+        if(JSON.stringify(listaSucursal)!== '[]'){
             return listaSucursal.map((data) => {
                 return (
                     <TouchableOpacity key={data._id} onPress={() => DetalleLista(data._id)}>
@@ -55,6 +46,13 @@ export default function formListaSucursal(props, navigation) {
                     </TouchableOpacity>
                 );
             });
+        }
+        else{
+            return (
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                </TouchableOpacity>
+            );
         }
     }
 

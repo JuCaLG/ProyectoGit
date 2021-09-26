@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
-import { mainStyles } from '@styles/styles'
-import color from '@styles/colors'
+import React, { useState, useEffect } from 'react';
+import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
+import { mainStyles } from '@styles/styles';
+import color from '@styles/colors';
 
 /*
     Importar codigo para peticion con el servidor
@@ -10,35 +10,26 @@ const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 export default function formListUsuarios(props, navigation) {
 
-    const [listaUsuario, setListaUsuario] = useState([
-        {
-            "_id" : 1,
-            "nombre": "inputNombre",
-            "email": "inputEmail",
-            "telefono": "inputTelefono",
-            "password": "inputPassword",
-            "id_rol": "selectedValue",
-        },
-        {
-            "_id" : 2,
-            "nombre": "inputNombre2",
-            "email": "inputEmail2",
-            "telefono": "inputTelefono2",
-            "password": "inputPassword2",
-            "id_rol": "selectedValue2",
-        },
-    ]);
+    useEffect(() => {
+        const actualizarListaEffect = async () => {
+            setListaUsuario(await peticion.loadTask("usuario"));
+        }
+        actualizarListaEffect();
+    },[]);
+
+    const [listaUsuario, setListaUsuario] = useState([]);
 
     const crearCategoria = () => {
         props.navigation.navigate('Usuarios')
     }
 
     const cerrarLista = () => {
+        props.navigation.goBack();
         props.navigation.navigate('Home')
     }
 
-    const DetalleLista = (suc) => {
-        props.navigation.navigate('DetalleUsuarios', { suc: suc })
+    const DetalleLista = (id) => {
+        props.navigation.navigate('DetalleUsuarios', { "id": id});
     }
 
     const actualizarLista = async () => {
@@ -46,7 +37,7 @@ export default function formListUsuarios(props, navigation) {
     }
 
     const Listar = () => {
-        if(listaUsuario){
+        if(JSON.stringify(listaUsuario)!== '[]'){
             return listaUsuario.map((data) => {
                 return (
                     <TouchableOpacity key={data._id} onPress={() => DetalleLista(data._id)}>
@@ -54,6 +45,13 @@ export default function formListUsuarios(props, navigation) {
                     </TouchableOpacity>
                 );
             });
+        }
+        else{
+            return (
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                </TouchableOpacity>
+            );
         }
     }
 
@@ -65,7 +63,7 @@ export default function formListUsuarios(props, navigation) {
             <StatusBar backgroundColor={color.BLUE} translucent={true} />
 
             <View style={[mainStyles.container, { padding: 40 }]}>
-                <Text style={mainStyles.titleDetalleLista1}> Usuarios Registrados</Text>
+                <Text style={mainStyles.titleText}> Usuarios </Text>
 
                 <View >
                     {Listar()}

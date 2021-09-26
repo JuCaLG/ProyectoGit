@@ -72,7 +72,7 @@ exports.buscar = async function(tabla, id){
 
     //Codigo react native
     //Peticion al servidor
-    return await fetch(ruta + tabla + "/tabla/" + id,
+    return await fetch(ruta + tabla + "/" + id,
         {
             method: 'GET'
         })

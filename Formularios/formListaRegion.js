@@ -1,10 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
-import { ListItem, List } from 'react-native-elements'
 import { mainStyles } from '@styles/styles'
-import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
-import { gql, useMutation } from '@apollo/client';
 
 /*
     Importar codigo para peticion con el servidor
@@ -13,27 +10,26 @@ const peticion = require('../__PeticionServidor/peticiones.servidor');
 
 export default function formListaRegion(props, navigation) {
 
-    const [listaRegion, setListaRegion] = useState([
-        {
-            "_id" : 1,
-            "name_region" : "region1",
-        },
-        {
-            "_id" : 2,
-            "name_region" : "region2",
-        },
-    ]);
+    useEffect(() => {
+        const actualizarListaEffect = async () => {
+            setListaRegion(await peticion.loadTask("region"));
+        }
+        actualizarListaEffect();
+    },[]);
+
+    const [listaRegion, setListaRegion] = useState([]);
 
     const crearRegiones = ()=>{
         props.navigation.navigate('Regiones')
     }
 
     const cerrarLista = ()=>{
+        props.navigation.goBack();
         props.navigation.navigate('Home')
     }
 
-    const DetalleLista = (suc)=>{
-        props.navigation.navigate('DetalleRegion',{suc:suc})
+    const DetalleLista = (id)=>{
+        props.navigation.navigate('DetalleRegion',{"id":id})
     }
 
     const actualizarLista = async () => {
@@ -41,7 +37,7 @@ export default function formListaRegion(props, navigation) {
     }
 
     const Listar = () => {
-        if(listaRegion){
+        if(JSON.stringify(listaRegion)!== '[]'){
             return listaRegion.map((data) => {
                 return (
                     <TouchableOpacity key={data._id} onPress={() => DetalleLista(data._id)}>
@@ -49,6 +45,13 @@ export default function formListaRegion(props, navigation) {
                     </TouchableOpacity>
                 );
             });
+        }
+        else{
+            return (
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                </TouchableOpacity>
+            );
         }
     }
 

@@ -32,7 +32,7 @@ export default function formCategorias(props) {
     }
 
     const cerrarCategoria =() => {
-        props.navigation.navigate('ListCategorias')
+        props.navigation.goBack();
     }
 
     return (

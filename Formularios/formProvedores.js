@@ -51,8 +51,7 @@ export default function formProvedores(props) {
   }
 
   const cerrarProveedor =() => {
-    props.navigation.navigate('Home')
-
+    props.navigation.goBack();
   }
 
   return (
