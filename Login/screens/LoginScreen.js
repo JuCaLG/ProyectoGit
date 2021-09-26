@@ -1,17 +1,21 @@
-import React, {Component, useState} from 'react'
-import {Text, View, TouchableOpacity, StatusBar, Image} from 'react-native'
+import React, {Component, useEffect, useState} from 'react'
+import {Text, View, TouchableOpacity, StatusBar, Image, ScrollView} from 'react-native'
 import {mainStyles,loginStyles} from '@styles/styles'
 import MyTextInput from '@components/MyTextInput'
 import color from '@styles/colors'
-import AsyncStorage from '@react-native-community/async-storage'
-
+/*
+    Importar codigo para peticion con el servidor
+*/
 const peticion = require('../../__PeticionServidor/peticiones.servidor');
 
+/*
+    Guardar Usiario de forma local
+*/
+const localStorage = require('../../__LocalStorage/usuario.localstorage');
+
 export default function LoginScreen(props){
-    const id_usuario = {
-        clienteId:'20',
-        totalpagar:'500'
-    }
+
+    const [sesion, setSesion] = useState('');
 
     const [hidePassword, setHidePassword] = useState(false)
 
@@ -19,21 +23,16 @@ export default function LoginScreen(props){
     const [inputUsuario , guardarUsuario] = useState ('')
     const [inputPassword , guardarPassword] = useState ('')
 
-    const iniciarSesion = async () => {
-        goTosecreen('Principal');
-        /*
-        try{
-            await AsyncStorage.setItem('usuario', inputUsuario);
-            guardarNombreStorage(inputUsuario);
-            console.log({inputUsuario});
-            await AsyncStorage.setItem('password', inputPassword);
-            guardarPasswordStorage(inputPassword);
-            console.log({inputPassword});
-            console.log("Ya entro");
+    const limpiarInput = () => {
+        guardarUsuario('');
+        guardarPassword('');
+    }
 
+    const iniciarSesion = async () => {
+        try{
             if (inputUsuario ==''&& inputPassword==''){
-                alert("Todos los campos son obligatorios");
-                
+                alert(await localStorage.removerUsuario());
+                //alert("Todos los campos son obligatorios");
             }else if (inputUsuario =='') {
                 alert("Falta llenar correo");
             }else if (inputPassword==''){
@@ -51,10 +50,15 @@ export default function LoginScreen(props){
                             inputPassword==resultado.password
                         )
                     ){
-                    goTosecreen('Principal')
-                    guardarUsuario('')
-                    guardarPassword('')
-                    goTosecreen('Principal');
+                    if(await localStorage.GuardarUsuario(resultado)){
+                        goTosecreen('Principal');
+                    }
+                    else{
+                        await localStorage.removerUsuario();
+                        alert("Ocurrio un error inesperado");
+                    }
+                    limpiarInput();
+
                 }else{
                     alert("Usuario o contraseña incorrectos");
                 }
@@ -63,17 +67,24 @@ export default function LoginScreen(props){
             
             console.log (error);
         }
-        */
+    }
+
+    const Sesion = async () => {
+        setSesion(await localStorage.ObtenerUsuario());
     }
 
     function goTosecreen(routeName){
         console.log("LOGIN SCREEN")
-        props.navigation.navigate(routeName,{id_usuario})
+        props.navigation.navigate(routeName);
         //console.log(id_usuario)
     }
 
     return(
-        <View style={[mainStyles.container, {padding:30}]}>
+        <ScrollView
+            keyboardDismissMode='on-drag'
+            keyboardShouldPersistTaps='always'
+            style={{ backgroundColor: color.WHITE }}>
+
             <StatusBar backgroundColor={color.BLUE} translucent={true}/>
             <View style={[loginStyles.logo]}>
                 <Image source={require('@recursos/images/logosolecc.jpg')} style={{height:250, width:250}}/>
@@ -81,13 +92,25 @@ export default function LoginScreen(props){
             <MyTextInput keyboardType='email-address' placeholder='Correo' image='user'
             value={inputUsuario} onChangeText={email => guardarUsuario (email)}/>
 
-
-
             <MyTextInput keyboardType={null} placeholder='Contraseña' image='lock' bolGone={true}
             secureTextEntry={!hidePassword}
             onPress={() => setHidePassword(!hidePassword)}
             value={inputPassword} onChangeText={texto => guardarPassword (texto)}/>
-            
+
+            <Text>{(sesion)}</Text>
+
+            <View style={mainStyles.btnMain}>
+                <TouchableOpacity onPress={() => Sesion()}>
+                    <Text style={mainStyles.btntxt}>Sesion</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={mainStyles.btnMain}>
+                <TouchableOpacity onPress={() => goTosecreen('Principal')}>
+                    <Text style={mainStyles.btntxt}>nueva pantalla</Text>
+                </TouchableOpacity>
+            </View>
+
             <View style={mainStyles.btnMain}>
                 <TouchableOpacity onPress={() => iniciarSesion()}>
                     <Text style={mainStyles.btntxt}>Iniciar Sesión</Text>
@@ -95,7 +118,7 @@ export default function LoginScreen(props){
             </View>
             
 
-        </View>
+        </ScrollView>
     )
 
 }

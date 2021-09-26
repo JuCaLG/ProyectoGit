@@ -6,10 +6,6 @@ import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer'
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import s from './style';
 
-
-
-
-
 //Ventanas Proveedores
 import Provedores from '@Formularios/formProvedores';
 import ListProvedores from '@Formularios/formListadoProveedores';
@@ -20,12 +16,10 @@ import Categorias from '@Formularios/formCategorias';
 import ListCategorias from '@Formularios/formListCategoria';
 import DetalleCategoria from '@Formularios/formDetalleCategoria';
 
-
 //Ventanas Sucursales
 import Sucursales from '@Formularios/fromSucursales';
 import ListSucursal from '@Formularios/formListaSucursal';
 import DetalleSucursal from '@Formularios/formDetalleSucursal';
-
 
 //Ventanas Usuarios 
 import Usuarios from '@Formularios/formUsuarios';
@@ -38,12 +32,10 @@ import ListProducstos from '@Formularios/formListProductos';
 import formDetalleProd from '@Formularios/formDetalleProd';
 import ContenidoProductos from '@Formularios/ContenidoProductos';
 
-
 //Ventanas Regiones
 import NewRegion from '@Formularios/formRegion';
 import ListRegion from '@Formularios/formListaRegion';
 import DetalleRegion from '@Formularios/formDetalleRegion';
-
 
 //Ventanas Almacenes
 import Almacen from '@Formularios/Almacen';
@@ -51,32 +43,17 @@ import AlmacenSucursales from '@Formularios/AlmacenSucursales';
 import AlmacenIndividual from '@Formularios/AlmacenIndividual';
 import AgregarInventario from '@Formularios/FromAgregarProducto';
 
-
-
 //import  formSurtido from '@Formularios/formSurtido';
-
-
-
-
-
-
-
 
 function HomeScreen(props) {
 
-    
     console.log(props)
 
     console.log("Index")
 
     return (
 
-        
-
-
-
     <View style={{flex: 1, alignItems: 'center',justifyContent: 'center'}}>
-
         <Text style={{ fontSize: 20 }}>Estadísticas de Ventas</Text>
     </View>
     );
@@ -101,8 +78,6 @@ function DrawerMenu(props) {
 
 function Menu(props) {
 
-
-
     return (
         <View style={s.container}>
             <View style={s.bgContainer}>
@@ -123,16 +98,12 @@ function Menu(props) {
             <DrawerMenu iconName='storefront' titleName='Sucursales' navigation={() => props.navigation.navigate('ListSucursal')} />
             <DrawerMenu iconName='storefront' titleName='Usuarios' navigation={() => props.navigation.navigate('ListUsuarios')} />
 
-
             <DrawerMenu iconName='book-plus-multiple' titleName='Productos' navigation={() => props.navigation.navigate('ListProducstos')} />
-           
-            
-            
+
             <DrawerMenu iconName='storefront' titleName='Regiones' navigation={() => props.navigation.navigate('ListRegion')} />
             
             <DrawerMenu iconName='storefront' titleName='Almacen' navigation={() => props.navigation.navigate('Almacen')} />
             <DrawerMenu iconName='storefront' titleName='Almacen por Sucursal' navigation={() => props.navigation.navigate('AlmacenSucursales')} />
-
 
         </View>
     )
@@ -141,17 +112,13 @@ function Menu(props) {
 
 const Drawer = createDrawerNavigator();
 
-
 //boton
 export default function MyDrawer() {
 
-
     return (
-
 
         <NavigationContainer>
             <Drawer.Navigator drawerContent={(props) => <Menu{...props} />}>
-                
 
                 <Drawer.Screen name="Home" component={HomeScreen} />
 
@@ -159,12 +126,8 @@ export default function MyDrawer() {
                 <Drawer.Screen name="ListProvedores" component={ListProvedores} />
                 <Drawer.Screen name="DetalleProveedor" component={DetalleProveedor} />
 
-                
-
-
-
                 <Drawer.Screen name="Categorias" component={Categorias} />
-            
+
                 <Drawer.Screen name="NewProduc" component={NewProducto} />
                 <Drawer.Screen name="Sucursal" component={Sucursales} />
                 <Drawer.Screen name="Usuarios" component={Usuarios} />
@@ -177,7 +140,7 @@ export default function MyDrawer() {
                 <Drawer.Screen name="NewRegion" component={NewRegion} />
                 <Drawer.Screen name="ListRegion" component={ListRegion} />
                 <Drawer.Screen name="DetalleRegion" component={DetalleRegion} />
-       
+
                 <Drawer.Screen name="DetalleUsuarios" component={DetalleUsuarios} />
 
                 <Drawer.Screen name="ContenidoProductos" component={ContenidoProductos} />
@@ -186,14 +149,7 @@ export default function MyDrawer() {
                 <Drawer.Screen name="AlmacenIndividual" component={AlmacenIndividual} />
                 <Drawer.Screen name="AgregarInventario" component={AgregarInventario} />
                 <Drawer.Screen name="formDetalleProd" component={formDetalleProd} />
-            
 
-                
-
-
-                
-
-                
             </Drawer.Navigator>
         </NavigationContainer>
 
