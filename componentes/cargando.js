@@ -32,9 +32,15 @@ const Cargando = ({setCargar}) => {
                             }}>
                     Cargando ...
                 </Text>
-                <TouchableOpacity onPress={() => setCargar(false)}>
-                    <Text style={mainStyles.btntxt}>Cerrar</Text>
-                </TouchableOpacity>
+                {
+                    (setCargar!=undefined) ?
+                    (
+                    <TouchableOpacity onPress={() => setCargar(false)}>
+                        <Text style={mainStyles.btntxt}>Cerrar</Text>
+                    </TouchableOpacity>
+                    ):
+                    (<></>)
+                }
             </View>
         </View>
     );

@@ -62,7 +62,7 @@ export default function LoginScreen(props){
         <View>
             {
                 cargar==true? 
-                (<Cargando/>):
+                (<Cargando setCargar={setCargar}/>):
                 (<></>)
             }
             <ScrollView
