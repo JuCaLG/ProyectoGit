@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, TouchableOpacity, StatusBar, Image, ScrollView} from 'react-native';
-import {ActivityIndicator} from 'react-native';
-import { Dimensions } from 'react-native'
 import {mainStyles,loginStyles} from '@styles/styles'
 import MyTextInput from '@components/MyTextInput';
 import color from '@styles/colors';
+import Cargando from "../../componentes/cargando";
 
 /*
     Importar codigo para peticion con el servidor
@@ -22,7 +21,6 @@ export default function LoginScreen(props){
     useEffect(() => {
         //alert("Tu usuario es: "+sesion);
     });
-
 
     const [sesion, setSesion] = useState('');
     const [cargar,setCargar] = useState(false);
@@ -52,45 +50,6 @@ export default function LoginScreen(props){
         }
     }
 
-    const validarDatos = async () => {
-        try{
-            if (inputUsuario ==''&& inputPassword==''){
-                return "Todos los campos son obligatorios";
-            }else if (inputUsuario =='') {
-                return "Falta llenar correo";
-            }else if (inputPassword==''){
-                return "Falta llenar contraseña";
-            }else {
-                const resultado = await peticion.buscarEmail("usuario",inputUsuario);
-                if  ( 
-                        (
-                            resultado!=null  && 
-                            resultado.email.length!==0 && 
-                            resultado.password.length!==0
-                        ) &&
-                        (
-                            inputUsuario==resultado.email && 
-                            inputPassword==resultado.password
-                        )
-                    ){
-                    if(await localStorage.GuardarUsuario(resultado)){
-                        return null;
-                    }
-                    else{
-                        await removerSesion();
-                        return "Ocurrio un error inesperado";
-                    }
-                    limpiarInput();
-
-                }else{
-                    return "Usuario o contraseña incorrectos";
-                }
-            } 
-        }catch(error){
-            return error;
-        }
-    }
-
     const Sesion = async () => {
         setSesion(await localStorage.ObtenerUsuario());
     }
@@ -98,49 +57,14 @@ export default function LoginScreen(props){
     function goTosecreen(routeName){
         props.navigation.navigate(routeName);
     }
-    const cargando = () => {
-        if(cargar==true){
-            return (
-                <View style={{
-                    height: Dimensions.get('window').height,
-                    width: Dimensions.get('window').width,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    zIndex: 10,
-                    position: "absolute",
-                    }}>
-                    <View style={{
-                            paddingVertical:12,
-                            paddingHorizontal:20,
-                            flexDirection:'row',
-                            justifyContent:'center',
-                            alignItems:'center',
-                            backgroundColor:'rgba(0,0,0,0.6)',
-                            borderRadius:6,
-                            }}>
-                        <ActivityIndicator animating={true} size="large" color="white"/>
-                        <Text style={{
-                                    marginLeft:20,
-                                    fontSize:14,
-                                    color:"white",
-                                    }}>
-                            Cargando ...
-                        </Text>
-                        <TouchableOpacity onPress={() => setCargar(false)}>
-                            <Text style={mainStyles.btntxt}>Cerrar</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            );
-        }
-        else{
-            return (<></>);
-        }
-    }
 
     return(
         <View>
-            {cargando()}
+            {
+                cargar==true? 
+                (<Cargando setCargar={setCargar}/>):
+                (<></>)
+            }
             <ScrollView
                 keyboardDismissMode='on-drag'
                 keyboardShouldPersistTaps='always'
