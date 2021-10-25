@@ -118,7 +118,6 @@ const NavegacionSolecc = ({navigation}) => {
         const salir = async (navigation) =>{
             const limpiarStorage = await localStorage.removerUsuario();
             if(limpiarStorage){
-                setUser(null);
                 siguientePag(navigation, "Login");
             }
             else{
