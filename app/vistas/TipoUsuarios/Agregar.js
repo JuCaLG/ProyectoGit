@@ -5,19 +5,32 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const TipoUsuariosAgregar = ({navigation}) => {
     
     function limpiarInputs() {
         guardarNombre('');
-        guardarEmail('');
-        guardarTelefono('');
-        guardarPassword('');
-        guardarPasswordC('');
     }
 
-    const crear = () => {
-        limpiarInputs();
-        siguientePag("TipoUsuariosListar");
+    const crear = async () => {
+        var alerta = null;
+        var validacion = (nombre !='');
+        //Validar
+        if(validacion){
+            var body = {
+                "name_tipo": nombre,
+            };
+            const resultado = await peticion.insertar("tipousuario",body);
+            alerta =(resultado.status);
+            limpiarInputs();
+        }else{
+            alerta =("Todos los campos son requeridos");
+        }
+        alert(alerta);
     }
 
     const siguientePag = (Pagina, Parametro) =>{

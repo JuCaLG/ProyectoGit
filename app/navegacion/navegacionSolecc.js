@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, TouchableOpacity, Image, Text, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { drawableStyles } from "../estilos/styles";
 
+/*
+    Guardar Usiario de forma local
+*/
+const localStorage = require('../controladores/usuario.localstorage.js');
+
 //---------------------------------------------------
 //Vistas
 
+    //-Perfil-
+    import PerfilVer from "../vistas/Perfil/Ver";
     //-Almacen-
     import AlmacenListar from "../vistas/Almacen/Listar";
     //-AlmacenPorSucursal-
@@ -71,6 +78,7 @@ import { drawableStyles } from "../estilos/styles";
     const PilaApp = createStackNavigator();
     const PilaLogin = createStackNavigator();
     const PilaHome = createStackNavigator();
+    const PilaPerfil = createStackNavigator();
     const PilaUsuarios = createStackNavigator();
     const PilaCategorias = createStackNavigator();
     const PilaPedidos = createStackNavigator();
@@ -87,7 +95,36 @@ import { drawableStyles } from "../estilos/styles";
 //---------------------------------------------------
 //Funcion navegacion
 
-const NavegacionSolecc = () => {
+const NavegacionSolecc = ({navigation}) => {
+
+    //-------------------------------------------------
+    const [user,setUser] = useState({
+        "nombre": "...",
+    });
+
+    useEffect(() => {
+        Sesion();
+    }, []);
+
+    const Sesion = async () => {
+        const json = JSON.parse(await localStorage.ObtenerUsuario());
+        setUser(json);
+        if(user!=null){
+            siguientePag(navigation,"Login");
+        }
+    }
+
+    //Cerrar Sesion
+        const salir = async (navigation) =>{
+            const limpiarStorage = await localStorage.removerUsuario();
+            if(limpiarStorage){
+                setUser(null);
+                siguientePag(navigation, "Login");
+            }
+            else{
+                alert("No se pudo cerrar su sesión");
+            }
+        }
 
     //--------------------------------------------------
     //SiguientePagina
@@ -109,10 +146,10 @@ const NavegacionSolecc = () => {
                     <View style={drawableStyles.bgContainer}>
                         <View style={drawableStyles.userContainer}>
                             <Image style={drawableStyles.userImagen} source={require('../imagenes/logosolecc.jpg')} />
-                            <Text style={drawableStyles.userTitulo}>Nombre Usuario</Text>
+                            <Text style={drawableStyles.userTitulo}>{user["nombre"]}</Text>
                         </View>
                         <View style={drawableStyles.userNombre}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => siguientePag(props.navigation, 'Perfil')}>
                                 <Text style={drawableStyles.userSubTitulo}>Ver Perfil</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={ () => salir(props.navigation) }>
@@ -155,18 +192,6 @@ const NavegacionSolecc = () => {
         }
 
     //---------------------------------------------------
-    //Usuario
-
-        //variable user
-        const [user,setUser] = useState("Usuario");
-
-        //Cerrar Sesion
-        const salir = (navigation) =>{
-            setUser(null);
-            siguientePag(navigation, "Login");
-        }
-
-    //---------------------------------------------------
     //imprimir
     return (
         <PilaApp.Navigator
@@ -197,6 +222,16 @@ const NavegacionSolecc = () => {
                                     name="HomePantalla"
                                     component={Home} />
                                 </PilaHome.Navigator>
+                            )}
+                        </Gabeta.Screen>
+                        <Gabeta.Screen
+                            name="Perfil">
+                            {() => (
+                                <PilaPerfil.Navigator>
+                                    <PilaPerfil.Screen
+                                    name="PerfilVer"
+                                    component={PerfilVer} />
+                                </PilaPerfil.Navigator>
                             )}
                         </Gabeta.Screen>
                         <Gabeta.Screen

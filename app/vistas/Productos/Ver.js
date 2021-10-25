@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { mainStyles } from '../../estilos/styles';
 import color from '../../estilos/colors';
+
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
 
 const ProductosVer = ({navigation,route}) => {
     
@@ -14,12 +19,38 @@ const ProductosVer = ({navigation,route}) => {
         }
     }
 
+    useEffect(() => {
+        const actualizaEffect = async () => {
+            const obj = await peticion.buscar("producto",id);
+            setObj(obj);
+        }
+        actualizaEffect();
+    },[]);
+
     var { id } = route.params;
+    const [obj, setObj] = useState({});
 
     const Datos = () => {
-        return (
-            <Text>{ id }</Text>
-        );
+        if(JSON.stringify(obj)!== '{}'){
+            return (
+                    <TouchableOpacity>
+                        <Text style={mainStyles.titleLista}>Categoria: {obj.id_category}</Text>
+                        <Text style={mainStyles.titleLista}>Proveedor: {obj.id_proveedor}</Text>
+                        <Text style={mainStyles.titleLista}>Producto: {obj.name_prod}</Text>
+                        <Text style={mainStyles.titleLista}>Descuento: {obj.desc_prod}</Text>
+                        <Text style={mainStyles.titleLista}>QR: {obj.qr_prod}</Text>
+                        <Text style={mainStyles.titleLista}>Usuario: {obj.prod_id_usuario}</Text>
+                    </TouchableOpacity>
+                );
+        }
+        else{
+            return (
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No se cargo la información</Text>
+                    <Text style={mainStyles.titleLista}>Intentelo más tarde</Text>
+                </TouchableOpacity>
+            );
+        }
     }
     
     return (
@@ -43,7 +74,7 @@ const ProductosVer = ({navigation,route}) => {
                     </View>
 
                     <View style={mainStyles.btnMain}>
-                        <TouchableOpacity onPress={() => siguientePag("ProductosModificar", {"id":id})}>
+                        <TouchableOpacity onPress={() => siguientePag("ProductosModificar", {"obj": JSON.stringify(obj)})}>
                             <Text style={mainStyles.btntxt}>Modificar</Text>
                         </TouchableOpacity>
                     </View>

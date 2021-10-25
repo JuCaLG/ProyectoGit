@@ -5,18 +5,39 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const RegionesModificar = ({navigation,route}) => {
-    
+
     const[inputRegion,guardarRegion]= useState('');
-    const { id } = route.params;
+
+    const { obj } = route.params;
+    const json = JSON.parse(obj);
+    const id = json._id;
 
     function limpiarInputs() {
         guardarRegion('');
     }
 
-    const modificar = () => {
-        limpiarInputs();
-        siguientePag("RegionesListar");
+    const modificar = async () => {
+        var alerta = null;
+        var validacion = (inputRegion !='');
+        //Validar
+        if(validacion){
+            var body =  { 
+                "name_region": inputRegion,
+            };
+            const resultado = await peticion.modificar("region",id,body);
+            alerta =(resultado.status);
+            limpiarInputs();
+        }else{
+            alerta =("Llenado incompleto")
+        }
+        alert(alerta);
+        navigation.goBack();
     }
 
     const siguientePag = (Pagina, Parametro) =>{

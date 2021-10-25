@@ -5,6 +5,11 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const CategoriasAgregar = ({navigation}) => {
     
     const[inputCategoria,guardarCategoria]= useState('')
@@ -13,9 +18,21 @@ const CategoriasAgregar = ({navigation}) => {
         guardarCategoria('');
     }
 
-    const crear = () => {
-        limpiarInputs();
-        siguientePag("CategoriasListar");
+    const crear = async () => {
+        var alerta = null;
+        var validacion = (inputCategoria !='');
+        //Validar
+        if(validacion){
+            var body = { 
+                "name_category": inputCategoria,
+            };
+            const resultado = await peticion.insertar("categoria",body);
+            alerta = (resultado.status);
+            limpiarInputs();
+        }else{
+            alerta = ("Llenado incompleto");
+        }
+        alert(alerta);
     }
 
     const siguientePag = (Pagina, Parametro) =>{

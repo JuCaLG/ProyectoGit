@@ -1,18 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { mainStyles } from '../../estilos/styles';
 import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const UsuariosAgregar = ({navigation}) => {
-    
-    const [inputNombre, guardarNombre] = useState('')
-    const [inputEmail, guardarEmail] = useState('')
-    const [inputTelefono, guardarTelefono] = useState('')
-    const [inputPassword, guardarPassword] = useState('')
-    const [inputPasswordC, guardarPasswordC] = useState('')
-    const [selectedValue, setSelectedValue] = useState("--- Asignar rol ---")
+
+    useEffect(() => {
+        const Roles = async () => {
+            setRoles(await peticion.loadTask("tipousuario"))
+        }
+        Roles();
+    }, []);
+
+    const [roles, setRoles] = useState([]);
+
+    const verRoles = () => {
+        if(JSON.stringify(roles)!== '[]'){
+            return roles.map((data) => {
+                return (
+                    <Picker.Item label={data.name_tipo} value={data.name_tipo} onValueChange={()=>imprime()} />
+                );
+            });
+        }
+        else{
+            return (<></>);
+        }
+    }
+
+    const [inputNombre, guardarNombre] = useState('');
+    const [inputEmail, guardarEmail] = useState('');
+    const [inputTelefono, guardarTelefono] = useState('');
+    const [inputPassword, guardarPassword] = useState('');
+    const [inputPasswordC, guardarPasswordC] = useState('');
+    const [selectedValue, setSelectedValue] = useState('');
 
     function limpiarInputs() {
         guardarNombre('');
@@ -22,9 +49,29 @@ const UsuariosAgregar = ({navigation}) => {
         guardarPasswordC('');
     }
 
-    const crear = () => {
-        limpiarInputs();
-        siguientePag("UsuariosListar");
+    const crear = async () => {
+        var alerta = null;
+        var validacion = (inputNombre != '' && inputEmail != '' && inputTelefono != '' && inputPassword != '' && inputPasswordC != '');
+        //Validar
+        if (validacion) {
+            validacion = (inputPassword == inputPasswordC);
+            if(validacion){
+                var body =  { 
+                    "nombre": inputNombre,
+                    "email": inputEmail,
+                    "telefono": inputTelefono,
+                    "password": inputPassword,
+                    "id_rol": selectedValue,
+                };
+                const resultado = await peticion.insertar("usuario",body);
+                alerta =(resultado.status);
+                limpiarInputs();
+            }
+            else{
+                alerta =("No coincide la contraseña")
+            }
+        } 
+        alert(alerta);
     }
 
     const siguientePag = (Pagina, Parametro) =>{
@@ -69,31 +116,9 @@ const UsuariosAgregar = ({navigation}) => {
                             style={{ height: 50, width: 300 }}
                             onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)
                                 
-                            }
-                        >
-                            <Picker.Item label="Administrador" value="Administrador" onValueChange={()=>imprime()} />
-                            <Picker.Item label="Coordinador" value="Coordinador" onValueChange={()=>imprime()}/>
-                            <Picker.Item label="Colaborador" value="Colaborador" onValueChange={()=>imprime()} />
-                            
-                        </Picker>
-
-                    </View>
-
-                    <View>
-                        <Text style={{ fontWeight: 'bold', fontSize: 22, marginTop: 20 }}>       Región         </Text>
-                        <Picker
-                            selectedValue={selectedValue}
-                            style={{ height: 50, width: 300 }}
-                            onValueChange={(itemValue1, itemIndex1) => setSelectedValue(itemValue1)
-                                
-                            }
-                        >
-                            <Picker.Item label="Region 1" value="Region 1" onValueChange={()=>imprime()} />
-                            <Picker.Item label="Region 2" value="Region 2" onValueChange={()=>imprime()}/>
-                            <Picker.Item label="Region 3" value="Region 3" onValueChange={()=>imprime()} />
-                            <Picker.Item label="Region 4" value="Region 4" onValueChange={()=>imprime()} />
-                            <Picker.Item label="Region 5" value="Region 5" onValueChange={()=>imprime()} />
-                            
+                            }>
+                            <Picker.Item label="Asignar Rol" value="" onValueChange={()=>imprime()} />
+                            {(verRoles())}
                         </Picker>
                     </View>
 

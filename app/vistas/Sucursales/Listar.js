@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { mainStyles } from '../../estilos/styles';
 import color from '../../estilos/colors';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const SucursalesListar = ({navigation}) => {
 
-    const [listaSucursal,setListaSucursal] = useState([
-        {
-            "_id":1,
-            "nombre": "nom1",
-            "rfc":"rfc1"
-        },
-        {
-            "_id":2,
-            "nombre": "nom2",
-            "rfc":"rfc2"
-        },
-    ]);
+    const [listaSucursal,setListaSucursal] = useState([]);
+
+    useEffect(() => {
+        const actualizarListaEffect = async () => {
+            setListaSucursal(await peticion.loadTask("sucursal"));
+        }
+        actualizarListaEffect();
+    },[]);
 
     const siguientePag = (Pagina, Parametro) =>{
         if(Parametro==undefined){
@@ -28,15 +29,22 @@ const SucursalesListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        return listaSucursal.map((data) => {
+        if(JSON.stringify(listaSucursal)!== '[]'){
+            return listaSucursal.map((data) => {
+                return (
+                    <TouchableOpacity key={data._id} onPress={() => siguientePag("SucursalesVer", { "id": data._id} )}>
+                        <Text style={mainStyles.titleLista}>{data.nombre} - {data._id}</Text>
+                    </TouchableOpacity>
+                );
+            });
+        }
+        else{
             return (
-                <TouchableOpacity key={data._id} onPress={() => siguientePag("SucursalesVer",{"id": data._id})}>
-                    <Text style={mainStyles.titleLista}>{data.nombre} - {data.rfc}</Text>
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                 </TouchableOpacity>
             );
-        });
-
-
+        }
     }
 
     return (

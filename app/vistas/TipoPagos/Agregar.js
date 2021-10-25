@@ -5,6 +5,11 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const TipoPagoListar = ({navigation}) => {
     
     function limpiarInputs() {
@@ -15,9 +20,22 @@ const TipoPagoListar = ({navigation}) => {
         guardarPasswordC('');
     }
 
-    const crear = () => {
-        limpiarInputs();
-        siguientePag("TipoPagosListar");
+    const crear = async () => {
+        var alerta = null;
+        var validacion = (nombre !='');
+        //Validar
+        if(validacion){
+            var body = {
+                "name_pay": nombre,
+            };
+            const resultado = await peticion.insertar("tipopago",body);
+            alerta =(resultado.status);
+            limpiarInputs();
+            
+        }else{
+            alerta =("Todos los campos son requeridos");
+        }
+        alert(alerta);
     }
 
     const siguientePag = (Pagina, Parametro) =>{

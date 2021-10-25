@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { mainStyles } from '../../estilos/styles';
 import color from '../../estilos/colors';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const CategoriasListar = ({navigation}) => {
 
-    const [listaCategoria,setListaCategoria] = useState([
-        {
-            "_id":1,
-            "name_category": "nom1",
-        },
-        {
-            "_id":2,
-            "name_category": "nom2",
-        },
-    ]);
+    const [listaCategoria,setListaCategoria] = useState([]);
+
+    useEffect(() => {
+        const actualizarListaEffect = async () => {
+            setListaCategoria(await peticion.loadTask("categoria"));
+        }
+        actualizarListaEffect();
+    },[]);
 
     const siguientePag = (Pagina, Parametro) =>{
         if(Parametro==undefined){
@@ -26,14 +29,22 @@ const CategoriasListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        return listaCategoria.map((data) => {
+        if(JSON.stringify(listaCategoria)!== '[]'){
+            return listaCategoria.map((data) => {
+                return (
+                    <TouchableOpacity key={data._id} onPress={() => siguientePag("CategoriasVer", { "id": data._id} )}>
+                        <Text style={mainStyles.titleLista}>{data.name_category}</Text>
+                    </TouchableOpacity>
+                );
+            });
+        }
+        else{
             return (
-                <TouchableOpacity key={data._id} onPress={() => siguientePag("CategoriasVer",{"id": data._id})}>
-                    <Text style={mainStyles.titleLista}>{data.name_category}</Text>
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                 </TouchableOpacity>
             );
-        });
-
+        }
     }
 
     return (

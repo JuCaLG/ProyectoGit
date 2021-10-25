@@ -5,9 +5,16 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const TipoUsuariosModificar = ({navigation,route}) => {
     
-    var { id } = route.params;
+    const { obj } = route.params;
+    const json = JSON.parse(obj);
+    const id = json._id;
 
     function limpiarInputs() {
         guardarNombre('');
@@ -17,9 +24,22 @@ const TipoUsuariosModificar = ({navigation,route}) => {
         guardarPasswordC('');
     }
 
-    const modificar = () => {
-        limpiarInputs();
-        siguientePag("TipoUsuariosListar");
+    const modificar = async () => {
+        var alerta = null;
+        var validacion = (nombre !='');
+        //Validar
+        if(validacion){
+            var body = {
+                "name_tipo": nombre,
+            };
+            const resultado = await peticion.modificar("tipousuario",id,body);
+            alerta =(resultado.status);
+            limpiarInputs();
+        }else{
+            alerta =("Todos los campos son requeridos");
+        }
+        alert(alerta);
+        navigation.goBack();
     }
 
     const siguientePag = (Pagina, Parametro) =>{

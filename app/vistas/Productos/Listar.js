@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { mainStyles } from '../../estilos/styles';
 import color from '../../estilos/colors';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const ProductosListar = ({navigation}) => {
-    const [listaProducto,setListaProducto] = useState([
-        {
-            "_id":1,
-            "name_prod": "nom1",
-        },
-        {
-            "_id":2,
-            "name_prod": "nom2",
-        },
-    ]);
+    const [listaProducto,setListaProducto] = useState([]);
+
+    useEffect(() => {
+        const actualizarListaEffect = async () => {
+            setListaProducto(await peticion.loadTask("producto"));
+        }
+        actualizarListaEffect();
+    },[]);
 
     const siguientePag = (Pagina, Parametro) =>{
         if(Parametro==undefined){
@@ -25,17 +28,24 @@ const ProductosListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        return listaProducto.map((data) => {
+        if(JSON.stringify(listaProducto)!== '[]'){
+            return listaProducto.map((data) => {
+                return (
+                    <TouchableOpacity key={data._id} onPress={() => siguientePag("ProductosVer", { "id": data._id} )}>
+                        <Text style={mainStyles.titleLista}>{data.name_prod}</Text>
+                    </TouchableOpacity>
+                );
+            });
+        }
+        else{
             return (
-                <TouchableOpacity key={data._id} onPress={() => siguientePag("ProductosVer",{"id": data._id})}>
-                    <Text style={mainStyles.titleLista}>{data.name_prod}</Text>
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                 </TouchableOpacity>
             );
-        });
-
-
+        }
     }
-    
+
     return (
         <View>
             <ScrollView

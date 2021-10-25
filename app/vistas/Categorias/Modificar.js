@@ -5,18 +5,39 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const CategoriasModificar = ({navigation,route}) => {
     
-    var { id } = route.params;
+    const { obj } = route.params;
+    const json = JSON.parse(obj);
+    const id = json._id;
+
     const[inputCategoria,guardarCategoria]= useState('')
 
     function limpiarInputs() {
         guardarCategoria('');
     }
 
-    const modificar = () => {
-        limpiarInputs();
-        siguientePag("CategoriasListar");
+    const modificar = async () => {
+        var alerta = null;
+        var validacion = (inputCategoria !='');
+        //Validar
+        if(validacion){
+            var body = { 
+                "name_category": inputCategoria,
+            };
+            const resultado = await peticion.modificar("categoria",id,body);
+            alerta = (resultado.status);
+            limpiarInputs();
+        }else{
+            alerta = ("Llenado incompleto");
+        }
+        alert(alerta);
+        navigation.goBack();
     }
 
     const siguientePag = (Pagina, Parametro) =>{

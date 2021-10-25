@@ -5,14 +5,21 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const ProveedoresModificar = ({navigation,route}) => {
     
-    var { id } = route.params;
-    const[inputNombre,guardarNombre]= useState('')
-    const[inputRFC,guardarRFC]= useState('')
-    const[inputDireccion,guardarDireccion]= useState('')
-    const[inputTelefono,guardarTelefono]= useState('')
-    const[inputEmail,guardarEmail]= useState('')
+    const { obj } = route.params;
+    const json = JSON.parse(obj);
+    const id = json._id;
+    const[inputNombre,guardarNombre]= useState(json.name_prov);
+    const[inputRFC,guardarRFC]= useState(json.rfc_prov)
+    const[inputDireccion,guardarDireccion]= useState(json.dir_prov);
+    const[inputTelefono,guardarTelefono]= useState(json.tel_prov);
+    const[inputEmail,guardarEmail]= useState(json.email_prov);
 
     function limpiarInputs() {
         guardarNombre('');
@@ -22,9 +29,27 @@ const ProveedoresModificar = ({navigation,route}) => {
         guardarTelefono('');
     }
 
-    const modificar = () => {
-        limpiarInputs();
-        siguientePag("ProveedoresListar");
+    const modificar = async () => {
+        var alerta = null;
+        var validacion = (inputNombre !=''|| inputRFC!=''|| inputDireccion!=''|| inputTelefono !=''|| inputEmail!='')
+        //Validar
+        if(validacion){
+            var body = {
+                "name_prov": inputNombre,
+                "rfc_prov": inputRFC,
+                "dir_prov": inputDireccion,
+                "tel_prov": inputTelefono,
+                "email_prov": inputEmail,
+                "img_prov": "",
+            };
+            const resultado = await peticion.modificar("proveedor",_id,body);
+            alerta =(resultado.status);
+            limpiarInputs();
+        }else{
+            alerta =("Todos los campos son requeridos");
+        }
+        alert(alerta);
+        navigation.goBack();
     }
 
     const siguientePag = (Pagina, Parametro) =>{
@@ -71,6 +96,8 @@ const ProveedoresModificar = ({navigation,route}) => {
                         <Text style={mainStyles.btntxt}>Agregar</Text>
                     </TouchableOpacity>
                     </View>
+
+                    <Text>{}</Text>
 
                     <View style={mainStyles.btnMain}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>

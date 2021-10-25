@@ -5,6 +5,11 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const RegionesAgregar = ({navigation}) => {
     
     const[inputRegion,guardarRegion]= useState('');
@@ -13,9 +18,21 @@ const RegionesAgregar = ({navigation}) => {
         guardarRegion('');
     }
 
-    const crear = () => {
-        limpiarInputs();
-        siguientePag("RegionesListar");
+    const crear = async () => {
+        var alerta = null;
+        var validacion = (inputRegion !='');
+        //Validar
+        if(validacion){
+            var body =  { 
+                "name_region": inputRegion,
+            };
+            const resultado = await peticion.insertar("region",body);
+            alerta =(resultado.status);
+            limpiarInputs();
+        }else{
+            alerta =("Llenado incompleto")
+        }
+        alert(alerta);
     }
 
     const siguientePag = (Pagina, Parametro) =>{

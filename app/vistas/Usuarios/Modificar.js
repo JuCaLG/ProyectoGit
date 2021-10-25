@@ -5,6 +5,11 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const UsuariosModificar = ({navigation,route}) => {
     const [inputNombre, guardarNombre] = useState('')
     const [inputEmail, guardarEmail] = useState('')
@@ -13,7 +18,9 @@ const UsuariosModificar = ({navigation,route}) => {
     const [inputPasswordC, guardarPasswordC] = useState('')
     const [selectedValue, setSelectedValue] = useState("--- Asignar rol ---")
 
-    var { id } = route.params;
+    const { obj } = route.params;
+    const json = JSON.parse(obj);
+    const id = json._id;
 
     function limpiarInputs() {
         guardarNombre('');
@@ -23,9 +30,30 @@ const UsuariosModificar = ({navigation,route}) => {
         guardarPasswordC('');
     }
 
-    const modificar = () => {
-        limpiarInputs();
-        siguientePag("UsuariosListar");
+    const modificar = async () => {
+        var alerta = null;
+        var validacion = (inputNombre != '' && inputEmail != '' && inputTelefono != '' && inputPassword != '' && inputPasswordC != '');
+        //Validar
+        if (validacion) {
+            validacion = (inputPassword == inputPasswordC);
+            if(validacion){
+                var body =  { 
+                    "nombre": inputNombre,
+                    "email": inputEmail,
+                    "telefono": inputTelefono,
+                    "password": inputPassword,
+                    "id_rol": selectedValue,
+                };
+                const resultado = await peticion.modificar("usuario",id,body);
+                alerta =(resultado.status);
+                limpiarInputs();
+            }
+            else{
+                alerta =("No coincide la contraseña")
+            }
+        } 
+        alert(alerta);
+        navigation.goBack();
     }
 
     const siguientePag = (Pagina, Parametro) =>{

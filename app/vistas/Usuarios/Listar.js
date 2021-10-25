@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { mainStyles } from '../../estilos/styles';
 import color from '../../estilos/colors';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const UsuariosListar = ({navigation}) => {
 
-    const [listaUsuario,setListaUsuario] = useState([
-        {
-            "_id":1,
-            "nombre": "nom1",
-            "email":"email1"
-        },
-        {
-            "_id":2,
-            "nombre": "nom2",
-            "email":"email2"
-        },
-    ]);
+    const [listaUsuario,setListaUsuario] = useState([]);
+
+    useEffect(() => {
+        const actualizarListaEffect = async () => {
+            setListaUsuario(await peticion.loadTask("usuario"));
+        }
+        actualizarListaEffect();
+    },[]);
 
     const siguientePag = (Pagina, Parametro) =>{
         console.log(Parametro);
@@ -29,13 +30,22 @@ const UsuariosListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        return listaUsuario.map((data) => {
+        if(JSON.stringify(listaUsuario)!== '[]'){
+            return listaUsuario.map((data) => {
+                return (
+                    <TouchableOpacity key={data._id} onPress={() => siguientePag("UsuariosVer", { "id": data._id} )}>
+                        <Text style={mainStyles.titleLista}>{data.nombre} - {data.email}</Text>
+                    </TouchableOpacity>
+                );
+            });
+        }
+        else{
             return (
-                <TouchableOpacity key={data._id} onPress={() => siguientePag("UsuariosVer",{"id": data._id})}>
-                    <Text style={mainStyles.titleLista}>{data.nombre} - {data.email}</Text>
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                 </TouchableOpacity>
             );
-        });
+        }
     }
 
     return (

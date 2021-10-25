@@ -5,39 +5,83 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import Cargando from "../../componentes/cargando";
 
+/*
+    Importar codigo para peticion con el servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor.js');
+
+/*
+    Guardar Usuario de forma local
+*/
+const localStorage = require('../../controladores/usuario.localstorage.js');
+
 const Login = ({navigation}) => {
 
-    console.log("Login");
-
     useEffect(() => {
-        if(user!=null){
-            navigation.reset({
-                index:0,
-                routes: [{ name: "App"}]
-            });
-        }
-    });
+        Sesion();
+    }, []);
 
-    const [user,setUser] = useState(null);
-    
-    //Campos formulario
-    const [hidePassword, setHidePassword] = useState(false)
-    const [inputUsuario , guardarUsuario] = useState ('')
-    const [inputPassword , guardarPassword] = useState ('')
+    const [cargar, setCargar] = useState(true);
+    const [hidePassword, setHidePassword] = useState(false);
+    const [inputUsuario , guardarUsuario] = useState ('');
+    const [inputPassword , guardarPassword] = useState ('');
 
     const limpiarInput = () => {
         guardarUsuario('');
         guardarPassword('');
     }
 
-    const entrar = () =>{
-        
-        limpiarInput();
-        setUser("Usuario");
+    const entrar = async () =>{
+        setCargar(true);
+        const validacion = (inputUsuario!="" && inputPassword!="");
+        var alerta = null;
+        if(validacion){
+            limpiarInput();
+            const resultado = await peticion.buscarEmail("usuario",inputUsuario);
+            if(resultado!=null){
+                if(resultado.password==inputPassword){
+                    await localStorage.GuardarUsuario(resultado);
+                    siguientePag("App")
+                }
+                else{
+                    alerta = "Contraseña invalida";
+                }
+            }
+            else{
+                alerta = "Usuario Invalido";
+            }
+        }
+        else{
+            alerta = "Favor de llenar todos los campos";
+        }
+        setCargar(false);
+        if(alerta!=null){
+            alert(alerta);
+        }
+    }
+
+    //--------------------------------------------------
+    //SiguientePagina
+    const siguientePag = () =>{
+        navigation.reset({
+            index:0,
+            routes: [{ name: "App"}]
+        });
+    }
+
+    const Sesion = async () => {
+        const user = await localStorage.ObtenerUsuario();
+        if(user!=null){
+            siguientePag();
+        }
+        setCargar(false);
     }
 
     return (
         <View>
+            {(cargar)?
+            (<Cargando />):
+            (
             <ScrollView
                 keyboardDismissMode='on-drag'
                 keyboardShouldPersistTaps='always'
@@ -55,13 +99,12 @@ const Login = ({navigation}) => {
                 onPress={() => setHidePassword(!hidePassword)}
                 value={inputPassword} onChangeText={texto => guardarPassword (texto)}/>
 
-                <Text>{(user)}</Text>
-
                 <Button style={mainStyles.btnMain} 
                     title="Iniciar Sesión"
                     onPress={() => entrar()}/>
 
             </ScrollView>
+            )}
         </View>
     );
 }

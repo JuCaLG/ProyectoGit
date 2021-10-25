@@ -5,9 +5,16 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const SucursalesModificar = ({navigation,route}) => {
-    
-    const { id } = route.params;
+
+    const { obj } = route.params;
+    const json = JSON.parse(obj);
+    const id = json._id;
 
     const[nombre,guardarNombre]= useState('')
     const[rfc,guardarRFC]= useState('')
@@ -23,9 +30,26 @@ const SucursalesModificar = ({navigation,route}) => {
         guardarTelefono('');
     }
 
-    const modificar = () => {
-        limpiarInputs();
-        siguientePag("SucursalesListar");
+    const modificar = async () => {
+        var alerta = null;
+        var validacion = (nombre !=''|| rfc!=''|| direccion!=''|| telefono !=''|| email!='');
+        //Validar
+        if(validacion){
+            var body = {
+                "nombre": nombre,
+                "rfc": rfc,
+                "telefono": telefono,
+                "direccion": direccion,
+                "email": email,
+                };
+            const resultado = await peticion.modificar("sucursal",id,body);
+            alerta =(resultado.status);
+            limpiarInputs();
+        }else{
+            alerta =("Todos los campos son requeridos");
+        }
+        alert(alerta);
+        navigation.goBack();
     }
 
     const siguientePag = (Pagina, Parametro) =>{

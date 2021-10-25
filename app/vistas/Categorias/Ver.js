@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { mainStyles } from '../../estilos/styles';
 import color from '../../estilos/colors';
+
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
 
 const CategoriasVer = ({navigation,route}) => {
 
@@ -14,12 +19,33 @@ const CategoriasVer = ({navigation,route}) => {
         }
     }
 
+    useEffect(() => {
+        const actualizaEffect = async () => {
+            const obj = await peticion.buscar("categoria",id);
+            setObj(obj);
+        }
+        actualizaEffect();
+    },[]);
+
     var { id } = route.params;
+    const [obj, setObj] = useState({});
 
     const Datos = () => {
-        return (
-            <Text>{ id }</Text>
-        );
+        if(JSON.stringify(obj)!== '{}'){
+            return (
+                    <TouchableOpacity>
+                        <Text style={mainStyles.titleLista}>Nombre: {obj.name_category}</Text>
+                    </TouchableOpacity>
+                );
+        }
+        else{
+            return (
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No se cargo la información</Text>
+                    <Text style={mainStyles.titleLista}>Intentelo más tarde</Text>
+                </TouchableOpacity>
+            );
+        }
     }
 
     return (
@@ -43,7 +69,7 @@ const CategoriasVer = ({navigation,route}) => {
                     </View>
 
                     <View style={mainStyles.btnMain}>
-                        <TouchableOpacity onPress={() => siguientePag("CategoriasModificar", {"id":id})}>
+                        <TouchableOpacity onPress={() => siguientePag("CategoriasModificar", {"obj": JSON.stringify(obj)})}>
                             <Text style={mainStyles.btntxt}>Modificar</Text>
                         </TouchableOpacity>
                     </View>

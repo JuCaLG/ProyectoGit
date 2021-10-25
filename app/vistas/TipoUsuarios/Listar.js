@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { mainStyles } from '../../estilos/styles';
 import color from '../../estilos/colors';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const TipoUsuariosListar = ({navigation}) => {
 
-    const [listaUsuario,setListaUsuario] = useState([
-        {
-            "_id":1,
-            "nombre": "tipo1",
-        },
-        {
-            "_id":2,
-            "nombre": "tipo2",
-        },
-    ]);
+    const [listaTipoUsuario,setListaTipoUsuario] = useState([]);
+
+    useEffect(() => {
+        const actualizarListaEffect = async () => {
+            setListaTipoUsuario(await peticion.loadTask("tipousuario"));
+        }
+        actualizarListaEffect();
+    },[]);
 
     const siguientePag = (Pagina, Parametro) =>{
         if(Parametro==undefined){
@@ -26,13 +29,22 @@ const TipoUsuariosListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        return listaUsuario.map((data) => {
+        if(JSON.stringify(listaTipoUsuario)!== '[]'){
+            return listaTipoUsuario.map((data) => {
+                return (
+                    <TouchableOpacity key={data._id} onPress={() => siguientePag("TipoUsuariosVer", { "id": data._id} )}>
+                        <Text style={mainStyles.titleLista}>{data.name_tipo}</Text>
+                    </TouchableOpacity>
+                );
+            });
+        }
+        else{
             return (
-                <TouchableOpacity key={data._id} onPress={() => siguientePag("TipoUsuariosVer",{"id": data._id})}>
-                    <Text style={mainStyles.titleLista}>{data.nombre}</Text>
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                 </TouchableOpacity>
             );
-        });
+        }
 
     }
 

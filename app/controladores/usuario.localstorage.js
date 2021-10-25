@@ -15,7 +15,7 @@ exports.ObtenerUsuario = async function(){
         return await AsyncStorage.getItem("usuario");
     }
     catch(error){
-        return false;
+        return null;
     }
 }
 

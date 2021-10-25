@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { mainStyles } from '../../estilos/styles';
 import color from '../../estilos/colors';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const RegionesListar = ({navigation}) => {
 
-    const [listaRegiones,setListaRegiones] = useState([
-        {
-            "_id":1,
-            "name_region": "nom1",
-        },
-        {
-            "_id":2,
-            "name_region": "nom2",
-        },
-    ]);
+    const [listaRegion,setListaRegione] = useState([]);
+
+    useEffect(() => {
+        const actualizarListaEffect = async () => {
+            setListaRegione(await peticion.loadTask("region"));
+        }
+        actualizarListaEffect();
+    },[]);
 
     const siguientePag = (Pagina, Parametro) =>{
         if(Parametro==undefined){
@@ -26,17 +29,24 @@ const RegionesListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        return listaRegiones.map((data) => {
+        if(JSON.stringify(listaRegion)!== '[]'){
+            return listaRegion.map((data) => {
+                return (
+                    <TouchableOpacity key={data._id} onPress={() => siguientePag("RegionesVer", { "id": data._id} )}>
+                        <Text style={mainStyles.titleLista}>{data.name_region}</Text>
+                    </TouchableOpacity>
+                );
+            });
+        }
+        else{
             return (
-                <TouchableOpacity key={data._id} onPress={() => siguientePag("RegionesVer",{"id": data._id})}>
-                    <Text style={mainStyles.titleLista}>{data.name_region}</Text>
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                 </TouchableOpacity>
             );
-        });
-
-
+        }
     }
-    
+
     return (
         <View>
             <ScrollView

@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, ScrollView, TouchableOpacity, StatusBar } from "react-native";
 import { mainStyles } from '../../estilos/styles';
 import color from '../../estilos/colors';
+
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
 
 const PedidosVer = ({navigation,route}) => {
 
@@ -14,12 +19,34 @@ const PedidosVer = ({navigation,route}) => {
         }
     }
 
-    const { id } = route.params;
+    useEffect(() => {
+        const actualizaEffect = async () => {
+            const obj = await peticion.buscar("pedido",id);
+            setObj(obj);
+        }
+        actualizaEffect();
+    },[]);
+
+    var { id } = route.params;
+    const [obj, setObj] = useState({});
 
     const Datos = () => {
-        return (
-            <Text>{ id }</Text>
-        );
+        if(JSON.stringify(obj)!== '{}'){
+            return (
+                    <TouchableOpacity>
+                        <Text style={mainStyles.titleLista}>Producto: {obj.amount_prod}</Text>
+                        <Text style={mainStyles.titleLista}>Precio: {obj.price_v}</Text>
+                    </TouchableOpacity>
+                );
+        }
+        else{
+            return (
+                <TouchableOpacity key={0}>
+                    <Text style={mainStyles.titleLista}>No se cargo la información</Text>
+                    <Text style={mainStyles.titleLista}>Intentelo más tarde</Text>
+                </TouchableOpacity>
+            );
+        }
     }
 
     return (
@@ -43,7 +70,7 @@ const PedidosVer = ({navigation,route}) => {
                     </View>
 
                     <View style={mainStyles.btnMain}>
-                        <TouchableOpacity onPress={() => siguientePag("PedidosModificar", {"id":id})}>
+                        <TouchableOpacity onPress={() => siguientePag("PedidosModificar", {"id": id})}>
                             <Text style={mainStyles.btntxt}>Modificar</Text>
                         </TouchableOpacity>
                     </View>

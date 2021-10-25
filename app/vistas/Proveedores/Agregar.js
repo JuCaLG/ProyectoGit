@@ -5,6 +5,11 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const ProveedoresAgregar = ({navigation}) => {
     
     const[inputNombre,guardarNombre]= useState('')
@@ -21,9 +26,26 @@ const ProveedoresAgregar = ({navigation}) => {
         guardarTelefono('');
     }
 
-    const crear = () => {
-        limpiarInputs();
-        siguientePag("ProveedoresListar");
+    const crear = async () => {
+        var alerta = null;
+        var validacion = (inputNombre !=''|| inputRFC!=''|| inputDireccion!=''|| inputTelefono !=''|| inputEmail!='')
+        //Validar
+        if(validacion){
+            var body = {
+                "name_prov": inputNombre,
+                "rfc_prov": inputRFC,
+                "dir_prov": inputDireccion,
+                "tel_prov": inputTelefono,
+                "email_prov": inputEmail,
+                "img_prov": "",
+            };
+            const resultado = await peticion.insertar("proveedor",body);
+            alerta =(resultado.status);
+            limpiarInputs();
+        }else{
+            alerta =("Todos los campos son requeridos");
+        }
+        alert(alerta);
     }
 
     const siguientePag = (Pagina, Parametro) =>{

@@ -5,9 +5,16 @@ import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 import { Picker } from '@react-native-community/picker';
 
+/*
+    Conexion con Servidor
+*/
+const peticion = require('../../controladores/peticiones.servidor');
+
 const PedidosModificar = ({navigation,route}) => {
     
-    var { id } = route.params;
+    const { obj } = route.params;
+    const json = JSON.parse(obj);
+    const id = json._id;
 
     function limpiarInputs() {
         guardarNombre('');
@@ -17,9 +24,23 @@ const PedidosModificar = ({navigation,route}) => {
         guardarPasswordC('');
     }
 
-    const modificar = () => {
-        limpiarInputs();
-        siguientePag("PedidosListar");
+    const modificar = async () => {
+        var alerta = null;
+        var validacion = ( nombre!="" && precio!="");
+        //Validar
+        if(validacion){
+            var body = {
+                "amount_prod": nombre,
+                "price_v": precio,
+            };
+            const resultado = await peticion.modificar("sucursal",id,body);
+            alerta =(resultado.status);
+            limpiarInputs();
+        }else{
+            alerta =("Todos los campos son requeridos");
+        }
+        alert(alerta);
+        navigation.goBack();
     }
 
     const siguientePag = (Pagina, Parametro) =>{
