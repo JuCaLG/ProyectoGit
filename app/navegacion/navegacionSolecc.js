@@ -108,9 +108,11 @@ const NavegacionSolecc = ({navigation}) => {
 
     const Sesion = async () => {
         const json = JSON.parse(await localStorage.ObtenerUsuario());
-        setUser(json);
-        if(user!=null){
+        if(json==null){
             siguientePag(navigation,"Login");
+        }
+        else{
+            setUser(json);
         }
     }
 
@@ -127,11 +129,12 @@ const NavegacionSolecc = ({navigation}) => {
 
     //--------------------------------------------------
     //SiguientePagina
-    const siguientePag = (navigation,Pagina) =>{
-        navigation.reset({
+    const siguientePag = async (navigation,Pagina) =>{
+        await navigation.reset({
             index:0,
-            routes: [{ name: Pagina}]
+            routes: [{ name: "Home" }],
         });
+        navigation.navigate(Pagina);
     }
 
     //--------------------------------------------------
@@ -200,7 +203,10 @@ const NavegacionSolecc = ({navigation}) => {
             <PilaApp.Screen
                 name="Login">
                 {() => (
-                    <PilaLogin.Navigator>
+                    <PilaLogin.Navigator
+                        screenOptions={{
+                            headerShown: false
+                        }}>
                         <PilaLogin.Screen
                         name="LoginPantalla"
                         component={Login} />
@@ -216,7 +222,10 @@ const NavegacionSolecc = ({navigation}) => {
                         <Gabeta.Screen
                             name="Home">
                             {() => (
-                                <PilaHome.Navigator>
+                                <PilaHome.Navigator
+                                    screenOptions={{
+                                        headerShown: false
+                                    }}>
                                     <PilaHome.Screen
                                     name="HomePantalla"
                                     component={Home} />

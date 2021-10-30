@@ -41,7 +41,7 @@ const Login = ({navigation}) => {
             if(resultado!=null){
                 if(resultado.password==inputPassword){
                     await localStorage.GuardarUsuario(resultado);
-                    siguientePag("App")
+                    siguientePag("App");
                 }
                 else{
                     alerta = "Contraseña invalida";
@@ -54,9 +54,10 @@ const Login = ({navigation}) => {
         else{
             alerta = "Favor de llenar todos los campos";
         }
-        setCargar(false);
+
         if(alerta!=null){
             alert(alerta);
+            setCargar(false);
         }
     }
 
@@ -74,7 +75,9 @@ const Login = ({navigation}) => {
         if(user!=null){
             siguientePag();
         }
+        else{
         setCargar(false);
+        }
     }
 
     return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, ScrollView, StatusBar, TouchableOpacity } from "react-native";
+import { Text, View, ScrollView, StatusBar, TouchableOpacity, RefreshControl } from "react-native";
 import color from '../../estilos/colors';
 import {mainStyles} from '../../estilos/styles';
 
@@ -11,13 +11,21 @@ const peticion = require('../../controladores/peticiones.servidor');
 const ProveedoresListar = ({navigation}) => {
 
     const [listaProveedor,setListaProveedor] = useState([]);
+    const [refrescar, setRefrescar] = useState(false);
 
     useEffect(() => {
-        const actualizarListaEffect = async () => {
-            setListaProveedor(await peticion.loadTask("proveedor"));
-        }
         actualizarListaEffect();
     },[]);
+
+    const actualizarListaEffect = async () => {
+        setListaProveedor(await peticion.loadTask("proveedor"));
+    }
+
+    const enRefresco = React.useCallback( async () => {
+        setRefrescar(true);
+        await actualizarListaEffect();
+        setRefrescar(false);
+    });
 
     const siguientePag = (Pagina, Parametro) =>{
         console.log(Parametro);
@@ -53,13 +61,16 @@ const ProveedoresListar = ({navigation}) => {
             <ScrollView
                 keyboardDismissMode='on-drag'
                 keyboardShouldPersistTaps='always'
-                style={{ backgroundColor: color.WHITE }}>
+                style={{ backgroundColor: color.WHITE }}
+                refreshControl={
+                    <RefreshControl refreshing={refrescar} onRefresh={enRefresco}/>
+                }>
                 <StatusBar backgroundColor={color.BLUE} translucent={true} />
 
                 <View style={[mainStyles.container, { padding: 40 }]}>
                     <Text style={mainStyles.titleText}> Proveedores </Text>
 
-                    <View >
+                    <View>
                         {Listar()}
                     </View>
 
