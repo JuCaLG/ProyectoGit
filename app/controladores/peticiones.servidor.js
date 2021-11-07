@@ -14,7 +14,8 @@ exports.loadTask = async function(tabla){
             return responseJson;
         })
         .catch((error) => {
-            return error;
+            console.log(false);
+            return false;
         });
 
 }
@@ -38,7 +39,7 @@ exports.insertar = async function(tabla, body){
             return responseJson;
         })
         .catch((error) => {
-            return error;
+            return false;
         });
 
 }
@@ -63,7 +64,7 @@ exports.modificar = async function(tabla, id, body){
             return responseJson;
         })
         .catch((error) => {
-            return error;
+            return false;
         });
 
 }
@@ -81,7 +82,7 @@ exports.buscar = async function(tabla, id){
             return responseJson;
         })
         .catch((error) => {
-            return error;
+            return false;
         });
 
 }
@@ -99,7 +100,7 @@ exports.buscarEmail = async function(tabla, email){
             return responseJson;
         })
         .catch((error) => {
-            return error;
+            return false;
         });
 
 }
@@ -117,7 +118,7 @@ exports.eliminar = async function(tabla, id){
             return responseJson;
         })
         .catch((error) => {
-            return error;
+            return false;
         });
 
 }

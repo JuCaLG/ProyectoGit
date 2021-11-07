@@ -37,19 +37,28 @@ const CategoriasListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        if(JSON.stringify(listaCategoria)!== '[]'){
-            return listaCategoria.map((data) => {
+        if(listaCategoria){
+            if(JSON.stringify(listaCategoria)!== '[]'){
+                return listaCategoria.map((data) => {
+                    return (
+                        <TouchableOpacity key={data._id} onPress={() => siguientePag("CategoriasVer", { "id": data._id} )}>
+                            <Text style={mainStyles.titleLista}>{data.name_category}</Text>
+                        </TouchableOpacity>
+                    );
+                });
+            }
+            else{
                 return (
-                    <TouchableOpacity key={data._id} onPress={() => siguientePag("CategoriasVer", { "id": data._id} )}>
-                        <Text style={mainStyles.titleLista}>{data.name_category}</Text>
+                    <TouchableOpacity key={0}>
+                        <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                     </TouchableOpacity>
                 );
-            });
+            }
         }
         else{
             return (
                 <TouchableOpacity key={0}>
-                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                    <Text style={mainStyles.titleLista}>Sin Conexion</Text>
                 </TouchableOpacity>
             );
         }

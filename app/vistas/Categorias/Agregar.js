@@ -3,7 +3,6 @@ import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-nativ
 import { mainStyles } from '../../estilos/styles';
 import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
-import { Picker } from '@react-native-community/picker';
 
 /*
     Conexion con Servidor
@@ -27,7 +26,7 @@ const CategoriasAgregar = ({navigation}) => {
                 "name_category": inputCategoria,
             };
             const resultado = await peticion.insertar("categoria",body);
-            alerta = (resultado.status);
+            alerta =(resultado? resultado.status: "Sin Internet");
             limpiarInputs();
         }else{
             alerta = ("Llenado incompleto");

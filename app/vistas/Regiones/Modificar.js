@@ -31,7 +31,7 @@ const RegionesModificar = ({navigation,route}) => {
                 "name_region": inputRegion,
             };
             const resultado = await peticion.modificar("region",id,body);
-            alerta =(resultado.status);
+            alerta = (resultado? resultado.status: "Sin Internet");
             limpiarInputs();
         }else{
             alerta =("Llenado incompleto")

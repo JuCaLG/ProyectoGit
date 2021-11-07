@@ -37,19 +37,28 @@ const PedidosListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        if(JSON.stringify(listaPedido)!== '[]'){
-            return listaPedido.map((data) => {
+        if(listaPedido){
+            if(JSON.stringify(listaPedido)!== '[]'){
+                return listaPedido.map((data) => {
+                    return (
+                        <TouchableOpacity key={data._id} onPress={() => siguientePag("PedidosVer", { "id": data._id} )}>
+                            <Text style={mainStyles.titleLista}>{data.amount_prod} - {data.price_v}</Text>
+                        </TouchableOpacity>
+                    );
+                });
+            }
+            else{
                 return (
-                    <TouchableOpacity key={data._id} onPress={() => siguientePag("PedidosVer", { "id": data._id} )}>
-                        <Text style={mainStyles.titleLista}>{data.amount_prod} - {data.price_v}</Text>
+                    <TouchableOpacity key={0}>
+                        <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                     </TouchableOpacity>
                 );
-            });
+            }
         }
         else{
             return (
                 <TouchableOpacity key={0}>
-                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                    <Text style={mainStyles.titleLista}>Sin Conexion</Text>
                 </TouchableOpacity>
             );
         }

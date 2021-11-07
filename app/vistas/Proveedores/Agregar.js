@@ -40,7 +40,7 @@ const ProveedoresAgregar = ({navigation}) => {
                 "img_prov": "",
             };
             const resultado = await peticion.insertar("proveedor",body);
-            alerta =(resultado.status);
+            alerta = (resultado? resultado.status: "Sin Internet");
             limpiarInputs();
         }else{
             alerta =("Todos los campos son requeridos");

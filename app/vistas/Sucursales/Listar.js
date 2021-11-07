@@ -37,19 +37,28 @@ const SucursalesListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        if(JSON.stringify(listaSucursal)!== '[]'){
-            return listaSucursal.map((data) => {
+        if(listaSucursal){
+            if(JSON.stringify(listaSucursal)!== '[]'){
+                return listaSucursal.map((data) => {
+                    return (
+                        <TouchableOpacity key={data._id} onPress={() => siguientePag("SucursalesVer", { "id": data._id} )}>
+                            <Text style={mainStyles.titleLista}>{data.nombre} - {data._id}</Text>
+                        </TouchableOpacity>
+                    );
+                });
+            }
+            else{
                 return (
-                    <TouchableOpacity key={data._id} onPress={() => siguientePag("SucursalesVer", { "id": data._id} )}>
-                        <Text style={mainStyles.titleLista}>{data.nombre} - {data._id}</Text>
+                    <TouchableOpacity key={0}>
+                        <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                     </TouchableOpacity>
                 );
-            });
+            }
         }
         else{
             return (
                 <TouchableOpacity key={0}>
-                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                    <Text style={mainStyles.titleLista}>Sin Conexion</Text>
                 </TouchableOpacity>
             );
         }

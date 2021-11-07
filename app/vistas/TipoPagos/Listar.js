@@ -37,19 +37,28 @@ const TipoPagosListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        if(JSON.stringify(listTipoPago)!== '[]'){
-            return listTipoPago.map((data) => {
+        if(listTipoPago){
+            if(JSON.stringify(listTipoPago)!== '[]'){
+                return listTipoPago.map((data) => {
+                    return (
+                        <TouchableOpacity key={data._id} onPress={() => siguientePag("TipoPagosVer",{ "id": data._id} )}>
+                            <Text style={mainStyles.titleLista}>{data.name_pay}</Text>
+                        </TouchableOpacity>
+                    );
+                });
+            }
+            else{
                 return (
-                    <TouchableOpacity key={data._id} onPress={() => siguientePag("TipoPagosVer",{ "id": data._id} )}>
-                        <Text style={mainStyles.titleLista}>{data.name_pay}</Text>
+                    <TouchableOpacity key={0}>
+                        <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                     </TouchableOpacity>
                 );
-            });
+            }
         }
         else{
             return (
                 <TouchableOpacity key={0}>
-                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                    <Text style={mainStyles.titleLista}>Sin Conexion</Text>
                 </TouchableOpacity>
             );
         }

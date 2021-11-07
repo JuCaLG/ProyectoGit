@@ -43,7 +43,7 @@ const ProveedoresModificar = ({navigation,route}) => {
                 "img_prov": "",
             };
             const resultado = await peticion.modificar("proveedor",_id,body);
-            alerta =(resultado.status);
+            alerta = (resultado? resultado.status: "Sin Internet");
             limpiarInputs();
         }else{
             alerta =("Todos los campos son requeridos");

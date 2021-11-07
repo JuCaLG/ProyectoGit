@@ -27,7 +27,7 @@ const RegionesAgregar = ({navigation}) => {
                 "name_region": inputRegion,
             };
             const resultado = await peticion.insertar("region",body);
-            alerta =(resultado.status);
+            alerta = (resultado? resultado.status: "Sin Internet");
             limpiarInputs();
         }else{
             alerta =("Llenado incompleto")

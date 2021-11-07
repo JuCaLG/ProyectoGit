@@ -64,7 +64,7 @@ const UsuariosAgregar = ({navigation}) => {
                     "id_rol": selectedValue,
                 };
                 const resultado = await peticion.insertar("usuario",body);
-                alerta =(resultado.status);
+                alerta = (resultado? resultado.status: "Sin Internet");
                 limpiarInputs();
             }
             else{

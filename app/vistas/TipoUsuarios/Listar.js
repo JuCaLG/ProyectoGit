@@ -37,23 +37,31 @@ const TipoUsuariosListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        if(JSON.stringify(listaTipoUsuario)!== '[]'){
-            return listaTipoUsuario.map((data) => {
+        if(listaTipoUsuario){
+            if(JSON.stringify(listaTipoUsuario)!== '[]'){
+                return listaTipoUsuario.map((data) => {
+                    return (
+                        <TouchableOpacity key={data._id} onPress={() => siguientePag("TipoUsuariosVer", { "id": data._id} )}>
+                            <Text style={mainStyles.titleLista}>{data.name_tipo}</Text>
+                        </TouchableOpacity>
+                    );
+                });
+            }
+            else{
                 return (
-                    <TouchableOpacity key={data._id} onPress={() => siguientePag("TipoUsuariosVer", { "id": data._id} )}>
-                        <Text style={mainStyles.titleLista}>{data.name_tipo}</Text>
+                    <TouchableOpacity key={0}>
+                        <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                     </TouchableOpacity>
                 );
-            });
+            }
         }
         else{
             return (
                 <TouchableOpacity key={0}>
-                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                    <Text style={mainStyles.titleLista}>Sin Conexion</Text>
                 </TouchableOpacity>
             );
         }
-
     }
 
     return (

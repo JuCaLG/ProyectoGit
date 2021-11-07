@@ -37,19 +37,28 @@ const ProductosListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        if(JSON.stringify(listaProducto)!== '[]'){
-            return listaProducto.map((data) => {
+        if(listaProducto){
+            if(JSON.stringify(listaProducto)!== '[]'){
+                return listaProducto.map((data) => {
+                    return (
+                        <TouchableOpacity key={data._id} onPress={() => siguientePag("ProductosVer", { "id": data._id} )}>
+                            <Text style={mainStyles.titleLista}>{data.name_prod}</Text>
+                        </TouchableOpacity>
+                    );
+                });
+            }
+            else{
                 return (
-                    <TouchableOpacity key={data._id} onPress={() => siguientePag("ProductosVer", { "id": data._id} )}>
-                        <Text style={mainStyles.titleLista}>{data.name_prod}</Text>
+                    <TouchableOpacity key={0}>
+                        <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                     </TouchableOpacity>
                 );
-            });
+            }
         }
         else{
             return (
                 <TouchableOpacity key={0}>
-                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                    <Text style={mainStyles.titleLista}>Sin Conexion</Text>
                 </TouchableOpacity>
             );
         }

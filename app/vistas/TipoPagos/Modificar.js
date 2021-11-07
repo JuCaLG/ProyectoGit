@@ -32,7 +32,7 @@ const TipoPagoModificar = ({navigation,route}) => {
                 "name_pay": nombre,
             };
             const resultado = await peticion.modificar("tipopago",id,body);
-            alerta =(resultado.status);
+            alerta = (resultado? resultado.status: "Sin Internet");
             limpiarInputs();
             
         }else{

@@ -79,7 +79,7 @@ const ProductosAgregar = ({navigation}) => {
                 "prod_id_usuario": "N/A",
                 };
             const resultado = await peticion.insertar("producto",body);
-            alerta =(resultado.status);
+            alerta = (resultado? resultado.status: "Sin Internet");
             limpiarInputs();
         }else{
             alerta =("Todos los campos son requeridos");

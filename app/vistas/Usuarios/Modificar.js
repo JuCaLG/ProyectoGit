@@ -45,7 +45,7 @@ const UsuariosModificar = ({navigation,route}) => {
                     "id_rol": selectedValue,
                 };
                 const resultado = await peticion.modificar("usuario",id,body);
-                alerta =(resultado.status);
+                alerta = (resultado? resultado.status: "Sin Internet");
                 limpiarInputs();
             }
             else{

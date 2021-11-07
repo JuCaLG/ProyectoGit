@@ -31,7 +31,7 @@ const CategoriasModificar = ({navigation,route}) => {
                 "name_category": inputCategoria,
             };
             const resultado = await peticion.modificar("categoria",id,body);
-            alerta = (resultado.status);
+            alerta =(resultado? resultado.status: "Sin Internet");
             limpiarInputs();
         }else{
             alerta = ("Llenado incompleto");

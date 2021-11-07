@@ -31,7 +31,7 @@ const CategoriasVer = ({navigation,route}) => {
     const [obj, setObj] = useState({});
 
     const Datos = () => {
-        if(JSON.stringify(obj)!== '{}'){
+        if(obj && JSON.stringify(obj)!== '{}'){
             return (
                     <TouchableOpacity>
                         <Text style={mainStyles.titleLista}>Nombre: {obj.name_category}</Text>

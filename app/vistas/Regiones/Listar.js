@@ -37,19 +37,28 @@ const RegionesListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        if(JSON.stringify(listaRegion)!== '[]'){
-            return listaRegion.map((data) => {
+        if(listaRegion){
+            if(JSON.stringify(listaRegion)!== '[]'){
+                return listaRegion.map((data) => {
+                    return (
+                        <TouchableOpacity key={data._id} onPress={() => siguientePag("RegionesVer", { "id": data._id} )}>
+                            <Text style={mainStyles.titleLista}>{data.name_region}</Text>
+                        </TouchableOpacity>
+                    );
+                });
+            }
+            else{
                 return (
-                    <TouchableOpacity key={data._id} onPress={() => siguientePag("RegionesVer", { "id": data._id} )}>
-                        <Text style={mainStyles.titleLista}>{data.name_region}</Text>
+                    <TouchableOpacity key={0}>
+                        <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                     </TouchableOpacity>
                 );
-            });
+            }
         }
         else{
             return (
                 <TouchableOpacity key={0}>
-                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                    <Text style={mainStyles.titleLista}>Sin Conexion</Text>
                 </TouchableOpacity>
             );
         }

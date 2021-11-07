@@ -43,7 +43,7 @@ const SucursalesModificar = ({navigation,route}) => {
                 "email": email,
                 };
             const resultado = await peticion.modificar("sucursal",id,body);
-            alerta =(resultado.status);
+            alerta = (resultado? resultado.status: "Sin Internet");
             limpiarInputs();
         }else{
             alerta =("Todos los campos son requeridos");

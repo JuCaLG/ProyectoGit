@@ -29,7 +29,7 @@ const TipoPagoListar = ({navigation}) => {
                 "name_pay": nombre,
             };
             const resultado = await peticion.insertar("tipopago",body);
-            alerta =(resultado.status);
+            alerta = (resultado? resultado.status: "Sin Internet");
             limpiarInputs();
             
         }else{

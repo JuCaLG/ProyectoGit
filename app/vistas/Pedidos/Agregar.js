@@ -30,7 +30,7 @@ const PedidosAgregar = ({navigation}) => {
                 "price_v": precio,
             };
             const resultado = await peticion.insertar("sucursal",body);
-            alerta =(resultado.status);
+            alerta = (resultado? resultado.status: "Sin Internet");
             limpiarInputs();
         }else{
             alerta =("Todos los campos son requeridos");

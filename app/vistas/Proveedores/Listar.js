@@ -38,19 +38,28 @@ const ProveedoresListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        if(JSON.stringify(listaProveedor)!== '[]'){
-            return listaProveedor.map((data) => {
+        if(listaProveedor){
+            if(JSON.stringify(listaProveedor)!== '[]'){
+                return listaProveedor.map((data) => {
+                    return (
+                        <TouchableOpacity key={data._id} onPress={() => siguientePag("ProveedoresVer", { "id": data._id} )}>
+                            <Text style={mainStyles.titleLista}>{data.name_prov} - {data.rfc_prov}</Text>
+                        </TouchableOpacity>
+                    );
+                });
+            }
+            else{
                 return (
-                    <TouchableOpacity key={data._id} onPress={() => siguientePag("ProveedoresVer", { "id": data._id} )}>
-                        <Text style={mainStyles.titleLista}>{data.name_prov} - {data.rfc_prov}</Text>
+                    <TouchableOpacity key={0}>
+                        <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                     </TouchableOpacity>
                 );
-            });
+            }
         }
         else{
             return (
                 <TouchableOpacity key={0}>
-                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                    <Text style={mainStyles.titleLista}>Sin Conexion</Text>
                 </TouchableOpacity>
             );
         }

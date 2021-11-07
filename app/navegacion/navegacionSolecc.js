@@ -222,10 +222,7 @@ const NavegacionSolecc = ({navigation}) => {
                         <Gabeta.Screen
                             name="Home">
                             {() => (
-                                <PilaHome.Navigator
-                                    screenOptions={{
-                                        headerShown: false
-                                    }}>
+                                <PilaHome.Navigator>
                                     <PilaHome.Screen
                                     name="HomePantalla"
                                     component={Home} />

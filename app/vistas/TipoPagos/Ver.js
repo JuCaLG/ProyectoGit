@@ -31,7 +31,7 @@ const TipoPagosVer = ({navigation,route}) => {
     const [obj, setObj] = useState({});
 
     const Datos = () => {
-        if(JSON.stringify(obj)!== '{}'){
+        if(obj && JSON.stringify(obj)!== '{}'){
             return (
                     <TouchableOpacity>
                         <Text style={mainStyles.titleLista}>Tipo de Pago: {obj.name_pay}</Text>

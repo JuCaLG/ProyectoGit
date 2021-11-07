@@ -38,19 +38,28 @@ const UsuariosListar = ({navigation}) => {
     }
 
     const Listar = () => {
-        if(JSON.stringify(listaUsuario)!== '[]'){
-            return listaUsuario.map((data) => {
+        if(listaUsuario){
+            if(JSON.stringify(listaUsuario)!== '[]'){
+                return listaUsuario.map((data) => {
+                    return (
+                        <TouchableOpacity key={data._id} onPress={() => siguientePag("UsuariosVer", { "id": data._id} )}>
+                            <Text style={mainStyles.titleLista}>{data.nombre} - {data.email}</Text>
+                        </TouchableOpacity>
+                    );
+                });
+            }
+            else{
                 return (
-                    <TouchableOpacity key={data._id} onPress={() => siguientePag("UsuariosVer", { "id": data._id} )}>
-                        <Text style={mainStyles.titleLista}>{data.nombre} - {data.email}</Text>
+                    <TouchableOpacity key={0}>
+                        <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
                     </TouchableOpacity>
                 );
-            });
+            }
         }
         else{
             return (
                 <TouchableOpacity key={0}>
-                    <Text style={mainStyles.titleLista}>No hay datos registrados</Text>
+                    <Text style={mainStyles.titleLista}>Sin Conexion</Text>
                 </TouchableOpacity>
             );
         }
