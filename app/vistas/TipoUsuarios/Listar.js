@@ -90,7 +90,7 @@ const TipoUsuariosListar = ({navigation}) => {
 
                     <View style={mainStyles.btnMain}>
                         <TouchableOpacity onPress={() => siguientePag("TipoUsuariosAgregar")}>
-                            <Text style={mainStyles.btntxt}>+</Text>
+                            <Text style={mainStyles.btntxt}>Nuevo</Text>
                         </TouchableOpacity>
                     </View>
 

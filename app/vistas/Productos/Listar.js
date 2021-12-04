@@ -90,7 +90,7 @@ const ProductosListar = ({navigation}) => {
 
                     <View style={mainStyles.btnMain}>
                         <TouchableOpacity onPress={() => siguientePag("ProductosAgregar")}>
-                            <Text style={mainStyles.btntxt}>+</Text>
+                            <Text style={mainStyles.btntxt}>Nuevo</Text>
                         </TouchableOpacity>
                     </View>
 

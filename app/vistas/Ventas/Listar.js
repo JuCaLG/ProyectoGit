@@ -8,7 +8,7 @@ import color from '../../estilos/colors';
 */
 const peticion = require('../../controladores/peticiones.servidor');
 
-const UsuariosListar = ({navigation}) => {
+const VentasListar = ({navigation}) => {
 
     const [listaUsuario,setListaUsuario] = useState([]);
     const [refrescar, setRefrescar] = useState(false);

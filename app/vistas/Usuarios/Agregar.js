@@ -66,6 +66,7 @@ const UsuariosAgregar = ({navigation}) => {
                 const resultado = await peticion.insertar("usuario",body);
                 alerta = (resultado? resultado.status: "Sin Internet");
                 limpiarInputs();
+                siguientePag("UsuariosListar");
             }
             else{
                 alerta =("No coincide la contraseña")

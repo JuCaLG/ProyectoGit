@@ -10,7 +10,7 @@ import { Picker } from '@react-native-community/picker';
 */
 const peticion = require('../../controladores/peticiones.servidor');
 
-const ProductosAgregar = ({navigation}) => {
+const ProductosAgregar = ({ navigation }) => {
 
     useEffect(() => {
         const Proveedores = async () => {
@@ -27,32 +27,32 @@ const ProductosAgregar = ({navigation}) => {
     const [categorias, setCategorias] = useState([]);
 
     const verProveedor = () => {
-        if(JSON.stringify(proveedores)!== '[]'){
+        if (JSON.stringify(proveedores) !== '[]') {
             return proveedores.map((datos) => {
                 return (
                     <Picker.Item label={datos.name_prov} value={datos.name_prov} />
                 );
             });
         }
-        else{
+        else {
             return (<></>);
         }
     }
 
     const verCategoria = () => {
-        if(JSON.stringify(categorias)!== '[]'){
+        if (JSON.stringify(categorias) !== '[]') {
             return categorias.map((data) => {
                 return (
-                    <Picker.Item label={data.name_category} value={data.name_category} onValueChange={()=>imprime()} />
+                    <Picker.Item label={data.name_category} value={data.name_category} onValueChange={() => imprime()} />
                 );
             });
         }
-        else{
+        else {
             return (<></>);
         }
     }
 
-    const [categoria, setCategoria ] = useState('');
+    const [categoria, setCategoria] = useState('');
     const [proveedor, setProveedor] = useState('');
     const [nombre, setNombre] = useState('');
     const [qr, setQr] = useState('');
@@ -67,9 +67,9 @@ const ProductosAgregar = ({navigation}) => {
 
     const crear = async () => {
         var alerta = null;
-        var validacion = (nombre !=''&& categoria!=''&& proveedor!='')
+        var validacion = (nombre != '' && categoria != '' && proveedor != '')
         //Validar
-        if(validacion){
+        if (validacion) {
             var body = {
                 "id_category": categoria,
                 "id_proveedor": proveedor,
@@ -77,21 +77,21 @@ const ProductosAgregar = ({navigation}) => {
                 "desc_prod": 0,
                 "qr_prod": "S/N",
                 "prod_id_usuario": "N/A",
-                };
-            const resultado = await peticion.insertar("producto",body);
-            alerta = (resultado? resultado.status: "Sin Internet");
+            };
+            const resultado = await peticion.insertar("producto", body);
+            alerta = (resultado ? resultado.status : "Sin Internet");
             limpiarInputs();
-        }else{
-            alerta =("Todos los campos son requeridos");
+        } else {
+            alerta = ("Todos los campos son requeridos");
         }
         alert(alerta);
     }
 
-    const siguientePag = (Pagina, Parametro) =>{
-        if(Parametro==undefined){
+    const siguientePag = (Pagina, Parametro) => {
+        if (Parametro == undefined) {
             navigation.navigate(Pagina);
         }
-        else{
+        else {
             navigation.navigate(Pagina, Parametro);
         }
     }
@@ -108,6 +108,10 @@ const ProductosAgregar = ({navigation}) => {
 
 
                     <MyTextInput placeholder='Nombre' image='user'
+
+                        value={nombre} onChangeText={nombre => setNombre(nombre)} />
+
+                    <MyTextInput placeholder='Nombre' image='user'
                         value={nombre} onChangeText={nombre => setNombre(nombre)} />
 
                     <View>
@@ -117,7 +121,7 @@ const ProductosAgregar = ({navigation}) => {
                             style={{ height: 50, width: 300 }}
                             onValueChange={(itemValue, itemIndex) => setProveedor(itemValue)
                             }>
-                            <Picker.Item label="Asignar Proveedor" value="" onValueChange={()=>imprime()} />
+                            <Picker.Item label="Asignar Proveedor" value="" onValueChange={() => imprime()} />
                             {(verProveedor())}
                         </Picker>
                     </View>
@@ -129,7 +133,7 @@ const ProductosAgregar = ({navigation}) => {
                             style={{ height: 50, width: 300 }}
                             onValueChange={(itemValue, itemIndex) => setCategoria(itemValue)
                             }>
-                            <Picker.Item label="Asignar Categoria" value="" onValueChange={()=>imprime()} />
+                            <Picker.Item label="Asignar Categoria" value="" onValueChange={() => imprime()} />
                             {(verCategoria())}
                         </Picker>
                     </View>

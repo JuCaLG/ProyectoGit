@@ -90,7 +90,7 @@ const TipoPagosListar = ({navigation}) => {
 
                     <View style={mainStyles.btnMain}>
                         <TouchableOpacity onPress={() => siguientePag("TipoPagosAgregar")}>
-                            <Text style={mainStyles.btntxt}>+</Text>
+                            <Text style={mainStyles.btntxt}>Nuevo</Text>
                         </TouchableOpacity>
                     </View>
 
