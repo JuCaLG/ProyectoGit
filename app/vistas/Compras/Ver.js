@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { mainStyles } from '../../estilos/styles';
-import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
 
 /*
@@ -9,10 +8,12 @@ import color from '../../estilos/colors';
 */
 const peticion = require('../../controladores/peticiones.servidor');
 
-const VentasAgregar = ({navigation}) => {
-    return (
+const ComprasVer = ({navigation,route}) => {
+
+    return(
         <></>
     );
+
 }
 
-export default VentasAgregar;
+export default ComprasVer;

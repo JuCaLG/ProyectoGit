@@ -90,6 +90,12 @@ const localStorage = require('../controladores/usuario.localstorage.js');
     const PilaTipoUsuarios = createStackNavigator();
     const PilaAlmacen = createStackNavigator();
     const PilaAlmacenPorSucursal = createStackNavigator();
+    /* Pantallas Adicionales*/
+    const PilaCompras = createStackNavigator();
+    const PilaDetalleCompras = createStackNavigator();
+    const PilaVentas = createStackNavigator();
+    const PilaDetalleVentas = createStackNavigator();
+    const PilaRegistroPagos = createStackNavigator();
     const Gabeta = createDrawerNavigator();
 
 //---------------------------------------------------
@@ -170,6 +176,12 @@ const NavegacionSolecc = ({navigation}) => {
                         <DrawerMenu iconName='storefront' titleName='Regiones' navigation={() => siguientePag(props.navigation, 'Regiones')} />
                         <DrawerMenu iconName='storefront' titleName='Almacen' navigation={() => siguientePag(props.navigation, 'Almacen')} />
                         <DrawerMenu iconName='storefront' titleName='Almacen por Sucursal' navigation={() => siguientePag(props.navigation, 'AlmacenPorSucursal')} />
+
+                        <DrawerMenu iconName='storefront' titleName='Compras' navigation={() => siguientePag(props.navigation, 'Compras')} />
+                        <DrawerMenu iconName='storefront' titleName='DetallesCompras' navigation={() => siguientePag(props.navigation, 'DetallesCompras')} />
+                        <DrawerMenu iconName='storefront' titleName='Ventas' navigation={() => siguientePag(props.navigation, 'Ventas')} />
+                        <DrawerMenu iconName='storefront' titleName='DetallesVentas' navigation={() => siguientePag(props.navigation, 'DetallesVentas')} />
+                        <DrawerMenu iconName='storefront' titleName='RegistroPagos' navigation={() => siguientePag(props.navigation, 'RegistroPagos')} />
                     </ScrollView>
                 </View>
             );
@@ -428,6 +440,101 @@ const NavegacionSolecc = ({navigation}) => {
                                         name="TipoUsuariosModificar"
                                         component={TipoUsuariosModificar}/>
                                 </PilaTipoUsuarios.Navigator>
+                            )}
+                        </Gabeta.Screen>
+                        <Gabeta.Screen
+                            name="Compras">
+                            {() => (
+                                <PilaCompras.Navigator>
+                                    <PilaCompras.Screen
+                                        name="ComprasListar"
+                                        component={ComprasListar}/>
+                                    <PilaCompras.Screen
+                                        name="ComprasAgregar"
+                                        component={ComprasAgregar}/>
+                                    <PilaCompras.Screen
+                                        name="ComprasVer"
+                                        component={ComprasVer}/>
+                                    <PilaCompras.Screen
+                                        name="ComprasModificar"
+                                        component={ComprasModificar}/>
+                                </PilaCompras.Navigator>
+                            )}
+                        </Gabeta.Screen>
+                        <Gabeta.Screen
+                            name="DetallesCompras">
+                            {() => (
+                                <PilaDetallesCompras.Navigator>
+                                    <PilaDetallesCompras.Screen
+                                        name="DetallesComprasListar"
+                                        component={DetallesComprasListar}/>
+                                    <PilaDetallesCompras.Screen
+                                        name="DetallesComprasAgregar"
+                                        component={DetallesComprasAgregar}/>
+                                    <PilaDetallesCompras.Screen
+                                        name="DetallesComprasVer"
+                                        component={DetallesComprasVer}/>
+                                    <PilaDetallesCompras.Screen
+                                        name="DetallesComprasModificar"
+                                        component={DetallesComprasModificar}/>
+                                </PilaDetallesCompras.Navigator>
+                            )}
+                        </Gabeta.Screen>
+                        <Gabeta.Screen
+                            name="Ventas">
+                            {() => (
+                                <PilaVentas.Navigator>
+                                    <PilaVentas.Screen
+                                        name="VentasListar"
+                                        component={VentasListar}/>
+                                    <PilaVentas.Screen
+                                        name="VentasAgregar"
+                                        component={VentasAgregar}/>
+                                    <PilaVentas.Screen
+                                        name="VentasVer"
+                                        component={VentasVer}/>
+                                    <PilaVentas.Screen
+                                        name="VentasModificar"
+                                        component={VentasModificar}/>
+                                </PilaVentas.Navigator>
+                            )}
+                        </Gabeta.Screen>
+                        <Gabeta.Screen
+                            name="DetallesVentas">
+                            {() => (
+                                <PilaDetallesVentas.Navigator>
+                                    <PilaDetallesVentas.Screen
+                                        name="DetallesVentasListar"
+                                        component={DetallesVentasListar}/>
+                                    <PilaDetallesVentas.Screen
+                                        name="DetallesVentasAgregar"
+                                        component={DetallesVentasAgregar}/>
+                                    <PilaDetallesVentas.Screen
+                                        name="DetallesVentasVer"
+                                        component={DetallesVentasVer}/>
+                                    <PilaDetallesVentas.Screen
+                                        name="DetallesVentasModificar"
+                                        component={DetallesVentasModificar}/>
+                                </PilaDetallesVentas.Navigator>
+                            )}
+                        </Gabeta.Screen>
+                        <Gabeta.Screen
+                            name="RegistroPagos">
+                            {() => (
+                                <PilaRegistroPagos.Navigator>
+                                    <PilaRegistroPagos.Screen
+                                        name="RegistroPagosListar"
+                                        component={RegistroPagosListar}/>
+                                    <PilaRegistroPagos.Screen
+                                        name="RegistroPagosAgregar"
+                                        component={RegistroPagosAgregar}/>
+                                    <PilaRegistroPagos.Screen
+                                        name="RegistroPagosVer"
+                                        component={RegistroPagosVer}/>
+                                    <PilaRegistroPagos.Screen
+                                        name="RegistroPagosModificar"
+                                        component={RegistroPagosModificar}/>
+                                </PilaRegistroPagos.Navigator>
                             )}
                         </Gabeta.Screen>
                     </Gabeta.Navigator>

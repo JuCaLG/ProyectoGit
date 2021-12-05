@@ -9,10 +9,10 @@ import color from '../../estilos/colors';
 */
 const peticion = require('../../controladores/peticiones.servidor');
 
-const VentasAgregar = ({navigation}) => {
+const DetallesVentasAgregar = ({navigation}) => {
     return (
         <></>
     );
 }
 
-export default VentasAgregar;
+export default DetallesVentasAgregar;

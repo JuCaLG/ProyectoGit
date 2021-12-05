@@ -3,16 +3,18 @@ import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-nativ
 import { mainStyles } from '../../estilos/styles';
 import MyTextInput from '../../componentes/MyTextInput';
 import color from '../../estilos/colors';
+import { Picker } from '@react-native-community/picker';
 
 /*
     Conexion con Servidor
 */
 const peticion = require('../../controladores/peticiones.servidor');
 
-const VentasAgregar = ({navigation}) => {
-    return (
+const ComprasModificar = ({navigation,route}) => {
+
+    return(
         <></>
     );
 }
 
-export default VentasAgregar;
+export default ComprasModificar;

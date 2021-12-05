@@ -8,11 +8,11 @@ import color from '../../estilos/colors';
 */
 const peticion = require('../../controladores/peticiones.servidor');
 
-const VentasListar = ({navigation}) => {
+const DetallesVentasListar = ({navigation}) => {
 
     return(
         <></>
     );
 }
 
-export default VentasListar;
+export default DetallesVentasListar;

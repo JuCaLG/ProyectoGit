@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import React, { setState, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text } from "react-native-animatable";
 import { NavigationContainer } from "@react-navigation/native";
 import { useNetInfo } from "@react-native-community/netinfo";
@@ -30,10 +30,6 @@ const getToken = async () => {
 const App = () => {
 
   const internet = useNetInfo().isInternetReachable;
-
-  useEffect(() => {
-    //getToken();
-  }, []);
 
   return (
     <>
