@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const CargarSesion = async(STORAGE_KEY) => {
   try{
     const obtener = await AsyncStorage.getItem(STORAGE_KEY)
-    if (obtener !== null) {
+    if (obtener != null) {
       return obtener
     }
     return null;

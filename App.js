@@ -40,22 +40,6 @@ export default function App() {
       alert("No se pudo guardar la sesion, cominiquese con el desarrollador");  
     }
   }
-  const verSesion = async() => {
-    const obtener = await 
-      VariableSesion.CargarSesion(STORAGE_KEY);
-    if(obtener!=false){
-      const aux = await PeticionCRUD.Sesion(
-        {
-          email_usuario: obtener.email_usuario,
-          pass_usuario: obtener.pass_usuario
-        }
-      );
-      setSesionVar(aux? aux : null);
-    }
-    else{
-      setSesionVar(null);
-    }
-  }
   return (
     <>
       {(internet)? 
@@ -64,8 +48,7 @@ export default function App() {
             <NavigationNavigation 
               sesion={sesion} 
               cerrarSesion={cerrarSesion} 
-              guardarSesion={guardarSesion}
-              verSesion={verSesion}/>
+              guardarSesion={guardarSesion}/>
           </NavigationContainer>
         ):
         (

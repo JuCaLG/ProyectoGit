@@ -6,12 +6,10 @@ import Stack from "./Stack";
 import CambiarPassword from "../Vistas/CambiarPassword";
 
 export default function NavigationNavigation(
-  { sesion, cerrarSesion, guardarSesion, verSesion }
+  { sesion, cerrarSesion, guardarSesion }
 ) {
   //useEffects
-  useEffect(() => {
-    verSesion();
-  }, [sesion])
+
   //Complemento Vista
   const selecicona = () => {
     switch(sesion){
@@ -40,6 +38,7 @@ export default function NavigationNavigation(
   
   return (
     <>
+      <Text> { JSON.stringify(sesion) } </Text>
       {selecicona()}
     </>
   );
